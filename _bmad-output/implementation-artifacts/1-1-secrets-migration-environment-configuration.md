@@ -1,6 +1,6 @@
 # Story 1.1: Secrets Migration & Environment Configuration
 
-Status: review
+Status: done
 
 ## Story
 
@@ -151,7 +151,13 @@ Claude Sonnet 4.5 (Kiro)
 
 ### Debug Log References
 
-### Completion Notes List
+### Review Findings
+
+- [x] [Review][Patch] `.env` is tracked in git HEAD — `git rm --cached .env` required to untrack it [.env / .gitignore]
+- [x] [Review][Patch] `notification-service/src/test/resources/application.yml` has hardcoded SMTP credentials (`username: test`, `password: test`) — not covered by this story's changes [notification-service/src/test/resources/application.yml:22-23]
+- [x] [Review][Patch] `rabbitmq` service missing `env_file: .env` in `docker-compose.dev.yml` — inconsistent with all other services [docker-compose.dev.yml:4]
+- [x] [Review][Patch] `.gitignore` and `docker-compose.dev.yml` missing newline at end of file [.gitignore / docker-compose.dev.yml]
+- [x] [Review][Defer] `.env` contains `dev-password` as SMTP placeholder value — weak but acceptable for local dev [.env:7] — deferred, pre-existing pattern in repo (all other passwords also use `password`)
 
 - Audit found `docker-compose.yml` already used `$VAR` syntax for all service passwords — no changes needed there.
 - Only hardcoded secrets found: `spring.mail.username: dev-user` and `spring.mail.password: dev-password` in `notification-service.yml`. Replaced with `${NOTIFICATION_EMAIL_USER}` and `${NOTIFICATION_EMAIL_PASSWORD}`.
@@ -163,8 +169,9 @@ Claude Sonnet 4.5 (Kiro)
 
 ### File List
 
-- `.gitignore` — added `.env` to ignored files
-- `.env` — added `NOTIFICATION_EMAIL_USER` and `NOTIFICATION_EMAIL_PASSWORD`
+- `.gitignore` — added `.env` to ignored files; added trailing newline
+- `.env` — added `NOTIFICATION_EMAIL_USER` and `NOTIFICATION_EMAIL_PASSWORD`; untracked from git via `git rm --cached`
 - `.env.example` — created (new file)
 - `config/src/main/resources/shared/notification-service.yml` — replaced hardcoded SMTP credentials with env var references
-- `docker-compose.dev.yml` — added `env_file: .env` to all services
+- `docker-compose.dev.yml` — added `env_file: .env` to all 14 services (including rabbitmq); added trailing newline
+- `notification-service/src/test/resources/application.yml` — replaced hardcoded `test` SMTP credentials with `${VAR:test}` Spring default syntax

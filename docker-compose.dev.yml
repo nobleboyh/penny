@@ -1,62 +1,90 @@
 version: '2.1'
 services:
   rabbitmq:
+    env_file:
+      - .env
     ports:
       - 5672:5672
 
   config:
     build: config
+    env_file:
+      - .env
     ports:
       - 8888:8888
 
   registry:
     build: registry
+    env_file:
+      - .env
 
   gateway:
     build: gateway
+    env_file:
+      - .env
 
   auth-service:
     build: auth-service
+    env_file:
+      - .env
     ports:
       - 5000:5000
 
   auth-mongodb:
     build: mongodb
+    env_file:
+      - .env
     ports:
       - 25000:27017
 
   account-service:
     build: account-service
+    env_file:
+      - .env
     ports:
       - 6000:6000
 
   account-mongodb:
     build: mongodb
+    env_file:
+      - .env
     ports:
       - 26000:27017
 
   statistics-service:
     build: statistics-service
+    env_file:
+      - .env
     ports:
       - 7000:7000
 
   statistics-mongodb:
     build: mongodb
+    env_file:
+      - .env
     ports:
       - 27000:27017
 
   notification-service:
     build: notification-service
+    env_file:
+      - .env
     ports:
       - 8000:8000
 
   notification-mongodb:
     build: mongodb
+    env_file:
+      - .env
     ports:
       - 28000:27017
 
   monitoring:
     build: monitoring
+    env_file:
+      - .env
 
   turbine-stream-service:
     build: turbine-stream-service
+    env_file:
+      - .env
