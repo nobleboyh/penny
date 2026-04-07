@@ -36,8 +36,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 465
-    username: dev-user
-    password: dev-password
+    username: ${NOTIFICATION_EMAIL_USER}
+    password: ${NOTIFICATION_EMAIL_PASSWORD}
     properties:
       mail:
         smtp:

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Penny — Design Direction Showcase</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#0F0F14;color:#F9FAFB;font-family:'Nunito',sans-serif;padding:48px 24px}
+.page-header{text-align:center;margin-bottom:56px}
+.page-header h1{font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,#FF6B6B,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px}
+.page-header p{color:#9CA3AF;font-size:1.05rem;max-width:560px;margin:0 auto;line-height:1.6}
+.badge-row{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+.badge{background:#1A1A24;border:1px solid #2E2E42;border-radius:999px;padding:4px 14px;font-size:0.78rem;color:#9CA3AF;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:48px 32px;max-width:960px;margin:0 auto}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.direction-wrap{display:flex;flex-direction:column;align-items:center;gap:20px}
+.direction-label{text-align:center}
+.direction-label h2{font-size:1.15rem;font-weight:800;color:#F9FAFB;margin-bottom:6px}
+.direction-label p{font-size:0.82rem;color:#9CA3AF;line-height:1.55;max-width:340px}
+.phone{width:320px;height:693px;border-radius:40px;overflow:hidden;position:relative;box-shadow:0 32px 80px rgba(0,0,0,0.6),0 0 0 1.5px #2E2E42;flex-shrink:0}
+.phone-inner{width:100%;height:100%;overflow:hidden;position:relative;display:flex;flex-direction:column}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.bottom-nav{display:flex;align-items:center;justify-content:space-around;padding:10px 8px 14px;flex-shrink:0}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;cursor:pointer}
+.nav-icon{font-size:1.1rem}
+.nav-label{font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em}
+.nav-center-btn{width:52px;height:52px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;margin-top:-18px;box-shadow:0 4px 20px rgba(0,0,0,0.4)}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <h1>🐷 Penny — Design Directions</h1>
+  <p>Six visual directions for the Penny teen financial companion PWA. Each explores a distinct personality, aesthetic, and interaction feel.</p>
+  <div class="badge-row">
+    <span class="badge">320px mobile frame</span>
+    <span class="badge">Dark mode default</span>
+    <span class="badge">Nunito typeface</span>
+    <span class="badge">6 directions</span>
+  </div>
+</div>
+<div class="grid">
+
+<!-- D1: Gradient Hero -->
+<style>
+.d1{background:#0F0F14}
+.d1-hero{position:relative;padding:24px 18px 20px;flex-shrink:0;overflow:hidden}
+.d1-hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#FF6B6B,#A78BFA,#34D399);background-size:300% 300%;animation:gradShift 6s ease infinite;opacity:0.15}
+.d1-card{position:relative;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:16px;backdrop-filter:blur(12px)}
+.d1-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.d1-greet{font-size:0.65rem;color:rgba(255,255,255,0.55);font-weight:700;text-transform:uppercase;letter-spacing:0.08em}
+.d1-name{font-size:1.1rem;font-weight:900;color:#fff;margin-top:2px}
+.d1-streak{background:linear-gradient(135deg,#FBBF24,#FF6B6B);border-radius:999px;padding:4px 10px;font-size:0.68rem;font-weight:800;color:#fff}
+.d1-pig{font-size:2.4rem;text-align:center;margin:6px 0;animation:float 3s ease-in-out infinite;display:block}
+.d1-glabel{font-size:0.62rem;color:rgba(255,255,255,0.5);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px}
+.d1-gname{font-size:0.95rem;font-weight:800;color:#fff;margin-bottom:10px}
+.d1-track{background:rgba(255,255,255,0.12);border-radius:999px;height:10px;position:relative;margin-bottom:6px}
+.d1-fill{background:linear-gradient(90deg,#FF6B6B,#A78BFA);border-radius:999px;height:100%;width:35%;position:relative}
+.d1-fill-pig{position:absolute;right:-12px;top:-9px;font-size:1.3rem;animation:float 3s ease-in-out infinite}
+.d1-amts{display:flex;justify-content:space-between;font-size:0.68rem;font-weight:700}
+.d1-amts .s{color:#34D399}.d1-amts .t{color:rgba(255,255,255,0.45)}
+.d1-body{padding:14px 18px;flex:1;overflow:hidden}
+.d1-sec{font-size:0.65rem;color:#9CA3AF;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
+.d1-cards{display:flex;gap:8px;margin-bottom:12px}
+.d1-mc{flex:1;background:#1A1A24;border:1px solid #2E2E42;border-radius:14px;padding:10px}
+.d1-mc-icon{font-size:1.1rem;margin-bottom:3px}
+.d1-mc-lbl{font-size:0.6rem;color:#9CA3AF;font-weight:600}
+.d1-mc-val{font-size:0.9rem;font-weight:800;color:#F9FAFB}
+.d1-mc-val.g{color:#34D399}.d1-mc-val.r{color:#FF6B6B}
+.d1-moods{display:flex;gap:6px}
+.d1-mood{flex:1;background:#1A1A24;border:1px solid #2E2E42;border-radius:12px;padding:7px 4px;text-align:center;font-size:1rem}
+.d1-mood.on{border-color:#A78BFA;background:rgba(167,139,250,0.12)}
+.d1-mood span{font-size:0.55rem;color:#9CA3AF;font-weight:600;display:block;margin-top:2px}
+.nav-d1{background:#0F0F14;border-top:1px solid #2E2E42}
+.nav-d1 .nav-label{color:#9CA3AF}
+.nav-d1 .nav-label.on{color:#FF6B6B}
+.nav-d1 .nav-center-btn{background:linear-gradient(135deg,#FF6B6B,#A78BFA)}
+</style>
+<div class="direction-wrap">
+  <div class="phone">
+    <div class="phone-inner d1">
+      <div class="d1-hero">
+        <div class="d1-hero-bg"></div>
+        <div class="d1-card">
+          <div class="d1-top">
+            <div><div class="d1-greet">Good morning</div><div class="d1-name">Hey, Alex 👋</div></div>
+            <div class="d1-streak">🔥 5 days</div>
+          </div>
+          <span class="d1-pig">🐷</span>
+          <div class="d1-glabel">Current Goal</div>
+          <div class="d1-gname">🎧 AirPods Pro</div>
+          <div class="d1-track">
+            <div class="d1-fill"><span class="d1-fill-pig">🐷</span></div>
+          </div>
+          <div class="d1-amts"><span class="s">$87 saved</span><span class="t">$249 goal</span></div>
+        </div>
+      </div>
+      <div class="d1-body">
+        <div class="d1-sec">This Week</div>
+        <div class="d1-cards">
+          <div class="d1-mc"><div class="d1-mc-icon">💰</div><div class="d1-mc-lbl">Money In</div><div class="d1-mc-val g">+$45</div></div>
+          <div class="d1-mc"><div class="d1-mc-icon">🛍️</div><div class="d1-mc-lbl">Money Out</div><div class="d1-mc-val r">-$12</div></div>
+          <div class="d1-mc"><div class="d1-mc-icon">🎯</div><div class="d1-mc-lbl">To Goal</div><div class="d1-mc-val">$162</div></div>
+        </div>
+        <div class="d1-sec">Penny's Mood Check</div>
+        <div class="d1-moods">
+          <div class="d1-mood">😊<span>Happy</span></div>
+          <div class="d1-mood on">🤑<span>Saving</span></div>
+          <div class="d1-mood">😤<span>Tempted</span></div>
+          <div class="d1-mood">😴<span>Meh</span></div>
+        </div>
+      </div>
+      <div class="bottom-nav nav-d1">
+        <div class="nav-item"><span class="nav-icon">🎒</span><span class="nav-label on">My Stuff</span></div>
+        <div class="nav-item"><span class="nav-icon">🗺️</span><span class="nav-label">My Journey</span></div>
+        <div class="nav-center-btn">🐷</div>
+        <div class="nav-item"><span class="nav-icon">💬</span><span class="nav-label">Penny Says</span></div>
+        <div class="nav-item"><span class="nav-icon">✨</span><span class="nav-label">My Vibe</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="direction-label">
+    <h2>① Gradient Hero</h2>
+    <p>Animated gradient washes the hero card in coral-to-purple-to-mint energy. Penny floats on the progress bar, making saving feel alive and dynamic.</p>
+  </div>
+</div>
+
+<!-- D2: Minimal Dark -->
+<style>
+.d2{background:#0F0F14}
+.d2-hdr{padding:32px 24px 16px;flex-shrink:0}
+.d2-eye{font-size:0.62rem;color:#9CA3AF;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:4px}
+.d2-title{font-size:1.45rem;font-weight:900;color:#F9FAFB;line-height:1.2}
+.d2-title em{color:#FF6B6B;font-style:normal}
+.d2-pill{display:inline-flex;align-items:center;gap:5px;border:1.5px solid #FBBF24;border-radius:999px;padding:3px 12px;font-size:0.68rem;font-weight:800;color:#FBBF24;margin-top:10px}
+.d2-body{padding:0 24px;flex:1;overflow:hidden}
+.d2-prow{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.d2-pig{font-size:2.2rem}
+.d2-bubble{background:#1A1A24;border-radius:14px 14px 14px 4px;padding:10px 14px;font-size:0.72rem;color:#F9FAFB;font-weight:600;line-height:1.4;flex:1}
+.d2-bubble em{color:#A78BFA;font-style:normal;font-weight:800}
+.d2-div{height:1px;background:#2E2E42;margin-bottom:18px}
+.d2-gc{border:1.5px solid #2E2E42;border-radius:16px;padding:16px;margin-bottom:14px}
+.d2-gt{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.d2-gn{font-size:0.95rem;font-weight:800;color:#F9FAFB}
+.d2-gp{font-size:0.7rem;font-weight:700;color:#FF6B6B}
+.d2-bar{background:#2E2E42;border-radius:999px;height:5px;margin-bottom:7px}
+.d2-bfill{background:#FF6B6B;border-radius:999px;height:100%;width:35%}
+.d2-ga{display:flex;justify-content:space-between;font-size:0.65rem;color:#9CA3AF;font-weight:600}
+.d2-ga span:first-child{color:#F9FAFB;font-weight:800}
+.d2-stats{display:flex;gap:12px}
+.d2-stat{flex:1}
+.d2-slbl{font-size:0.6rem;color:#9CA3AF;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px}
+.d2-sval{font-size:1.05rem;font-weight:900;color:#F9FAFB}
+.d2-sval.a{color:#34D399}
+.nav-d2{background:#0F0F14;border-top:1px solid #2E2E42}
+.nav-d2 .nav-label{color:#9CA3AF}
+.nav-d2 .nav-label.on{color:#FF6B6B}
+.nav-d2 .nav-center-btn{background:#FF6B6B}
+</style>
+<div class="direction-wrap">
+  <div class="phone">
+    <div class="phone-inner d2">
+      <div class="d2-hdr">
+        <div class="d2-eye">Your money</div>
+        <div class="d2-title">Hey Alex,<br>you're <em>crushing it.</em></div>
+        <div class="d2-pill">🔥 5-day streak</div>
+      </div>
+      <div class="d2-body">
+        <div class="d2-prow">
+          <div class="d2-pig">🐷</div>
+          <div class="d2-bubble">"You're <em>35% there</em> on AirPods. Keep it up — just $162 more to go!"</div>
+        </div>
+        <div class="d2-div"></div>
+        <div class="d2-gc">
+          <div class="d2-gt"><span class="d2-gn">🎧 AirPods Pro</span><span class="d2-gp">35%</span></div>
+          <div class="d2-bar"><div class="d2-bfill"></div></div>
+          <div class="d2-ga"><span>$87 saved</span><span>$249 goal</span></div>
+        </div>
+        <div class="d2-stats">
+          <div class="d2-stat"><div class="d2-slbl">Money In</div><div class="d2-sval a">+$45</div></div>
+          <div class="d2-stat"><div class="d2-slbl">Money Out</div><div class="d2-sval">-$12</div></div>
+          <div class="d2-stat"><div class="d2-slbl">Net saved</div><div class="d2-sval">+$33</div></div>
+        </div>
+      </div>
+      <div class="bottom-nav nav-d2">
+        <div class="nav-item"><span class="nav-icon">🎒</span><span class="nav-label on">My Stuff</span></div>
+        <div class="nav-item"><span class="nav-icon">🗺️</span><span class="nav-label">My Journey</span></div>
+        <div class="nav-center-btn">🐷</div>
+        <div class="nav-item"><span class="nav-icon">💬</span><span class="nav-label">Penny Says</span></div>
+        <div class="nav-item"><span class="nav-icon">✨</span><span class="nav-label">My Vibe</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="direction-label">
+    <h2>② Minimal Dark</h2>
+    <p>Ultra-clean typography-forward layout with generous whitespace. Single coral accent, no gradients — lets the content breathe and feel premium.</p>
+  </div>
+</div>
+
+<!-- D3: Card Stack -->
+<style>
+.d3{background:#0D0D18}
+.d3-hdr{padding:22px 20px 10px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.d3-logo{font-size:0.85rem;font-weight:900;color:#F9FAFB;display:flex;align-items:center;gap:6px}
+.d3-notif{width:32px;height:32px;border-radius:10px;background:#1A1A24;border:1px solid #2E2E42;display:flex;align-items:center;justify-content:center;font-size:0.9rem}
+.d3-stack{position:relative;height:195px;margin:0 20px 10px;flex-shrink:0}
+.d3-cb2{position:absolute;top:16px;left:12px;right:12px;height:155px;background:#242433;border-radius:20px;border:1px solid #2E2E42}
+.d3-cb1{position:absolute;top:8px;left:6px;right:6px;height:163px;background:#1E1E2E;border-radius:20px;border:1px solid #2E2E42}
+.d3-cf{position:absolute;top:0;left:0;right:0;background:linear-gradient(145deg,#1A1A2E,#16213E);border-radius:20px;border:1px solid rgba(167,139,250,0.3);padding:16px;box-shadow:0 8px 32px rgba(167,139,250,0.15)}
+.d3-ct{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.d3-tag{background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:999px;padding:3px 10px;font-size:0.6rem;font-weight:700;color:#A78BFA;text-transform:uppercase;letter-spacing:0.06em}
+.d3-pig{font-size:1.9rem}
+.d3-gn{font-size:1rem;font-weight:800;color:#F9FAFB;margin-bottom:3px}
+.d3-gs{font-size:0.68rem;color:#9CA3AF;font-weight:600;margin-bottom:12px}
+.d3-pbg{background:rgba(255,255,255,0.08);border-radius:999px;height:11px}
+.d3-pfg{background:linear-gradient(90deg,#A78BFA,#FF6B6B);border-radius:999px;height:100%;width:35%;box-shadow:0 0 12px rgba(167,139,250,0.5)}
+.d3-ca{display:flex;justify-content:space-between;font-size:0.68rem;font-weight:700;margin-top:6px}
+.d3-ca .sv{color:#A78BFA}.d3-ca .tt{color:#9CA3AF}
+.d3-hint{text-align:center;font-size:0.6rem;color:#9CA3AF;font-weight:600;margin-bottom:10px;flex-shrink:0}
+.d3-body{padding:0 20px;flex:1;overflow:hidden}
+.d3-rtitle{font-size:0.65rem;color:#9CA3AF;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
+.d3-acts{display:flex;flex-direction:column;gap:7px}
+.d3-ai{background:#1A1A24;border:1px solid #2E2E42;border-radius:12px;padding:9px 12px;display:flex;align-items:center;gap:9px}
+.d3-aico{font-size:1rem}
+.d3-ainf{flex:1}
+.d3-an{font-size:0.72rem;font-weight:700;color:#F9FAFB}
+.d3-ad{font-size:0.6rem;color:#9CA3AF;font-weight:600}
+.d3-amt{font-size:0.8rem;font-weight:800}
+.d3-amt.in{color:#34D399}.d3-amt.out{color:#FF6B6B}
+.nav-d3{background:#0D0D18;border-top:1px solid #2E2E42}
+.nav-d3 .nav-label{color:#9CA3AF}
+.nav-d3 .nav-label.on{color:#A78BFA}
+.nav-d3 .nav-center-btn{background:linear-gradient(135deg,#A78BFA,#FF6B6B)}
+</style>
+<div class="direction-wrap">
+  <div class="phone">
+    <div class="phone-inner d3">
+      <div class="d3-hdr">
+        <div class="d3-logo">🐷 penny</div>
+        <div class="d3-notif">🔔</div>
+      </div>
+      <div class="d3-stack">
+        <div class="d3-cb2"></div>
+        <div class="d3-cb1"></div>
+        <div class="d3-cf">
+          <div class="d3-ct"><span class="d3-tag">Active Goal</span><span class="d3-pig">🐷</span></div>
+          <div class="d3-gn">🎧 AirPods Pro</div>
+          <div class="d3-gs">Swipe to see all goals →</div>
+          <div class="d3-pbg"><div class="d3-pfg"></div></div>
+          <div class="d3-ca"><span class="sv">$87 saved</span><span class="tt">$249 total · 35%</span></div>
+        </div>
+      </div>
+      <div class="d3-hint">← swipe cards · 🔥 5-day streak →</div>
+      <div class="d3-body">
+        <div class="d3-rtitle">Recent Activity</div>
+        <div class="d3-acts">
+          <div class="d3-ai"><span class="d3-aico">💵</span><div class="d3-ainf"><div class="d3-an">Allowance</div><div class="d3-ad">Today</div></div><span class="d3-amt in">+$20</span></div>
+          <div class="d3-ai"><span class="d3-aico">🧋</span><div class="d3-ainf"><div class="d3-an">Boba Tea</div><div class="d3-ad">Yesterday</div></div><span class="d3-amt out">-$7</span></div>
+          <div class="d3-ai"><span class="d3-aico">🎮</span><div class="d3-ainf"><div class="d3-an">Game credit</div><div class="d3-ad">Mon</div></div><span class="d3-amt out">-$5</span></div>
+        </div>
+      </div>
+      <div class="bottom-nav nav-d3">
+        <div class="nav-item"><span class="nav-icon">🎒</span><span class="nav-label on">My Stuff</span></div>
+        <div class="nav-item"><span class="nav-icon">🗺️</span><span class="nav-label">My Journey</span></div>
+        <div class="nav-center-btn">🐷</div>
+        <div class="nav-item"><span class="nav-icon">💬</span><span class="nav-label">Penny Says</span></div>
+        <div class="nav-item"><span class="nav-icon">✨</span><span class="nav-label">My Vibe</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="direction-label">
+    <h2>③ Card Stack</h2>
+    <p>Layered cards create depth and a swipeable feel. Goals stack behind each other, hinting at more content and encouraging exploration.</p>
+  </div>
+</div>
+
+<!-- D4: Neon Accent -->
+<style>
+.d4{background:#08080F}
+.d4-hdr{padding:22px 20px 14px;flex-shrink:0}
+.d4-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.d4-wm{font-size:1rem;font-weight:900;color:#FF6B6B;text-shadow:0 0 20px rgba(255,107,107,0.6)}
+.d4-sb{background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.4);border-radius:999px;padding:4px 12px;font-size:0.66rem;font-weight:800;color:#FBBF24;text-shadow:0 0 10px rgba(251,191,36,0.4)}
+.d4-hero{background:#0F0F1A;border:1px solid rgba(255,107,107,0.2);border-radius:20px;padding:16px;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(255,107,107,0.07),inset 0 0 40px rgba(255,107,107,0.02)}
+.d4-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:radial-gradient(circle,rgba(167,139,250,0.25) 0%,transparent 70%);pointer-events:none}
+.d4-hero::after{content:'';position:absolute;bottom:-30px;left:-30px;width:100px;height:100px;background:radial-gradient(circle,rgba(255,107,107,0.2) 0%,transparent 70%);pointer-events:none}
+.d4-pr{display:flex;align-items:center;gap:12px;margin-bottom:12px;position:relative}
+.d4-pig{font-size:2.4rem;filter:drop-shadow(0 0 12px rgba(255,107,107,0.5));animation:float 3s ease-in-out infinite}
+.d4-pi{flex:1}
+.d4-pm{font-size:0.65rem;color:#A78BFA;font-weight:700;text-transform:uppercase;letter-spacing:0.08em}
+.d4-pq{font-size:0.75rem;color:#F9FAFB;font-weight:600;line-height:1.4}
+.d4-gl{font-size:0.6rem;color:#9CA3AF;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px}
+.d4-gn{font-size:0.95rem;font-weight:800;color:#F9FAFB;margin-bottom:10px}
+.d4-nb{background:rgba(255,255,255,0.06);border-radius:999px;height:8px;margin-bottom:5px}
+.d4-nf{background:linear-gradient(90deg,#FF6B6B,#A78BFA);border-radius:999px;height:100%;width:35%;box-shadow:0 0 16px rgba(255,107,107,0.7),0 0 32px rgba(167,139,250,0.4)}
+.d4-amts{display:flex;justify-content:space-between;font-size:0.68rem;font-weight:700}
+.d4-amts .ng{color:#34D399;text-shadow:0 0 10px rgba(52,211,153,0.5)}
+.d4-amts .mu{color:#9CA3AF}
+.d4-body{padding:14px 20px;flex:1;overflow:hidden}
+.d4-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.d4-sc{background:#0F0F1A;border-radius:14px;padding:11px}
+.d4-sc.co{border:1px solid rgba(255,107,107,0.3);box-shadow:0 0 18px rgba(255,107,107,0.07)}
+.d4-sc.pu{border:1px solid rgba(167,139,250,0.3);box-shadow:0 0 18px rgba(167,139,250,0.07)}
+.d4-sc.mi{border:1px solid rgba(52,211,153,0.3);box-shadow:0 0 18px rgba(52,211,153,0.07)}
+.d4-sc.am{border:1px solid rgba(251,191,36,0.3);box-shadow:0 0 18px rgba(251,191,36,0.07)}
+.d4-si{font-size:1rem;margin-bottom:3px}
+.d4-sl{font-size:0.58rem;color:#9CA3AF;font-weight:700;text-transform:uppercase;letter-spacing:0.06em}
+.d4-sv{font-size:0.95rem;font-weight:900}
+.d4-sv.co{color:#FF6B6B}.d4-sv.pu{color:#A78BFA}.d4-sv.mi{color:#34D399}.d4-sv.am{color:#FBBF24}
+.nav-d4{background:#08080F;border-top:1px solid rgba(255,107,107,0.12)}
+.nav-d4 .nav-label{color:#9CA3AF}
+.nav-d4 .nav-label.on{color:#FF6B6B;text-shadow:0 0 8px rgba(255,107,107,0.5)}
+.nav-d4 .nav-center-btn{background:#FF6B6B;box-shadow:0 0 20px rgba(255,107,107,0.5)}
+</style>
+<div class="direction-wrap">
+  <div class="phone">
+    <div class="phone-inner d4">
+      <div class="d4-hdr">
+        <div class="d4-top">
+          <div class="d4-wm">penny 🐷</div>
+          <div class="d4-sb">🔥 5-day streak</div>
+        </div>
+        <div class="d4-hero">
+          <div class="d4-pr">
+            <div class="d4-pig">🐷</div>
+            <div class="d4-pi">
+              <div class="d4-pm">Penny says</div>
+              <div class="d4-pq">"You're glowing! $87 closer to those AirPods 🎧"</div>
+            </div>
+          </div>
+          <div class="d4-gl">Active Goal</div>
+          <div class="d4-gn">🎧 AirPods Pro</div>
+          <div class="d4-nb"><div class="d4-nf"></div></div>
+          <div class="d4-amts"><span class="ng">$87 saved</span><span class="mu">$249 goal · 35%</span></div>
+        </div>
+      </div>
+      <div class="d4-body">
+        <div class="d4-grid">
+          <div class="d4-sc co"><div class="d4-si">💰</div><div class="d4-sl">Money In</div><div class="d4-sv co">+$45</div></div>
+          <div class="d4-sc pu"><div class="d4-si">🛍️</div><div class="d4-sl">Money Out</div><div class="d4-sv pu">-$12</div></div>
+          <div class="d4-sc mi"><div class="d4-si">🎯</div><div class="d4-sl">To Goal</div><div class="d4-sv mi">$162</div></div>
+          <div class="d4-sc am"><div class="d4-si">📅</div><div class="d4-sl">Days Left</div><div class="d4-sv am">~18</div></div>
+        </div>
+      </div>
+      <div class="bottom-nav nav-d4">
+        <div class="nav-item"><span class="nav-icon">🎒</span><span class="nav-label on">My Stuff</span></div>
+        <div class="nav-item"><span class="nav-icon">🗺️</span><span class="nav-label">My Journey</span></div>
+        <div class="nav-center-btn">🐷</div>
+        <div class="nav-item"><span class="nav-icon">💬</span><span class="nav-label">Penny Says</span></div>
+        <div class="nav-item"><span class="nav-icon">✨</span><span class="nav-label">My Vibe</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="direction-label">
+    <h2>④ Neon Accent</h2>
+    <p>Near-black base with vibrant neon glows on coral and purple elements. Progress bars and key stats radiate light — high-energy and futuristic.</p>
+  </div>
+</div>
+
+<!-- D5: Playful Chunky -->
+<style>
+.d5{background:#0F0F14}
+.d5-hdr{padding:18px 18px 10px;flex-shrink:0}
+.d5-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.d5-logo{font-size:1.25rem;font-weight:900;color:#F9FAFB}
+.d5-streak{background:#FBBF24;border-radius:999px;padding:5px 14px;font-size:0.72rem;font-weight:900;color:#0F0F14;border:3px solid #0F0F14;box-shadow:3px 3px 0 #0F0F14}
+.d5-pc{background:#A78BFA;border-radius:20px;border:3px solid #0F0F14;box-shadow:4px 4px 0 #0F0F14;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.d5-pig{font-size:2.6rem}
+.d5-pt{flex:1}
+.d5-pn{font-size:0.62rem;font-weight:900;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:0.1em}
+.d5-pm{font-size:0.8rem;font-weight:800;color:#fff;line-height:1.3}
+.d5-gc{background:#FF6B6B;border-radius:20px;border:3px solid #0F0F14;box-shadow:4px 4px 0 #0F0F14;padding:14px;margin-bottom:10px}
+.d5-gt{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.d5-gn{font-size:0.95rem;font-weight:900;color:#fff}
+.d5-ge{font-size:1.3rem}
+.d5-cb{background:rgba(0,0,0,0.2);border-radius:999px;height:13px;border:2px solid rgba(0,0,0,0.25);margin-bottom:7px;overflow:hidden}
+.d5-cf{background:#fff;border-radius:999px;height:100%;width:35%}
+.d5-ga{display:flex;justify-content:space-between;font-size:0.72rem;font-weight:900;color:rgba(255,255,255,0.85)}
+.d5-ga .b{color:#fff;font-size:0.82rem}
+.d5-body{padding:0 18px;flex:1;overflow:hidden}
+.d5-row{display:flex;gap:9px;margin-bottom:9px}
+.d5-chunk{flex:1;border-radius:16px;border:3px solid #0F0F14;box-shadow:3px 3px 0 #0F0F14;padding:11px;text-align:center}
+.d5-chunk.mi{background:#34D399}
+.d5-chunk.pu{background:#A78BFA}
+.d5-chunk.am{background:#FBBF24}
+.d5-chunk.su{background:#242433;border-color:#2E2E42;box-shadow:3px 3px 0 #2E2E42}
+.d5-ci{font-size:1.2rem;margin-bottom:2px}
+.d5-cl{font-size:0.58rem;font-weight:900;color:rgba(0,0,0,0.45);text-transform:uppercase;letter-spacing:0.06em}
+.d5-cv{font-size:0.95rem;font-weight:900;color:#0F0F14}
+.d5-cv.lt{color:#F9FAFB}
+.nav-d5{background:#1A1A24;border-top:3px solid #0F0F14}
+.nav-d5 .nav-label{color:#9CA3AF}
+.nav-d5 .nav-label.on{color:#FF6B6B}
+.nav-d5 .nav-center-btn{background:#FF6B6B;border:3px solid #0F0F14;box-shadow:3px 3px 0 #0F0F14}
+</style>
+<div class="direction-wrap">
+  <div class="phone">
+    <div class="phone-inner d5">
+      <div class="d5-hdr">
+        <div class="d5-top">
+          <div class="d5-logo">🐷 Penny</div>
+          <div class="d5-streak">🔥 5 days!!</div>
+        </div>
+        <div class="d5-pc">
+          <div class="d5-pig">🐷</div>
+          <div class="d5-pt">
+            <div class="d5-pn">Penny says</div>
+            <div class="d5-pm">You're SO close to those AirPods!! Keep going!! 🎉</div>
+          </div>
+        </div>
+        <div class="d5-gc">
+          <div class="d5-gt"><span class="d5-gn">🎧 AirPods Pro</span><span class="d5-ge">🎯</span></div>
+          <div class="d5-cb"><div class="d5-cf"></div></div>
+          <div class="d5-ga"><span class="b">$87 saved</span><span>$249 goal</span></div>
+        </div>
+      </div>
+      <div class="d5-body">
+        <div class="d5-row">
+          <div class="d5-chunk mi"><div class="d5-ci">💰</div><div class="d5-cl">Money In</div><div class="d5-cv">+$45</div></div>
+          <div class="d5-chunk pu"><div class="d5-ci">🛍️</div><div class="d5-cl">Money Out</div><div class="d5-cv">-$12</div></div>
+        </div>
+        <div class="d5-row">
+          <div class="d5-chunk am"><div class="d5-ci">🎯</div><div class="d5-cl">To Goal</div><div class="d5-cv">$162</div></div>
+          <div class="d5-chunk su"><div class="d5-ci">📅</div><div class="d5-cl">Streak</div><div class="d5-cv lt">5 days</div></div>
+        </div>
+      </div>
+      <div class="bottom-nav nav-d5">
+        <div class="nav-item"><span class="nav-icon">🎒</span><span class="nav-label on">My Stuff</span></div>
+        <div class="nav-item"><span class="nav-icon">🗺️</span><span class="nav-label">My Journey</span></div>
+        <div class="nav-center-btn">🐷</div>
+        <div class="nav-item"><span class="nav-icon">💬</span><span class="nav-label">Penny Says</span></div>
+        <div class="nav-item"><span class="nav-icon">✨</span><span class="nav-label">My Vibe</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="direction-label">
+    <h2>⑤ Playful Chunky</h2>
+    <p>Bold flat-design cards with thick borders and hard drop shadows. Loud colors, heavy type, and maximum Gen Z energy — unapologetically fun.</p>
+  </div>
+</div>
+
+<!-- D6: Stories-First -->
+<style>
+.d6{background:#0F0F14}
+.d6-story{flex:1;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.d6-bg{position:absolute;inset:0;background:linear-gradient(160deg,#1A0A2E 0%,#0F0F14 45%,#0A1A14 100%)}
+.d6-glow{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;background:radial-gradient(circle,rgba(167,139,250,0.18) 0%,transparent 70%);pointer-events:none}
+.d6-dots{position:relative;display:flex;gap:4px;padding:14px 16px 8px;flex-shrink:0}
+.d6-dot{flex:1;height:3px;border-radius:999px;background:rgba(255,255,255,0.18)}
+.d6-dot.dn{background:rgba(255,255,255,0.55)}
+.d6-dot.ac{background:#fff}
+.d6-shdr{position:relative;display:flex;justify-content:space-between;align-items:center;padding:0 16px 14px;flex-shrink:0}
+.d6-stitle{font-size:0.65rem;color:rgba(255,255,255,0.55);font-weight:700;text-transform:uppercase;letter-spacing:0.1em}
+.d6-spill{background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.35);border-radius:999px;padding:3px 10px;font-size:0.63rem;font-weight:800;color:#FBBF24}
+.d6-content{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 24px;text-align:center}
+.d6-bigpig{font-size:4.2rem;margin-bottom:10px;animation:float 3s ease-in-out infinite}
+.d6-hl{font-size:1.25rem;font-weight:900;color:#F9FAFB;line-height:1.25;margin-bottom:8px}
+.d6-hl em{color:#A78BFA;font-style:normal}
+.d6-sub{font-size:0.75rem;color:#9CA3AF;font-weight:600;line-height:1.5;margin-bottom:18px}
+.d6-bp{width:100%;background:rgba(255,255,255,0.07);border-radius:999px;height:15px;margin-bottom:9px;overflow:hidden}
+.d6-bf{background:linear-gradient(90deg,#A78BFA,#FF6B6B);border-radius:999px;height:100%;width:35%;box-shadow:0 0 18px rgba(167,139,250,0.55)}
+.d6-plbls{display:flex;justify-content:space-between;width:100%;font-size:0.7rem;font-weight:700;margin-bottom:18px}
+.d6-plbls .sv{color:#A78BFA}.d6-plbls .gl{color:#9CA3AF}
+.d6-cta{background:linear-gradient(135deg,#A78BFA,#FF6B6B);border-radius:999px;padding:11px 26px;font-size:0.8rem;font-weight:800;color:#fff;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(167,139,250,0.35)}
+.d6-srow{position:relative;display:flex;justify-content:center;align-items:center;gap:5px;padding:10px;flex-shrink:0}
+.d6-sd{width:6px;height:6px;border-radius:999px;background:rgba(255,255,255,0.18)}
+.d6-sd.ac{background:#fff;width:18px}
+.nav-d6{background:#0F0F14;border-top:1px solid #2E2E42}
+.nav-d6 .nav-label{color:#9CA3AF}
+.nav-d6 .nav-label.on{color:#A78BFA}
+.nav-d6 .nav-center-btn{background:linear-gradient(135deg,#A78BFA,#FF6B6B)}
+</style>
+<div class="direction-wrap">
+  <div class="phone">
+    <div class="phone-inner d6">
+      <div class="d6-story">
+        <div class="d6-bg"></div>
+        <div class="d6-glow"></div>
+        <div class="d6-dots">
+          <div class="d6-dot dn"></div>
+          <div class="d6-dot ac"></div>
+          <div class="d6-dot"></div>
+          <div class="d6-dot"></div>
+          <div class="d6-dot"></div>
+        </div>
+        <div class="d6-shdr">
+          <div class="d6-stitle">Your Week · Day 3</div>
+          <div class="d6-spill">🔥 5-day streak</div>
+        </div>
+        <div class="d6-content">
+          <div class="d6-bigpig">🐷</div>
+          <div class="d6-hl">You saved <em>$87</em> toward your AirPods!</div>
+          <div class="d6-sub">That's 35% of the way there. At this rate, you'll hit your goal in about 18 days. 🎧</div>
+          <div class="d6-bp"><div class="d6-bf"></div></div>
+          <div class="d6-plbls"><span class="sv">$87 saved</span><span class="gl">$249 goal</span></div>
+          <button class="d6-cta">+ Add Money In</button>
+        </div>
+        <div class="d6-srow">
+          <div class="d6-sd"></div>
+          <div class="d6-sd ac"></div>
+          <div class="d6-sd"></div>
+          <div class="d6-sd"></div>
+          <div class="d6-sd"></div>
+        </div>
+      </div>
+      <div class="bottom-nav nav-d6">
+        <div class="nav-item"><span class="nav-icon">🎒</span><span class="nav-label">My Stuff</span></div>
+        <div class="nav-item"><span class="nav-icon">🗺️</span><span class="nav-label">My Journey</span></div>
+        <div class="nav-center-btn">🐷</div>
+        <div class="nav-item"><span class="nav-icon">💬</span><span class="nav-label on">Penny Says</span></div>
+        <div class="nav-item"><span class="nav-icon">✨</span><span class="nav-label">My Vibe</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="direction-label">
+    <h2>⑥ Stories-First</h2>
+    <p>The home screen IS the story — full-bleed narrative card with Instagram-style progress dots. Penny narrates your week, making finance feel like content.</p>
+  </div>
+</div>
+
+</div><!-- /grid -->
+</body>
+</html>
