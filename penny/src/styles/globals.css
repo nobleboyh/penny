@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Nunito', sans-serif;
+
+  /* Penny color tokens */
+  --color-background: #0F0F14;
+  --color-surface: #1A1A24;
+  --color-surface-elevated: #242433;
+  --color-border: #2E2E42;
+  --color-primary: #FF6B6B;
+  --color-primary-foreground: #FFFFFF;
+  --color-secondary: #A78BFA;
+  --color-accent: #34D399;
+  --color-success: #34D399;
+  --color-warning: #FBBF24;
+  --color-muted: #6B7280;
+  --color-foreground: #F9FAFB;
+  --color-muted-foreground: #9CA3AF;
+
+  /* Spacing scale */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+}
+
+/* shadcn/ui CSS variable bridge (shadcn uses --background, --foreground etc.) */
+:root {
+  --background: 240 10% 7%;
+  --foreground: 210 40% 98%;
+  --card: 240 10% 12%;
+  --card-foreground: 210 40% 98%;
+  --popover: 240 10% 15%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 0 100% 71%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 263 70% 76%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 240 10% 15%;
+  --muted-foreground: 220 9% 63%;
+  --accent: 160 64% 52%;
+  --accent-foreground: 0 0% 0%;
+  --destructive: 43 96% 56%;
+  --destructive-foreground: 0 0% 0%;
+  --border: 240 15% 22%;
+  --input: 240 15% 22%;
+  --ring: 0 100% 71%;
+  --radius: 1rem;
+}
+
+html {
+  background-color: var(--color-background);
+  color: #F9FAFB;
+  font-family: 'Nunito', sans-serif;
+}

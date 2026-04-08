@@ -1,8 +1,7 @@
 function App() {
   return (
-    <main>
-      <h1>Penny</h1>
-      <p>Your saving buddy 🐷</p>
+    <main className="flex min-h-screen items-center justify-center">
+      <p className="text-foreground font-sans text-lg">🐷 Penny</p>
     </main>
   )
 }

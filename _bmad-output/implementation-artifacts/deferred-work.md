@@ -14,3 +14,11 @@
 - AC2 wording says `tsconfig.json` but strict mode is correctly in `tsconfig.app.json` (Vite 8 template structure) — spec wording predates Vite 8, not a bug
 - Zuul YAML map ordering `/**` shadow risk — Spring YAML parser preserves insertion order; `penny-frontend` is last in file; acceptable for dev scaffold
 - Nginx missing gzip/cache headers/security headers — out of scope for scaffold story; address in Story 1.5 or a dedicated infra story
+
+## Deferred from: code review of 1-4-design-system-core-dependencies-setup (2026-04-08)
+
+- `access_token` localStorage key is a magic string in `api.ts` — centralize in a constants file in a later story
+- `MoodState` type is defined in `pennyStore.ts` but architecture specifies it belongs in `features/penny/types.ts` — move when `features/penny/` is scaffolded
+- `updateSavedAmount` in `goalStore.ts` allows negative `savedAmount` — clamp at display layer in `GoalProgressCard` story
+- Dexie schema version 1 has no migration path documented — add migration strategy when fields are added in future stories
+- `saverLevel` in `streakStore.ts` has no max cap — enforce max when Saver Level progression system is implemented
