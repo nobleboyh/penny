@@ -65,8 +65,19 @@ services:
     depends_on:
       config:
         condition: service_healthy
+      auth-redis:
+        condition: service_started
     ports:
       - 5001:5001
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  auth-redis:
+    image: redis:7-alpine
+    restart: always
+    env_file: .env
     logging:
       options:
         max-size: "10m"

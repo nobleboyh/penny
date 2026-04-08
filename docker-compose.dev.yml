@@ -27,8 +27,15 @@ services:
     build: auth-service
     env_file:
       - .env
+    depends_on:
+      - auth-redis
     ports:
       - 5001:5001
+
+  auth-redis:
+    image: redis:7-alpine
+    ports:
+      - 6379:6379
 
   auth-mongodb:
     build: mongodb

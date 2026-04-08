@@ -6,6 +6,9 @@ spring:
       password: ${MONGODB_PASSWORD}
       database: piggymetrics
       port: 27017
+  redis:
+    host: ${REDIS_HOST:auth-redis}
+    port: 6379
 
 server:
   servlet:

@@ -1,7 +1,7 @@
 ---
 project_name: 'piggymetrics'
 user_name: 'Itobeo'
-date: '2026-04-07'
+date: '2026-04-08'
 sections_completed: ['technology_stack', 'backend_rules', 'frontend_rules', 'testing_rules', 'workflow_rules', 'critical_rules']
 status: 'complete'
 optimized_for_llm: true
@@ -19,7 +19,8 @@ _Critical rules and patterns AI agents must follow. Focus on unobvious details._
 - Java 1.8, Spring Boot 2.0.3.RELEASE, Spring Cloud Finchley.RELEASE
 - MongoDB (per-service), RabbitMQ 3, Docker + Docker Compose 2.1
 - Netflix Zuul (gateway:80), Eureka (registry:8761), Hystrix, Ribbon, Feign
-- Spring Security OAuth2 (in-memory token store — demo only, Redis migration required pre-launch)
+- Spring Security OAuth2 — **`spring-security-oauth2:2.3.8.RELEASE`** (upgraded from 2.2.1 for Redis compatibility — see Redis note below)
+- Redis (auth-service token store) — `spring-boot-starter-data-redis` (Lettuce, spring-data-redis 2.0.8)
 - Maven 3.x, JUnit 4, Mockito
 
 ### Frontend (new — Penny PWA)
@@ -147,10 +148,16 @@ _Critical rules and patterns AI agents must follow. Focus on unobvious details._
 - Frontend env vars: `VITE_` prefix, defined in `.env.local` (gitignored), documented in `.env.example`
 - Required vars: `VITE_API_BASE_URL` (Zuul gateway URL), `VITE_GOOGLE_CLIENT_ID`
 
-### Docker
-- Dev: `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
-- Frontend served via Nginx container in `docker-compose.dev.yml` — proxies `/api` to Zuul
-- Zuul gateway must be updated to NOT serve old pure-JS frontend at `/` — route to Nginx instead
+### Docker Compose Files
+- `docker-compose.yml` — production (pulls images from Docker Hub, `sqshq/piggymetrics-*`)
+- `docker-compose.dev.yml` — dev overlay (builds locally, exposes ports, no healthchecks)
+- `docker-compose.local.yml` — **preferred local dev** (builds locally with `piggymetrics-{service}:local` tags, full `depends_on` health gates, healthcheck on config service)
+
+### Docker Dev Commands
+- Local full build (preferred): `docker-compose -f docker-compose.local.yml up`
+- Legacy dev: `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
+- Frontend served via Nginx container — proxies `/api` to Zuul
+- Zuul gateway must NOT serve old pure-JS frontend at `/` — route to Nginx instead
 - Production: CDN (Vercel/Cloudflare Pages) for frontend, Docker Compose for backend
 
 ### CI (GitHub Actions)
@@ -172,9 +179,9 @@ _Critical rules and patterns AI agents must follow. Focus on unobvious details._
 - Calling statistics-service directly from frontend → always go through Zuul gateway
 
 ### Security gates (pre-launch blockers)
-- Auth-service token store MUST be Redis-backed before production (currently in-memory)
-- Auth-service password encoder MUST be BCrypt before production (currently NoOp)
-- All secrets MUST be in environment variables before production (currently hardcoded in config)
+- Auth-service token store MUST be Redis-backed before production ✅ **done — Story 1.2**
+- Auth-service password encoder MUST be BCrypt before production (user passwords already BCrypt via WebSecurityConfig; client secrets intentionally NoOp — see Story 1.2 decision)
+- All secrets MUST be in environment variables before production ✅ **done — Story 1.1**
 - COPPA age gate (16+) MUST be enforced in both frontend and auth-service registration endpoint
 - Google OAuth2 AND Apple Sign In MUST ship simultaneously (Apple policy)
 
@@ -185,6 +192,20 @@ _Critical rules and patterns AI agents must follow. Focus on unobvious details._
 - Celebration animations MUST be unskippable for 2 seconds
 - Never use red color for negative financial states — use amber (#FBBF24)
 - Never use adult finance jargon: "budget", "expense", "income", "net worth" are UX bugs
+
+---
+
+## Previous Story Learnings
+
+### Redis + spring-security-oauth2 compatibility (Story 1.2)
+- `spring-security-oauth2:2.2.1` (default via `spring-cloud-starter-oauth2`) is **incompatible** with `spring-data-redis 2.0.x` — `RedisTokenStore` calls `RedisConnection.set(byte[], byte[])` which was removed in spring-data-redis 2.0
+- **Fix:** Declare `spring-security-oauth2:2.3.8.RELEASE` as a direct dependency in `auth-service/pom.xml` to override the transitive 2.2.1. This version's `RedisTokenStore` supports the new spring-data-redis 2.0 API
+- Switching from Lettuce to Jedis does NOT fix this — the incompatibility is in the `RedisConnection` interface, not the client
+- Downgrading `spring-data-redis` to 1.8.x also does NOT work — it conflicts with `spring-data-commons` from Spring Boot 2.0.3
+- After restarting auth-service, allow ~15–20 seconds for Eureka re-registration before testing — premature requests will get `Load balancer does not have available server for client: auth-service`
+
+### Embedded MongoDB test dependency (pre-existing)
+- `de.flapdoodle.embed.mongo:1.50.3` tries to download `mongodb-osx-i386-3.2.2.tgz` from a dead URL (HTTP 403) — all auth-service tests fail in CI/local. This is pre-existing and unrelated to any story changes.
 
 ---
 
@@ -201,4 +222,4 @@ _Critical rules and patterns AI agents must follow. Focus on unobvious details._
 - Update when technology stack changes or new patterns emerge
 - Remove rules that become obvious over time
 
-_Last Updated: 2026-04-07_
+_Last Updated: 2026-04-08 (Story 1.2 complete — Redis token store, spring-security-oauth2 compatibility fix)_
