@@ -48,7 +48,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Bean
     public ResourceServerTokenServices tokenServices() {
-        return new CustomUserInfoTokenServices(sso.getUserInfoUri(), sso.getClientId());
+        CustomUserInfoTokenServices tokenServices = new CustomUserInfoTokenServices(sso.getUserInfoUri(), sso.getClientId());
+        tokenServices.setRestTemplate(clientCredentialsRestTemplate());
+        return tokenServices;
     }
 
     @Override

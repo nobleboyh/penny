@@ -29,7 +29,7 @@ config/src/main/resources/
 ### Shared Configuration (application.yml)
 - Hystrix timeout: 10s
 - Eureka service URL: http://registry:8761/eureka/
-- OAuth2 user-info-uri: http://auth-service:5000/uaa/users/current
+- OAuth2 user-info-uri: http://auth-service:5001/uaa/users/current
 - RabbitMQ host: rabbitmq
 - Logging levels
 
@@ -93,7 +93,7 @@ API Gateway providing single entry point, routing, and static content hosting.
 
 | Path | Target | Type |
 |------|--------|------|
-| /uaa/** | auth-service:5000 | URL-based |
+| /uaa/** | auth-service:5001 | URL-based |
 | /accounts/** | account-service | Service discovery |
 | /statistics/** | statistics-service | Service discovery |
 | /notifications/** | notification-service | Service discovery |

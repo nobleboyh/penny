@@ -4,7 +4,7 @@
 OAuth2 authorization server providing token-based authentication for users and service-to-service communication.
 
 ## Technical Details
-- **Port**: 5000
+- **Port**: 5001
 - **Database**: auth-mongodb
 - **Package**: com.piggymetrics.auth
 - **Main Class**: AuthApplication.java

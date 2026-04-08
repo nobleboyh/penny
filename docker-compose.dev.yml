@@ -4,7 +4,7 @@ services:
     env_file:
       - .env
     ports:
-      - 5672:5672
+      - 15672:15672
 
   config:
     build: config
@@ -28,7 +28,7 @@ services:
     env_file:
       - .env
     ports:
-      - 5000:5000
+      - 5001:5001
 
   auth-mongodb:
     build: mongodb
@@ -56,14 +56,14 @@ services:
     env_file:
       - .env
     ports:
-      - 7000:7000
+      - 7001:7001
 
   statistics-mongodb:
     build: mongodb
     env_file:
       - .env
     ports:
-      - 27000:27017
+      - 27017:27017
 
   notification-service:
     build: notification-service

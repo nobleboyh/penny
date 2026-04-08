@@ -1,0 +1,198 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    env_file: .env
+    ports:
+      - 15672:15672
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  config:
+    build: config
+    image: piggymetrics-config:local
+    restart: always
+    env_file: .env
+    ports:
+      - 8888:8888
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  registry:
+    build: registry
+    image: piggymetrics-registry:local
+    restart: always
+    env_file: .env
+    depends_on:
+      config:
+        condition: service_healthy
+    ports:
+      - 8761:8761
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  gateway:
+    build: gateway
+    image: piggymetrics-gateway:local
+    restart: always
+    env_file: .env
+    depends_on:
+      config:
+        condition: service_healthy
+    ports:
+      - 80:4000
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  auth-service:
+    build: auth-service
+    image: piggymetrics-auth-service:local
+    restart: always
+    env_file: .env
+    depends_on:
+      config:
+        condition: service_healthy
+    ports:
+      - 5001:5001
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  auth-mongodb:
+    build: mongodb
+    image: piggymetrics-mongodb:local
+    restart: always
+    env_file: .env
+    ports:
+      - 25000:27017
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  account-service:
+    build: account-service
+    image: piggymetrics-account-service:local
+    restart: always
+    env_file: .env
+    depends_on:
+      config:
+        condition: service_healthy
+    ports:
+      - 6000:6000
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  account-mongodb:
+    build: mongodb
+    image: piggymetrics-mongodb:local
+    restart: always
+    env_file: .env
+    environment:
+      INIT_DUMP: account-service-dump.js
+    ports:
+      - 26000:27017
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  statistics-service:
+    build: statistics-service
+    image: piggymetrics-statistics-service:local
+    restart: always
+    env_file: .env
+    depends_on:
+      config:
+        condition: service_healthy
+    ports:
+      - 7001:7001
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  statistics-mongodb:
+    build: mongodb
+    image: piggymetrics-mongodb:local
+    restart: always
+    env_file: .env
+    ports:
+      - 27017:27017
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  notification-service:
+    build: notification-service
+    image: piggymetrics-notification-service:local
+    restart: always
+    env_file: .env
+    depends_on:
+      config:
+        condition: service_healthy
+    ports:
+      - 8000:8000
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  notification-mongodb:
+    build: mongodb
+    image: piggymetrics-mongodb:local
+    restart: always
+    env_file: .env
+    ports:
+      - 28000:27017
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  monitoring:
+    build: monitoring
+    image: piggymetrics-monitoring:local
+    restart: always
+    env_file: .env
+    depends_on:
+      config:
+        condition: service_healthy
+    ports:
+      - 9000:8080
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  turbine-stream-service:
+    build: turbine-stream-service
+    image: piggymetrics-turbine-stream-service:local
+    restart: always
+    env_file: .env
+    depends_on:
+      config:
+        condition: service_healthy
+    ports:
+      - 8989:8989
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"

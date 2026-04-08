@@ -4,7 +4,7 @@
 Calculates financial statistics and maintains time series data for account analysis. Normalizes all amounts to base currency (USD) and base time period (DAY) for comparison.
 
 ## Technical Details
-- **Port**: 7000
+- **Port**: 7001
 - **Database**: statistics-mongodb
 - **Package**: com.piggymetrics.statistics
 - **Main Class**: StatisticsApplication.java

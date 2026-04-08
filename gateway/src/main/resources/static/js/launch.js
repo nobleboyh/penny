@@ -9,16 +9,12 @@ var global = {
  * Oauth2
  */
 
-function requestOauthToken(username, password) {
-
-	var success = false;
-
+function requestOauthToken(username, password, callback) {
 	$.ajax({
 		url: 'uaa/oauth/token',
 		datatype: 'json',
 		type: 'post',
 		headers: {'Authorization': 'Basic YnJvd3Nlcjo='},
-		async: false,
 		data: {
 			scope: 'ui',
 			username: username,
@@ -27,14 +23,13 @@ function requestOauthToken(username, password) {
 		},
 		success: function (data) {
 			localStorage.setItem('token', data.access_token);
-			success = true;
+			callback(true);
 		},
 		error: function () {
 			removeOauthTokenFromStorage();
+			callback(false);
 		}
 	});
-
-	return success;
 }
 
 function getOauthTokenFromStorage() {
@@ -49,10 +44,9 @@ function removeOauthTokenFromStorage() {
  * Current account
  */
 
-function getCurrentAccount() {
+function getCurrentAccount(callback) {
 
 	var token = getOauthTokenFromStorage();
-	var account = null;
 
 	if (token) {
 		$.ajax({
@@ -60,17 +54,17 @@ function getCurrentAccount() {
 			datatype: 'json',
 			type: 'get',
 			headers: {'Authorization': 'Bearer ' + token},
-			async: false,
 			success: function (data) {
-				account = data;
+				callback(data);
 			},
 			error: function () {
 				removeOauthTokenFromStorage();
+				callback(null);
 			}
 		});
+	} else {
+		callback(null);
 	}
-
-	return account;
 }
 
 $(window).load(function(){
@@ -80,18 +74,22 @@ $(window).load(function(){
         global.mobileClient = true;
 	}
 
-    $.getJSON("https://api.exchangeratesapi.io/latest?base=RUB&symbols=EUR,USD", function( data ) {
-        global.eur = 1 / data.rates.EUR;
-        global.usd = 1 / data.rates.USD;
-    });
+	//TODO: move to statistics service
+    // $.getJSON("https://api.exchangeratesapi.io/latest?base=RUB&symbols=EUR,USD", function( data ) {
+    //     global.eur = 1 / data.rates.EUR;
+    //     global.usd = 1 / data.rates.USD;
+    // });
 
-	var account = getCurrentAccount();
+	global.eur = 1;
+	global.usd = 1;
 
-	if (account) {
-		showGreetingPage(account);
-	} else {
-		showLoginForm();
-	}
+	var account = getCurrentAccount(function(account) {
+		if (account) {
+			showGreetingPage(account);
+		} else {
+			showLoginForm();
+		}
+	});
 });
 
 function showGreetingPage(account) {

@@ -28,7 +28,7 @@
 - **Entry Point**: Gateway (Zuul) on port 80
 - **Service Discovery**: Eureka registry on port 8761
 - **Configuration**: Centralized config service on port 8888
-- **Security**: OAuth2 auth service on port 5000
+- **Security**: OAuth2 auth service on port 5001
 - **Business Logic**: 3 independent services with separate databases
 - **Monitoring**: Hystrix dashboard + Turbine
 - **Messaging**: RabbitMQ for metrics streaming

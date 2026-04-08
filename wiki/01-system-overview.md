@@ -38,14 +38,14 @@ PiggyMetrics is a distributed system composed of:
 
 ### Business Services
 1. **account-service** (Port: 6000) - Account management and validation
-2. **statistics-service** (Port: 7000) - Financial calculations and time series
+2. **statistics-service** (Port: 7001) - Financial calculations and time series
 3. **notification-service** (Port: 8000) - Email notifications and scheduling
 
 ### Infrastructure Services
 1. **config** (Port: 8888) - Centralized configuration server
 2. **registry** (Port: 8761) - Eureka service discovery
 3. **gateway** (Port: 4000/80) - Zuul API gateway and UI hosting
-4. **auth-service** (Port: 5000) - OAuth2 authorization server
+4. **auth-service** (Port: 5001) - OAuth2 authorization server
 5. **monitoring** (Port: 9000) - Hystrix dashboard
 6. **turbine-stream-service** (Port: 8989) - Metrics aggregation
 

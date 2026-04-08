@@ -410,19 +410,13 @@
                     <div id="preloader"></div>
                     <div id="wrapper">
                         <!-- LOG IN FORMS -->
-                        <div id="cube">
-                            <form action="user/login" id="auth" method="post" autocomplete="off">
-                                <div class="side" id="side1">
-                                    <div id="backlogin"></div>
-                                    <div id="enter"></div>
-                                    <input class="frontforms" id="frontloginform" name="username" placeholder="enter your login" type="text" autocomplete="off"/>
-                                </div>
-                                <div class="side" id="side2">
-                                    <div id="backpassword"></div>
-                                    <input class="frontforms" id="frontpasswordform" name="password" placeholder="password" type="password" autocomplete="off"/>
-                                </div>
-                            </form>
-                        </div>
+                        <form action="user/login" id="auth" method="post" autocomplete="off">
+                            <div id="backlogin"></div>
+                            <input class="frontforms" id="frontloginform" name="username" placeholder="enter your login" type="text" autocomplete="off"/>
+                            <div id="backpassword"></div>
+                            <input class="frontforms" id="frontpasswordform" name="password" placeholder="password" type="password" autocomplete="off"/>
+                            <div id="enter"></div>
+                        </form>
                     </div>
                     <div class="fliptext">Or <a href="#">create new account</a></div>
                 </div>
