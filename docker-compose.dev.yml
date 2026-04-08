@@ -95,3 +95,11 @@ services:
     build: turbine-stream-service
     env_file:
       - .env
+
+  penny:
+    image: nginx:alpine
+    volumes:
+      - ./penny/dist:/usr/share/nginx/html:ro
+      - ./penny/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - 3000:80

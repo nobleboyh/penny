@@ -8,3 +8,9 @@
 
 - Redis has no password config — `spring.redis.password` absent in `auth-service.yml`. Acceptable for local dev but a production hardening gap. Should be addressed before production deployment.
 - Port 6379 conflict risk — `docker-compose.dev.yml` exposes `6379:6379` with no warning. If a local Redis is already running, startup will fail with a port bind error.
+
+## Deferred from: code review of 1-3-react-pwa-scaffold-dev-environment (2026-04-08)
+
+- AC2 wording says `tsconfig.json` but strict mode is correctly in `tsconfig.app.json` (Vite 8 template structure) — spec wording predates Vite 8, not a bug
+- Zuul YAML map ordering `/**` shadow risk — Spring YAML parser preserves insertion order; `penny-frontend` is last in file; acceptable for dev scaffold
+- Nginx missing gzip/cache headers/security headers — out of scope for scaffold story; address in Story 1.5 or a dedicated infra story

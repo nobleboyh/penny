@@ -41,5 +41,14 @@ zuul:
         stripPrefix: false
         sensitiveHeaders:
 
+    penny-frontend:
+        path: /**
+        url: http://penny:80
+        stripPrefix: false
+
 server:
   port: 4000
+
+spring:
+  resources:
+    add-mappings: false

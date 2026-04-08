@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-07T16:44:00+07:00
-last_updated: 2026-04-08T17:38:17+07:00
+last_updated: 2026-04-08T20:42:34+07:00
 project: piggymetrics
 project_key: NOKEY
 tracking_system: file-system
@@ -46,7 +46,7 @@ development_status:
   epic-1: in-progress
   1-1-secrets-migration-environment-configuration: done
   1-2-auth-service-security-hardening: done
-  1-3-react-pwa-scaffold-dev-environment: backlog
+  1-3-react-pwa-scaffold-dev-environment: done
   1-4-design-system-core-dependencies-setup: backlog
   1-5-service-worker-pwa-foundation: backlog
   epic-1-retrospective: optional
