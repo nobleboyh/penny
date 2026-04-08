@@ -8,9 +8,11 @@ React + TypeScript + Vite scaffold for the Penny frontend.
 
 ```bash
 cd penny
-npm install
+npm install --legacy-peer-deps
 npm run build
 ```
+
+> **Note:** `--legacy-peer-deps` is required because `vite-plugin-pwa` declares a peer dep on Vite ≤7 while this project uses Vite 8. The plugin works correctly — this flag bypasses the version check.
 
 The Nginx container mounts `penny/dist/` — if this directory doesn't exist, Nginx will serve nothing.
 

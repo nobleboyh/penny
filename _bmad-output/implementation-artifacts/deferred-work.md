@@ -22,3 +22,9 @@
 - `updateSavedAmount` in `goalStore.ts` allows negative `savedAmount` — clamp at display layer in `GoalProgressCard` story
 - Dexie schema version 1 has no migration path documented — add migration strategy when fields are added in future stories
 - `saverLevel` in `streakStore.ts` has no max cap — enforce max when Saver Level progression system is implemented
+
+## Deferred from: code review of 1-5-service-worker-pwa-foundation (2026-04-08)
+
+- `offline.html` missing retry/reload button — UX improvement, not a PWA requirement; add in a later polish story
+- `penny-mascot.png` is a blank dark rectangle — placeholder acceptable per spec; replace with real design asset before launch
+- `networkTimeoutSeconds: 10` is long for mobile — tune after real-world performance testing
