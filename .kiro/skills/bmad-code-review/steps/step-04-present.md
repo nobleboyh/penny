@@ -117,7 +117,7 @@ If `{sprint_status}` file does not exist, note that story status was updated in 
 > **Deferred:** <W>
 > **Dismissed:** <R>
 
-### 7. Rebuild and test in docker compose
+### 7. `IMPORTANT CANNOT SKIP` Rebuild and test in docker compose
 
 **7.1 Rebuild changed services**
 Identify which services or applications were affected by the code changes. Follow the build instructions in `README.md` or `project-context.md` for those services. Do not rebuild unaffected services.

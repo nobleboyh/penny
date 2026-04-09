@@ -16,15 +16,17 @@ export function Home() {
     : { headline: "You're all set! 🎉", sub: 'More features coming soon…' }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background pb-20">
-      <div className="flex flex-col items-center gap-4 text-center px-6">
-        <PennyAvatar size="md" mood="happy" />
-        <div aria-live="polite">
-          <p className="text-foreground text-xl font-bold">{message.headline}</p>
-          <p className="text-muted-foreground text-sm">{message.sub}</p>
+    <>
+      <main className="flex min-h-screen flex-col items-center justify-center bg-background pb-20">
+        <div className="flex flex-col items-center gap-4 text-center px-6">
+          <PennyAvatar size="md" mood="happy" />
+          <div aria-live="polite">
+            <p className="text-foreground text-xl font-bold">{message.headline}</p>
+            <p className="text-muted-foreground text-sm">{message.sub}</p>
+          </div>
         </div>
-      </div>
+      </main>
       <BottomNav />
-    </div>
+    </>
   )
 }
