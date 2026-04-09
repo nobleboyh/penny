@@ -1,4 +1,5 @@
 export { AgeGate } from './components/AgeGate'
 export { SocialLoginButtons } from './components/SocialLoginButtons'
 export { OnboardingFlow } from './components/OnboardingFlow'
+export { AuthGuard } from './components/AuthGuard'
 export type { AgeGateStatus } from './types'

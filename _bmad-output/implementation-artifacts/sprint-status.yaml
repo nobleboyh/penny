@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-07T16:44:00+07:00
-last_updated: 2026-04-09T13:56:41+07:00
+last_updated: 2026-04-09T15:00:08+07:00
 project: piggymetrics
 project_key: NOKEY
 tracking_system: file-system
@@ -58,7 +58,7 @@ development_status:
   2-3-goal-first-onboarding-flow: done
   2-4-just-saving-onboarding-path: done
   2-5-penny-introduction-home-screen-entry: done
-  2-6-returning-user-session-restore: backlog
+  2-6-returning-user-session-restore: done
   epic-2-retrospective: optional
 
   # Epic 3: Goal Management & Home Screen

@@ -6,7 +6,7 @@ import { MyStuff } from './pages/MyStuff'
 import { Journey } from './pages/Journey'
 import { PennySays } from './pages/PennySays'
 import { MyVibe } from './pages/MyVibe'
-import { OnboardingFlow } from './features/auth'
+import { OnboardingFlow, AuthGuard } from './features/auth'
 
 function App() {
   return (
@@ -14,11 +14,11 @@ function App() {
       <Route path="/onboarding" element={<Onboarding />} />
       <Route path="/login" element={<Login />} />
       <Route path="/onboarding/goal" element={<OnboardingFlow />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/stuff" element={<MyStuff />} />
-      <Route path="/journey" element={<Journey />} />
-      <Route path="/penny-says" element={<PennySays />} />
-      <Route path="/vibe" element={<MyVibe />} />
+      <Route path="/home" element={<AuthGuard><Home /></AuthGuard>} />
+      <Route path="/stuff" element={<AuthGuard><MyStuff /></AuthGuard>} />
+      <Route path="/journey" element={<AuthGuard><Journey /></AuthGuard>} />
+      <Route path="/penny-says" element={<AuthGuard><PennySays /></AuthGuard>} />
+      <Route path="/vibe" element={<AuthGuard><MyVibe /></AuthGuard>} />
       <Route path="*" element={<Navigate to="/onboarding" replace />} />
     </Routes>
   )
