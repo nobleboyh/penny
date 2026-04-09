@@ -1,4 +1,6 @@
-import { useReducedMotion, motion } from 'framer-motion'
+import Lottie from 'lottie-react'
+import { useState, useEffect } from 'react'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 import type { MoodState } from '../../store/pennyStore'
 
 interface Props {
@@ -13,46 +15,67 @@ const SIZE_PX: Record<NonNullable<Props['size']>, number> = {
   lg: 160,
 }
 
-const MOOD_EMOJI: Record<MoodState, string> = {
-  idle: '🐷',
-  happy: '🐷',
-  excited: '🐷',
-  sad: '🐷',
-  celebrating: '🐷',
-  worried: '🐷',
-  proud: '🐷',
-  neutral: '🐷',
-  thinking: '🐷',
-  disappointed: '🐷',
+const MOOD_LOTTIE: Partial<Record<MoodState, string>> = {
+  idle: '/lottie/penny-idle.json',
+  happy: '/lottie/penny-happy.json',
+  excited: '/lottie/penny-excited.json',
+  sad: '/lottie/penny-sad.json',
+  celebrating: '/lottie/penny-celebrating.json',
+  worried: '/lottie/penny-worried.json',
+  proud: '/lottie/penny-proud.json',
+  neutral: '/lottie/penny-neutral.json',
+  thinking: '/lottie/penny-thinking.json',
+  disappointed: '/lottie/penny-disappointed.json',
 }
 
-const BOUNCE = {
-  animate: { y: [0, -12, 0] },
-  transition: { duration: 0.6, repeat: Infinity, repeatDelay: 1.5, ease: 'easeInOut' as const },
+const MOOD_EMOJI: Record<MoodState, string> = {
+  idle: '🐷', happy: '🐷', excited: '🐷', sad: '🐷', celebrating: '🐷',
+  worried: '🐷', proud: '🐷', neutral: '🐷', thinking: '🐷', disappointed: '🐷',
+}
+
+function PennyAvatarLottie({ mood, px, fontSize }: { mood: MoodState; px: number; fontSize: number }) {
+  const [failed, setFailed] = useState(false)
+  const [animData, setAnimData] = useState<object | null>(null)
+
+  useEffect(() => {
+    setFailed(false)
+    setAnimData(null)
+    const path = MOOD_LOTTIE[mood]
+    if (!path) { setFailed(true); return }
+    fetch(path)
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(setAnimData)
+      .catch(() => setFailed(true))
+  }, [mood])
+
+  if (failed || !animData) {
+    return <span style={{ fontSize, lineHeight: 1 }}>{MOOD_EMOJI[mood]}</span>
+  }
+  return <Lottie animationData={animData} style={{ width: px, height: px }} loop autoplay />
 }
 
 export function PennyAvatar({ size = 'md', mood = 'idle', 'aria-label': ariaLabel = 'Penny, your saving buddy' }: Props) {
-  const prefersReduced = useReducedMotion()
+  const reducedMotion = useReducedMotion()
   const px = SIZE_PX[size]
   const fontSize = Math.round(px * 0.6)
-  const shouldBounce = !prefersReduced && (mood === 'excited' || mood === 'celebrating' || mood === 'happy')
 
   return (
-    <motion.div
+    <div
       role="img"
       aria-label={ariaLabel}
       style={{ width: px, height: px, fontSize }}
       className="relative flex items-center justify-center rounded-full"
-      animate={shouldBounce ? BOUNCE.animate : undefined}
-      transition={shouldBounce ? BOUNCE.transition : undefined}
     >
-      {/* Coral radial glow backdrop */}
       <div
         className="absolute inset-0 rounded-full"
         style={{ background: 'radial-gradient(circle, rgba(255,107,107,0.25) 0%, transparent 70%)' }}
         aria-hidden="true"
       />
-      <span style={{ fontSize, lineHeight: 1 }}>{MOOD_EMOJI[mood]}</span>
-    </motion.div>
+      {reducedMotion ? (
+        <span style={{ fontSize, lineHeight: 1 }}>{MOOD_EMOJI[mood]}</span>
+      ) : (
+        <PennyAvatarLottie mood={mood} px={px} fontSize={fontSize} />
+      )}
+    </div>
   )
 }

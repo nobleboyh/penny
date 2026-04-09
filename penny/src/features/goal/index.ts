@@ -7,4 +7,5 @@ export { GoalCompletionCelebration } from './components/GoalCompletionCelebratio
 export { useUpdateAccount, useCurrentAccount } from './api'
 export { useGoalCountdown, COUNTDOWN_THRESHOLD_AMOUNT, COUNTDOWN_THRESHOLD_PERCENT } from './hooks/useGoalCountdown'
 export { useGoalCompletion } from './hooks/useGoalCompletion'
+export { useGoalProgress } from './hooks/useGoalProgress'
 export type { GoalCategory, GoalSetupData, AccountResponse, AccountItem } from './types'
