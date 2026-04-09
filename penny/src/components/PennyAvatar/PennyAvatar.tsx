@@ -4,6 +4,7 @@ import type { MoodState } from '../../store/pennyStore'
 interface Props {
   size?: 'sm' | 'md' | 'lg'
   mood?: MoodState
+  'aria-label'?: string
 }
 
 const SIZE_PX: Record<NonNullable<Props['size']>, number> = {
@@ -30,7 +31,7 @@ const BOUNCE = {
   transition: { duration: 0.6, repeat: Infinity, repeatDelay: 1.5, ease: 'easeInOut' as const },
 }
 
-export function PennyAvatar({ size = 'md', mood = 'idle' }: Props) {
+export function PennyAvatar({ size = 'md', mood = 'idle', 'aria-label': ariaLabel = 'Penny, your saving buddy' }: Props) {
   const prefersReduced = useReducedMotion()
   const px = SIZE_PX[size]
   const fontSize = Math.round(px * 0.6)
@@ -39,7 +40,7 @@ export function PennyAvatar({ size = 'md', mood = 'idle' }: Props) {
   return (
     <motion.div
       role="img"
-      aria-label="Penny, your saving buddy"
+      aria-label={ariaLabel}
       style={{ width: px, height: px, fontSize }}
       className="relative flex items-center justify-center rounded-full"
       animate={shouldBounce ? BOUNCE.animate : undefined}

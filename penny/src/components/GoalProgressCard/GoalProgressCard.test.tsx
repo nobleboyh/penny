@@ -9,15 +9,25 @@ vi.mock('../../features/goal', () => ({
 vi.mock('../../features/goal/hooks/useGoalProgress', () => ({
   useGoalProgress: vi.fn(),
 }))
+vi.mock('../../features/goal/hooks/useGoalCountdown', () => ({
+  useGoalCountdown: vi.fn(),
+}))
 vi.mock('../../hooks/useReducedMotion', () => ({
   useReducedMotion: () => true,
+}))
+vi.mock('../PennyAvatar', () => ({
+  PennyAvatar: ({ mood, 'aria-label': ariaLabel }: { mood: string; 'aria-label'?: string }) => (
+    <div role="img" aria-label={ariaLabel ?? 'Penny, your saving buddy'} data-mood={mood} />
+  ),
 }))
 
 import { useCurrentAccount } from '../../features/goal'
 import { useGoalProgress } from '../../features/goal/hooks/useGoalProgress'
+import { useGoalCountdown } from '../../features/goal/hooks/useGoalCountdown'
 
 const mockAccount = useCurrentAccount as ReturnType<typeof vi.fn>
 const mockProgress = useGoalProgress as ReturnType<typeof vi.fn>
+const mockCountdown = useGoalCountdown as ReturnType<typeof vi.fn>
 
 const defaultProgress = {
   goalName: 'AirPods',
@@ -34,6 +44,7 @@ describe('GoalProgressCard', () => {
   beforeEach(() => {
     mockAccount.mockReturnValue({ isLoading: false, isError: false })
     mockProgress.mockReturnValue(defaultProgress)
+    mockCountdown.mockReturnValue({ isCountdown: false, remainingAmount: null })
   })
 
   it('renders goal name and progress bar when goal is set', () => {
@@ -108,5 +119,25 @@ describe('GoalProgressCard', () => {
     render(<GoalProgressCard />)
     fireEvent.click(screen.getByRole('button', { name: /set a specific saving goal/i }))
     expect(screen.getByTestId('goal-setup-form')).toBeInTheDocument()
+  })
+
+  it('renders countdown message and PennyAvatar when isCountdown', () => {
+    mockCountdown.mockReturnValue({ isCountdown: true, remainingAmount: 18 })
+    render(<GoalProgressCard />)
+    expect(screen.getByText(/you're \$18 away from airpods/i)).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: /penny is excited/i })).toBeInTheDocument()
+  })
+
+  it('renders PennyAvatar but no message when isCountdown and remainingAmount is null', () => {
+    mockCountdown.mockReturnValue({ isCountdown: true, remainingAmount: null })
+    render(<GoalProgressCard />)
+    expect(screen.getByRole('img', { name: /penny is excited/i })).toBeInTheDocument()
+    expect(screen.queryByText(/you're .* away from/i)).not.toBeInTheDocument()
+  })
+
+  it('does not render countdown message when isCountdown is false', () => {
+    render(<GoalProgressCard />)
+    expect(screen.queryByRole('img', { name: /penny/i })).not.toBeInTheDocument()
+    expect(screen.queryByText(/you're .* away from/i)).not.toBeInTheDocument()
   })
 })

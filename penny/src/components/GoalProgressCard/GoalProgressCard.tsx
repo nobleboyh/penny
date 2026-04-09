@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { useCurrentAccount, GoalSetupForm } from '../../features/goal'
 import { useGoalProgress } from '../../features/goal/hooks/useGoalProgress'
+import { useGoalCountdown } from '../../features/goal/hooks/useGoalCountdown'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
+import { PennyAvatar } from '../PennyAvatar'
 
 const fmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
 const dateFmt = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
@@ -9,6 +11,7 @@ const dateFmt = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric
 export function GoalProgressCard() {
   const { isLoading, isError } = useCurrentAccount()
   const { progressPercent, weeklyTarget, isJustSaving, goalName, goalEmoji, goalAmount, savedAmount, targetDate } = useGoalProgress()
+  const { isCountdown, remainingAmount } = useGoalCountdown()
   const reducedMotion = useReducedMotion()
   const [isExpanded, setIsExpanded] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
@@ -40,8 +43,10 @@ export function GoalProgressCard() {
 
   const glowSize = 8 + (progressPercent ?? 0) * 0.16
   // Use rgba for valid CSS alpha — var() references cannot have hex alpha appended
+  const glowRgb = isCountdown ? '78,205,196' : '255,107,107'
+  const glowMultiplier = isCountdown ? 3 : 2
   const glowStyle: React.CSSProperties = {
-    boxShadow: `0 0 ${glowSize}px rgba(255,107,107,0.9), 0 0 ${glowSize * 2}px rgba(255,107,107,0.4)`,
+    boxShadow: `0 0 ${glowSize}px rgba(${glowRgb},0.9), 0 0 ${glowSize * glowMultiplier}px rgba(${glowRgb},0.4)`,
     ...(reducedMotion ? {} : { transition: 'width 500ms ease, box-shadow 500ms ease' }),
   }
 
@@ -85,7 +90,7 @@ export function GoalProgressCard() {
               className="h-full rounded-full"
               style={{
                 width: `${progressPercent ?? 0}%`,
-                backgroundColor: 'var(--color-primary)',
+                backgroundColor: isCountdown ? 'var(--color-accent)' : 'var(--color-primary)',
                 ...glowStyle,
               }}
             />
@@ -94,6 +99,25 @@ export function GoalProgressCard() {
             {Math.round(progressPercent ?? 0)}%
           </p>
         </div>
+      )}
+
+      {/* Countdown mode: PennyAvatar + remaining amount message */}
+      {isCountdown && (
+        <>
+          <div className="flex justify-center mb-2">
+            <PennyAvatar size="md" mood="excited" aria-label="Penny is excited — you're almost there!" />
+          </div>
+          {remainingAmount !== null && goalName && (
+            <p
+              role="status"
+              aria-live="polite"
+              className="text-center text-sm font-semibold mb-3"
+              style={{ color: 'var(--color-accent)' }}
+            >
+              You're {fmt.format(remainingAmount)} away from {goalName}! 🎯
+            </p>
+          )}
+        </>
       )}
 
       {/* Amounts */}
