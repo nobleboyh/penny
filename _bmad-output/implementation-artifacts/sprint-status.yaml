@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-07T16:44:00+07:00
-last_updated: 2026-04-08T21:46:28+07:00
+last_updated: 2026-04-09T08:52:15+07:00
 project: piggymetrics
 project_key: NOKEY
 tracking_system: file-system
@@ -52,8 +52,8 @@ development_status:
   epic-1-retrospective: optional
 
   # Epic 2: Authentication & Onboarding
-  epic-2: backlog
-  2-1-age-gate-coppa-compliance: backlog
+  epic-2: in-progress
+  2-1-age-gate-coppa-compliance: done
   2-2-social-login-google-oauth2-apple-sign-in: backlog
   2-3-goal-first-onboarding-flow: backlog
   2-4-just-saving-onboarding-path: backlog

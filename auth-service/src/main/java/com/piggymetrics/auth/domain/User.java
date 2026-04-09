@@ -15,6 +15,8 @@ public class User implements UserDetails {
 
 	private String password;
 
+	private boolean ageConfirmed;
+
 	@Override
 	public String getPassword() {
 		return password;
@@ -36,6 +38,14 @@ public class User implements UserDetails {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public boolean isAgeConfirmed() {
+		return ageConfirmed;
+	}
+
+	public void setAgeConfirmed(boolean ageConfirmed) {
+		this.ageConfirmed = ageConfirmed;
 	}
 
 	@Override

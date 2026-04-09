@@ -75,7 +75,7 @@ export default defineConfig({
             },
           },
         ],
-        navigateFallback: '/offline.html',
+        navigateFallback: '/index.html',
         navigateFallbackDenylist: [/^\/accounts/, /^\/statistics/, /^\/notifications/, /^\/uaa/],
       },
       devOptions: {

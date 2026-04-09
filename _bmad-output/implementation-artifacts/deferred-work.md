@@ -28,3 +28,8 @@
 - `offline.html` missing retry/reload button — UX improvement, not a PWA requirement; add in a later polish story
 - `penny-mascot.png` is a blank dark rectangle — placeholder acceptable per spec; replace with real design asset before launch
 - `networkTimeoutSeconds: 10` is long for mobile — tune after real-world performance testing
+
+## Deferred from: code review of 2-1-age-gate-coppa-compliance (2026-04-09)
+
+- `animate="visible"` fires even when `prefersReduced=true` in `AgeGate.tsx` — harmless in production, may flash in StrictMode dev. Pre-existing Framer Motion behavior.
+- `react-router-dom@7.14.0` installed vs "React Router v6" in architecture spec — API used is compatible with both; no functional breakage.

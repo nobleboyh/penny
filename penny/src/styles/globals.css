@@ -18,19 +18,21 @@
   --color-foreground: #F9FAFB;
   --color-muted-foreground: #9CA3AF;
 
-  /* Spacing scale */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-  --spacing-2xl: 48px;
-
   /* Border radius */
   --radius-sm: 8px;
   --radius-md: 16px;
   --radius-lg: 24px;
   --radius-full: 9999px;
+}
+
+/* Penny spacing tokens (CSS vars only — not Tailwind utilities) */
+:root {
+  --penny-spacing-xs: 4px;
+  --penny-spacing-sm: 8px;
+  --penny-spacing-md: 16px;
+  --penny-spacing-lg: 24px;
+  --penny-spacing-xl: 32px;
+  --penny-spacing-2xl: 48px;
 }
 
 /* shadcn/ui CSS variable bridge (shadcn uses --background, --foreground etc.) */

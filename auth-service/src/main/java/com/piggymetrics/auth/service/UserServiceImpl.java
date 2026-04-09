@@ -24,6 +24,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void create(User user) {
 
+		Assert.isTrue(user.isAgeConfirmed(), "Age confirmation required");
+
 		Optional<User> existing = repository.findById(user.getUsername());
 		existing.ifPresent(it-> {throw new IllegalArgumentException("user already exists: " + it.getUsername());});
 

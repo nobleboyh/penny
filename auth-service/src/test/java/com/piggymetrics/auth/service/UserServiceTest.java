@@ -31,6 +31,7 @@ public class UserServiceTest {
 		User user = new User();
 		user.setUsername("name");
 		user.setPassword("password");
+		user.setAgeConfirmed(true);
 
 		userService.create(user);
 		verify(repository, times(1)).save(user);
@@ -42,8 +43,20 @@ public class UserServiceTest {
 		User user = new User();
 		user.setUsername("name");
 		user.setPassword("password");
+		user.setAgeConfirmed(true);
 
 		when(repository.findById(user.getUsername())).thenReturn(Optional.of(new User()));
+		userService.create(user);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void shouldFailWhenAgeNotConfirmed() {
+
+		User user = new User();
+		user.setUsername("name");
+		user.setPassword("password");
+		// ageConfirmed defaults to false
+
 		userService.create(user);
 	}
 }
