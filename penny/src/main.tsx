@@ -5,6 +5,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from './lib/api'
 import App from './App.tsx'
 import './styles/globals.css'
+import './styles/animations.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

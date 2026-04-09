@@ -1,0 +1,30 @@
+/* Confetti particles — goal completion celebration */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 51;
+}
+
+.confetti-container::before,
+.confetti-container::after {
+  content: '🎊 🎉 ✨ 🌟 💫';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  right: 0;
+  font-size: 1.5rem;
+  animation: confetti-fall 3s linear infinite;
+  letter-spacing: 2rem;
+}
+
+.confetti-container::after {
+  animation-delay: 1.5s;
+  left: 2rem;
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
