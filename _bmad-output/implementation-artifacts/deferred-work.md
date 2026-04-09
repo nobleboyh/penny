@@ -38,3 +38,7 @@
 
 - Age gate bypassable via direct call to `/uaa/social/*` — requires session state or COPPA enforcement layer; out of scope for story 2.2; revisit before production launch
 - `AppleID.auth.init()` called on every click in `SocialLoginButtons.tsx` — Apple SDK re-init behavior in popup mode is implementation-defined; monitor for issues in integration testing
+
+## Deferred from: code review of 2-4-just-saving-onboarding-path (2026-04-09)
+
+- `PennyAvatar mood` hardcoded to `happy` in `Home.tsx` regardless of store state — deferred, mood engine is Story 4.1

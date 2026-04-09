@@ -7,6 +7,7 @@ interface GoalState {
   savedAmount: number
   targetDate: string | null // ISO 8601 date string
   isJustSaving: boolean
+  _hasHydrated: boolean
 }
 
 interface GoalActions {
@@ -14,6 +15,7 @@ interface GoalActions {
   setJustSaving: () => void
   updateSavedAmount: (amount: number) => void
   resetGoal: () => void
+  setHasHydrated: (v: boolean) => void
 }
 
 type GoalStore = GoalState & GoalActions
@@ -24,6 +26,7 @@ const initialState: GoalState = {
   savedAmount: 0,
   targetDate: null,
   isJustSaving: false,
+  _hasHydrated: false,
 }
 
 export const useGoalStore = create<GoalStore>()(
@@ -37,7 +40,13 @@ export const useGoalStore = create<GoalStore>()(
       updateSavedAmount: (amount) =>
         set((s) => ({ savedAmount: s.savedAmount + amount })),
       resetGoal: () => set(initialState),
+      setHasHydrated: (v) => set({ _hasHydrated: v }),
     }),
-    { name: 'penny-goal' }
+    {
+      name: 'penny-goal',
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true)
+      },
+    }
   )
 )
