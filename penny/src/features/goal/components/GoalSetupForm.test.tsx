@@ -3,10 +3,11 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { GoalSetupForm } from './GoalSetupForm'
 
 const mockSetGoal = vi.fn()
+const mockSetJustSaving = vi.fn()
 const mockMutateAsync = vi.fn().mockResolvedValue({})
 
 vi.mock('../../../store/goalStore', () => ({
-  useGoalStore: vi.fn(() => ({ setGoal: mockSetGoal })),
+  useGoalStore: vi.fn(() => ({ setGoal: mockSetGoal, setJustSaving: mockSetJustSaving })),
 }))
 
 vi.mock('../api', () => ({
@@ -63,5 +64,19 @@ describe('GoalSetupForm', () => {
     render(<GoalSetupForm onComplete={onComplete} onCancel={onCancel} />)
     fireEvent.click(screen.getByRole('button', { name: /cancel/i }))
     expect(onCancel).toHaveBeenCalled()
+  })
+
+  it('calls setJustSaving and onComplete when Just saving is tapped', () => {
+    render(<GoalSetupForm onComplete={onComplete} onCancel={onCancel} />)
+    fireEvent.click(screen.getByRole('button', { name: /just saving/i }))
+    expect(mockSetJustSaving).toHaveBeenCalledTimes(1)
+    expect(onComplete).toHaveBeenCalledTimes(1)
+    expect(onCancel).not.toHaveBeenCalled()
+  })
+
+  it('does not call setJustSaving when a category is selected normally', () => {
+    render(<GoalSetupForm onComplete={onComplete} onCancel={onCancel} />)
+    fireEvent.click(screen.getByRole('button', { name: /save for tech/i }))
+    expect(mockSetJustSaving).not.toHaveBeenCalled()
   })
 })

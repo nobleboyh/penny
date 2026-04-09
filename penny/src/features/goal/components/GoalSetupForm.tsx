@@ -15,13 +15,24 @@ interface GoalSetupFormProps {
 type Step = 'goal-category' | 'goal-amount' | 'goal-date'
 
 export function GoalSetupForm({ mode = 'create', onComplete, onCancel }: GoalSetupFormProps) {
-  const { setGoal } = useGoalStore()
+  const { setGoal, setJustSaving } = useGoalStore()
   const updateAccount = useUpdateAccount()
 
   const [step, setStep] = useState<Step>('goal-category')
   const [goalName, setGoalName] = useState('')
   const [goalEmoji, setGoalEmoji] = useState('🎯')
   const [goalAmount, setGoalAmount] = useState<number | null>(null)
+
+  function handleJustSaving() {
+    setJustSaving()
+    onComplete()
+    updateAccount.mutateAsync({
+      incomes: [],
+      expenses: [],
+      saving: { amount: 0, currency: 'USD', interest: 0, deposit: false, capitalization: false },
+      note: JSON.stringify({ goalName: 'Just saving', goalEmoji: '💰', targetDate: null }),
+    }).catch(() => {})
+  }
 
   function handleCategorySelect(_cat: GoalCategory, name: string, emoji: string) {
     setGoalName(name)
@@ -85,7 +96,7 @@ export function GoalSetupForm({ mode = 'create', onComplete, onCancel }: GoalSet
       </div>
 
       {step === 'goal-category' && (
-        <GoalCategoryPicker onSelect={handleCategorySelect} onJustSaving={onCancel} />
+        <GoalCategoryPicker onSelect={handleCategorySelect} onJustSaving={handleJustSaving} />
       )}
       {step === 'goal-amount' && (
         <GoalAmountInput goalName={goalName} onNext={handleAmountNext} />

@@ -120,6 +120,18 @@ export function GoalProgressCard() {
         <p className="text-sm font-semibold" style={{ color: 'var(--color-accent)' }}>🎉 Goal reached!</p>
       )}
 
+      {isJustSaving && !isEditing && (
+        <div className="mt-2">
+          <button
+            onClick={(e) => { e.stopPropagation(); setIsEditing(true) }}
+            className="w-full min-h-[44px] rounded-xl border border-border text-sm font-semibold text-muted-foreground hover:border-primary hover:text-primary transition-colors"
+            aria-label="Set a specific saving goal"
+          >
+            Set a goal 🎯
+          </button>
+        </div>
+      )}
+
       {/* "Set a goal" CTA for users with no goal */}
       {!goalName && !isJustSaving && !isEditing && (
         <div className="text-center py-2">
@@ -145,6 +157,7 @@ export function GoalProgressCard() {
           {isJustSaving && (
             <p className="text-muted-foreground text-sm">Every penny counts 🐷</p>
           )}
+          {!isJustSaving && (
           <button
             onClick={(e) => { e.stopPropagation(); setIsEditing(true) }}
             className="mt-3 w-full min-h-[44px] rounded-xl border border-border text-sm font-semibold text-muted-foreground hover:border-primary hover:text-primary transition-colors"
@@ -152,6 +165,7 @@ export function GoalProgressCard() {
           >
             Edit goal ✏️
           </button>
+          )}
         </div>
       )}
 
@@ -164,10 +178,10 @@ export function GoalProgressCard() {
         >
           {/* Patch 2: aria-live region so screen readers announce form appearance */}
           <p className="sr-only" aria-live="polite">
-            {goalName ? 'Update your goal form is open' : 'Set a goal form is open'}
+            {isJustSaving ? 'Set a goal form is open' : goalName ? 'Update your goal form is open' : 'Set a goal form is open'}
           </p>
           <GoalSetupForm
-            mode={goalName ? 'update' : 'create'}  // Patch 1: dynamic mode
+            mode={goalName && !isJustSaving ? 'update' : 'create'}  // Patch 1: dynamic mode
             onComplete={() => { setIsEditing(false); setIsExpanded(false) }}
             onCancel={() => setIsEditing(false)}
           />

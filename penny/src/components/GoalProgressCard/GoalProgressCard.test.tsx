@@ -4,6 +4,7 @@ import { GoalProgressCard } from './GoalProgressCard'
 
 vi.mock('../../features/goal', () => ({
   useCurrentAccount: vi.fn(),
+  GoalSetupForm: () => <div data-testid="goal-setup-form" />,
 }))
 vi.mock('../../features/goal/hooks/useGoalProgress', () => ({
   useGoalProgress: vi.fn(),
@@ -86,5 +87,26 @@ describe('GoalProgressCard', () => {
   it('card has accessible aria-label', () => {
     render(<GoalProgressCard />)
     expect(screen.getByRole('button', { name: /airpods goal progress/i })).toBeInTheDocument()
+  })
+
+  it('renders "Set a goal" CTA when isJustSaving is true', () => {
+    mockProgress.mockReturnValue({
+      goalName: 'Just saving', goalEmoji: '💰', goalAmount: null,
+      savedAmount: 42, progressPercent: null, weeklyTarget: null,
+      isJustSaving: true, targetDate: null,
+    })
+    render(<GoalProgressCard />)
+    expect(screen.getByRole('button', { name: /set a specific saving goal/i })).toBeInTheDocument()
+  })
+
+  it('tapping "Set a goal" CTA in just-saving mode opens GoalSetupForm', () => {
+    mockProgress.mockReturnValue({
+      goalName: 'Just saving', goalEmoji: '💰', goalAmount: null,
+      savedAmount: 42, progressPercent: null, weeklyTarget: null,
+      isJustSaving: true, targetDate: null,
+    })
+    render(<GoalProgressCard />)
+    fireEvent.click(screen.getByRole('button', { name: /set a specific saving goal/i }))
+    expect(screen.getByTestId('goal-setup-form')).toBeInTheDocument()
   })
 })
