@@ -5,6 +5,8 @@ import { GoalCategoryPicker } from './GoalCategoryPicker'
 import { GoalAmountInput } from './GoalAmountInput'
 import { GoalDatePicker } from './GoalDatePicker'
 import type { GoalCategory } from '../types'
+import { buildGoalAccountNote } from '../accountSync'
+import { queryClient } from '../../../lib/api'
 
 interface GoalSetupFormProps {
   mode?: 'create' | 'update'
@@ -15,7 +17,7 @@ interface GoalSetupFormProps {
 type Step = 'goal-category' | 'goal-amount' | 'goal-date'
 
 export function GoalSetupForm({ mode = 'create', onComplete, onCancel }: GoalSetupFormProps) {
-  const { setGoal, setJustSaving } = useGoalStore()
+  const { setGoal, setJustSaving, savedAmount, markRemoteSyncPending, clearRemoteSyncPending } = useGoalStore()
   const updateAccount = useUpdateAccount()
 
   const [step, setStep] = useState<Step>('goal-category')
@@ -25,12 +27,23 @@ export function GoalSetupForm({ mode = 'create', onComplete, onCancel }: GoalSet
 
   function handleJustSaving() {
     setJustSaving()
+    markRemoteSyncPending()
     onComplete()
     updateAccount.mutateAsync({
       incomes: [],
       expenses: [],
       saving: { amount: 0, currency: 'USD', interest: 0, deposit: false, capitalization: false },
-      note: JSON.stringify({ goalName: 'Just saving', goalEmoji: '💰', targetDate: null }),
+      note: buildGoalAccountNote({
+        goalName: 'Just saving',
+        goalEmoji: '💰',
+        goalAmount: null,
+        targetDate: null,
+        savedAmount,
+        isJustSaving: true,
+      }),
+    }).then(() => {
+      clearRemoteSyncPending()
+      void queryClient.invalidateQueries({ queryKey: ['accounts', 'current'] })
     }).catch(() => {})
   }
 
@@ -49,6 +62,7 @@ export function GoalSetupForm({ mode = 'create', onComplete, onCancel }: GoalSet
     if (goalAmount === null) return
     // Optimistic update — store updated immediately (AC: 5)
     setGoal(goalName, goalEmoji, goalAmount, targetDate)
+    markRemoteSyncPending()
     // Close form immediately — don't wait for API (AC: 6)
     onComplete()
     // Fire-and-forget API call (AC: 4)
@@ -56,7 +70,17 @@ export function GoalSetupForm({ mode = 'create', onComplete, onCancel }: GoalSet
       incomes: [],
       expenses: [],
       saving: { amount: goalAmount, currency: 'USD', interest: 0, deposit: false, capitalization: false },
-      note: JSON.stringify({ goalName, goalEmoji, targetDate }),
+      note: buildGoalAccountNote({
+        goalName,
+        goalEmoji,
+        goalAmount,
+        targetDate,
+        savedAmount,
+        isJustSaving: false,
+      }),
+    }).then(() => {
+      clearRemoteSyncPending()
+      void queryClient.invalidateQueries({ queryKey: ['accounts', 'current'] })
     }).catch(() => {
       // non-blocking — goal already saved locally in goalStore
     })

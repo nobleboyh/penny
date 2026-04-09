@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { apiClient } from '../../../lib/api'
 import { useGoalStore } from '../../../store/goalStore'
 import axios from 'axios'
+import { getGoalSnapshotFromAccount } from '../../goal/accountSync'
 
 export type AuthStatus = 'loading' | 'authenticated' | 'expired' | 'unauthenticated'
 
@@ -16,7 +17,7 @@ function getInitialStatus(): AuthStatus {
 export function useAuthGuard(): AuthStatus {
   const [status, setStatus] = useState<AuthStatus>(getInitialStatus)
   const rehydrateFromBackend = useGoalStore(s => s.rehydrateFromBackend)
-  const hasGoal = useGoalStore(s => !!s.goalName)
+  const pendingRemoteSync = useGoalStore(s => s.pendingRemoteSync)
 
   useEffect(() => {
     if (status !== 'loading') return
@@ -24,23 +25,17 @@ export function useAuthGuard(): AuthStatus {
     apiClient
       .get('/accounts/current', { signal: controller.signal })
       .then((res) => {
-        // Rehydrate goalStore from backend if local store has no goal
-        // (covers: localStorage cleared after logout, new device, first login)
-        if (!hasGoal) {
-          const { note, saving } = res.data
-          if (note && saving?.amount > 0) {
-            try {
-              const parsed = JSON.parse(note)
-              rehydrateFromBackend(
-                parsed.goalName ?? note,
-                parsed.goalEmoji ?? '🎯',
-                saving.amount,
-                parsed.targetDate ?? '',
-              )
-            } catch {
-              // Legacy plain-string note — restore name only
-              rehydrateFromBackend(note, '🎯', saving.amount, '')
-            }
+        if (!pendingRemoteSync) {
+          const snapshot = getGoalSnapshotFromAccount(res.data)
+          if (snapshot) {
+            rehydrateFromBackend(
+              snapshot.goalName,
+              snapshot.goalEmoji,
+              snapshot.goalAmount,
+              snapshot.targetDate,
+              snapshot.savedAmount,
+              snapshot.isJustSaving,
+            )
           }
         }
         setStatus('authenticated')
@@ -55,8 +50,7 @@ export function useAuthGuard(): AuthStatus {
         setStatus('expired')
       })
     return () => controller.abort()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status])
+  }, [pendingRemoteSync, rehydrateFromBackend, status])
 
   return status
 }

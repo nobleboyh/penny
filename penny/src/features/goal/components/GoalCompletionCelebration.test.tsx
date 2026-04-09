@@ -8,7 +8,7 @@ vi.mock('../hooks/useGoalProgress', () => ({ useGoalProgress: vi.fn() }))
 vi.mock('../hooks/useGoalCompletion', () => ({ useGoalCompletion: vi.fn() }))
 vi.mock('../../../store/goalStore', () => ({
   useGoalStore: vi.fn((selector: (s: { resetGoal: () => void }) => unknown) =>
-    selector({ resetGoal: vi.fn() })
+    (selector as (s: object) => unknown)({ resetGoal: vi.fn() })
   ),
 }))
 vi.mock('../../../components/PennyAvatar', () => ({
@@ -24,20 +24,20 @@ import { useGoalCompletion } from '../hooks/useGoalCompletion'
 import { useGoalStore } from '../../../store/goalStore'
 
 const mockNavigate = vi.fn()
-const mockReducedMotion = useReducedMotion as ReturnType<typeof vi.fn>
-const mockProgress = useGoalProgress as ReturnType<typeof vi.fn>
-const mockCompletion = useGoalCompletion as ReturnType<typeof vi.fn>
-const mockGoalStore = useGoalStore as ReturnType<typeof vi.fn>
+const mockReducedMotion = vi.mocked(useReducedMotion)
+const mockProgress = vi.mocked(useGoalProgress)
+const mockCompletion = vi.mocked(useGoalCompletion)
+const mockGoalStore = vi.mocked(useGoalStore)
 
 describe('GoalCompletionCelebration', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    ;(useNavigate as ReturnType<typeof vi.fn>).mockReturnValue(mockNavigate)
+    vi.mocked(useNavigate).mockReturnValue(mockNavigate)
     mockReducedMotion.mockReturnValue(false)
-    mockProgress.mockReturnValue({ goalName: 'AirPods', savedAmount: 249, goalAmount: 249 })
+    mockProgress.mockReturnValue({ goalName: 'AirPods', savedAmount: 249, goalAmount: 249 } as unknown as ReturnType<typeof useGoalProgress>)
     mockCompletion.mockReturnValue({ isComplete: true, daysTaken: 30 })
-    mockGoalStore.mockImplementation((selector: (s: { resetGoal: () => void }) => unknown) =>
-      selector({ resetGoal: vi.fn() })
+    mockGoalStore.mockImplementation((selector: unknown) =>
+      (selector as (s: object) => unknown)({ resetGoal: vi.fn() })
     )
   })
 
@@ -74,8 +74,8 @@ describe('GoalCompletionCelebration', () => {
 
   it('"Set new goal" calls resetGoal and navigates to /onboarding/goal', () => {
     const mockReset = vi.fn()
-    mockGoalStore.mockImplementation((selector: (s: { resetGoal: () => void }) => unknown) =>
-      selector({ resetGoal: mockReset })
+    mockGoalStore.mockImplementation((selector: unknown) =>
+      (selector as (s: object) => unknown)({ resetGoal: mockReset })
     )
     vi.useFakeTimers()
     render(<GoalCompletionCelebration onDismiss={vi.fn()} />)

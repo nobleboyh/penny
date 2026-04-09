@@ -1,20 +1,38 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useCurrentAccount, GoalSetupForm } from '../../features/goal'
 import { useGoalProgress } from '../../features/goal/hooks/useGoalProgress'
 import { useGoalCountdown } from '../../features/goal/hooks/useGoalCountdown'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { PennyAvatar } from '../PennyAvatar'
+import { useGoalStore } from '../../store/goalStore'
+import { getGoalSnapshotFromAccount } from '../../features/goal/accountSync'
 
 const fmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
 const dateFmt = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 
 export function GoalProgressCard() {
-  const { isLoading, isError } = useCurrentAccount()
+  const { data, isLoading, isError } = useCurrentAccount()
   const { progressPercent, weeklyTarget, isJustSaving, goalName, goalEmoji, goalAmount, savedAmount, targetDate } = useGoalProgress()
   const { isCountdown, remainingAmount } = useGoalCountdown()
   const reducedMotion = useReducedMotion()
   const [isExpanded, setIsExpanded] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
+  const rehydrateFromBackend = useGoalStore(s => s.rehydrateFromBackend)
+  const pendingRemoteSync = useGoalStore(s => s.pendingRemoteSync)
+
+  useEffect(() => {
+    if (!data || pendingRemoteSync) return
+    const snapshot = getGoalSnapshotFromAccount(data)
+    if (!snapshot) return
+    rehydrateFromBackend(
+      snapshot.goalName,
+      snapshot.goalEmoji,
+      snapshot.goalAmount,
+      snapshot.targetDate,
+      snapshot.savedAmount,
+      snapshot.isJustSaving,
+    )
+  }, [data, pendingRemoteSync, rehydrateFromBackend])
 
   if (isLoading) {
     return (

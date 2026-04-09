@@ -4,10 +4,18 @@ import { GoalSetupForm } from './GoalSetupForm'
 
 const mockSetGoal = vi.fn()
 const mockSetJustSaving = vi.fn()
+const mockMarkRemoteSyncPending = vi.fn()
+const mockClearRemoteSyncPending = vi.fn()
 const mockMutateAsync = vi.fn().mockResolvedValue({})
 
 vi.mock('../../../store/goalStore', () => ({
-  useGoalStore: vi.fn(() => ({ setGoal: mockSetGoal, setJustSaving: mockSetJustSaving })),
+  useGoalStore: vi.fn(() => ({
+    setGoal: mockSetGoal,
+    setJustSaving: mockSetJustSaving,
+    savedAmount: 12,
+    markRemoteSyncPending: mockMarkRemoteSyncPending,
+    clearRemoteSyncPending: mockClearRemoteSyncPending,
+  })),
 }))
 
 vi.mock('../api', () => ({
@@ -57,7 +65,11 @@ describe('GoalSetupForm', () => {
     fireEvent.click(screen.getByRole('button', { name: /next/i }))
 
     expect(mockSetGoal).toHaveBeenCalledWith('Tech', '💻', 249, expect.any(String))
+    expect(mockMarkRemoteSyncPending).toHaveBeenCalled()
     expect(onComplete).toHaveBeenCalled()
+    expect(mockMutateAsync).toHaveBeenCalledWith(expect.objectContaining({
+      note: expect.stringContaining('"savedAmount":12'),
+    }))
   })
 
   it('calls onCancel when cancel button is clicked', () => {
@@ -70,6 +82,7 @@ describe('GoalSetupForm', () => {
     render(<GoalSetupForm onComplete={onComplete} onCancel={onCancel} />)
     fireEvent.click(screen.getByRole('button', { name: /just saving/i }))
     expect(mockSetJustSaving).toHaveBeenCalledTimes(1)
+    expect(mockMarkRemoteSyncPending).toHaveBeenCalledTimes(1)
     expect(onComplete).toHaveBeenCalledTimes(1)
     expect(onCancel).not.toHaveBeenCalled()
   })

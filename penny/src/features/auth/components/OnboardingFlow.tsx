@@ -7,6 +7,8 @@ import { GoalAmountInput } from '../../goal/components/GoalAmountInput'
 import { GoalDatePicker } from '../../goal/components/GoalDatePicker'
 import { PennyIntroScreen } from '../../goal/components/PennyIntroScreen'
 import type { GoalCategory } from '../../goal/types'
+import { buildGoalAccountNote } from '../../goal/accountSync'
+import { queryClient } from '../../../lib/api'
 
 type Step = 'goal-category' | 'goal-amount' | 'goal-date' | 'penny-intro'
 
@@ -14,7 +16,7 @@ const PROGRESS_STEPS: Step[] = ['goal-category', 'goal-amount', 'goal-date']
 
 export function OnboardingFlow() {
   const navigate = useNavigate()
-  const { setGoal, setJustSaving } = useGoalStore()
+  const { setGoal, setJustSaving, savedAmount, markRemoteSyncPending, clearRemoteSyncPending } = useGoalStore()
   const updateAccount = useUpdateAccount()
 
   const [step, setStep] = useState<Step>('goal-category')
@@ -35,7 +37,26 @@ export function OnboardingFlow() {
 
   function handleJustSaving() {
     setJustSaving()
+    markRemoteSyncPending()
     setIntroGoalName(null)
+    updateAccount.mutateAsync({
+      incomes: [],
+      expenses: [],
+      saving: { amount: 0, currency: 'USD', interest: 0, deposit: false, capitalization: false },
+      note: buildGoalAccountNote({
+        goalName: 'Just saving',
+        goalEmoji: '💰',
+        goalAmount: null,
+        targetDate: null,
+        savedAmount,
+        isJustSaving: true,
+      }),
+    }).then(() => {
+      clearRemoteSyncPending()
+      void queryClient.invalidateQueries({ queryKey: ['accounts', 'current'] })
+    }).catch(() => {
+      // non-blocking — goal saved locally
+    })
     setStep('penny-intro')
   }
 
@@ -47,14 +68,24 @@ export function OnboardingFlow() {
   async function handleDateNext(targetDate: string) {
     if (goalAmount === null) return
     setGoal(goalName, goalEmoji, goalAmount, targetDate)
+    markRemoteSyncPending()
     setIntroGoalName(goalName)
     try {
       await updateAccount.mutateAsync({
         incomes: [],
         expenses: [],
         saving: { amount: goalAmount, currency: 'USD', interest: 0, deposit: false, capitalization: false },
-        note: JSON.stringify({ goalName, goalEmoji, targetDate }),
+        note: buildGoalAccountNote({
+          goalName,
+          goalEmoji,
+          goalAmount,
+          targetDate,
+          savedAmount,
+          isJustSaving: false,
+        }),
       })
+      clearRemoteSyncPending()
+      void queryClient.invalidateQueries({ queryKey: ['accounts', 'current'] })
     } catch {
       // non-blocking — goal saved locally
     }

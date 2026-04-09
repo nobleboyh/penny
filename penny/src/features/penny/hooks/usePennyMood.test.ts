@@ -11,19 +11,33 @@ import { useGoalProgress } from '../../goal'
 import { usePennyStore } from '../../../store/pennyStore'
 import { moodEngine } from '../moodEngine'
 
-const mockProgress = useGoalProgress as ReturnType<typeof vi.fn>
-const mockPennyStore = usePennyStore as ReturnType<typeof vi.fn>
-const mockMoodEngine = moodEngine as ReturnType<typeof vi.fn>
+const mockProgress = vi.mocked(useGoalProgress)
+const mockPennyStore = vi.mocked(usePennyStore)
+const mockMoodEngine = vi.mocked(moodEngine)
+
+const baseProgress = {
+  progressPercent: null,
+  weeklyTarget: null,
+  isJustSaving: false,
+  goalName: null,
+  goalEmoji: null,
+  goalAmount: null,
+  savedAmount: 0,
+  targetDate: null,
+} satisfies ReturnType<typeof useGoalProgress>
+
+function makePennyState(mood: string, setMood: () => void) {
+  return (sel: unknown) =>
+    (sel as (s: object) => unknown)({ currentMood: mood, lastReaction: null, setMood, setLastReaction: vi.fn() })
+}
 
 describe('usePennyMood', () => {
   const mockSetMood = vi.fn()
 
   beforeEach(() => {
     vi.clearAllMocks()
-    mockProgress.mockReturnValue({ progressPercent: null })
-    mockPennyStore.mockImplementation((sel: (s: object) => unknown) =>
-      sel({ currentMood: 'idle', setMood: mockSetMood })
-    )
+    mockProgress.mockReturnValue(baseProgress)
+    mockPennyStore.mockImplementation(makePennyState('idle', mockSetMood))
     mockMoodEngine.mockReturnValue('happy')
   })
 
@@ -34,9 +48,7 @@ describe('usePennyMood', () => {
   })
 
   it('returns currentMood from pennyStore', () => {
-    mockPennyStore.mockImplementation((sel: (s: object) => unknown) =>
-      sel({ currentMood: 'excited', setMood: mockSetMood })
-    )
+    mockPennyStore.mockImplementation(makePennyState('excited', mockSetMood))
     const { result } = renderHook(() => usePennyMood())
     expect(result.current).toBe('excited')
   })
@@ -49,9 +61,9 @@ describe('usePennyMood', () => {
   })
 
   it('reacts to progressPercent changes', () => {
-    mockProgress.mockReturnValue({ progressPercent: 50 })
+    mockProgress.mockReturnValue({ ...baseProgress, progressPercent: 50 })
     const { rerender } = renderHook(() => usePennyMood())
-    mockProgress.mockReturnValue({ progressPercent: 100 })
+    mockProgress.mockReturnValue({ ...baseProgress, progressPercent: 100 })
     act(() => { rerender() })
     expect(mockMoodEngine).toHaveBeenCalledTimes(2)
   })

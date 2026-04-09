@@ -17,3 +17,7 @@ target/
 
 # Environment secrets
 .env
+
+.agents/*
+.kiro/*
+_bmad/*

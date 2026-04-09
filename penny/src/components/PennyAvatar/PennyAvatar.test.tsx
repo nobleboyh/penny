@@ -6,14 +6,14 @@ vi.mock('lottie-react', () => ({ default: () => <div data-testid="lottie" /> }))
 vi.mock('../../hooks/useReducedMotion', () => ({ useReducedMotion: vi.fn(() => false) }))
 
 import { useReducedMotion } from '../../hooks/useReducedMotion'
-const mockReducedMotion = useReducedMotion as ReturnType<typeof vi.fn>
+const mockReducedMotion = vi.mocked(useReducedMotion)
 
 describe('PennyAvatar', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockReducedMotion.mockReturnValue(false)
     // Default: fetch fails → emoji fallback
-    global.fetch = vi.fn(() => Promise.reject())
+    globalThis.fetch = vi.fn(() => Promise.reject())
   })
 
   it('renders role="img" and default aria-label', () => {
@@ -50,7 +50,7 @@ describe('PennyAvatar', () => {
   })
 
   it('renders emoji fallback when Lottie fetch fails', async () => {
-    global.fetch = vi.fn(() => Promise.reject())
+    globalThis.fetch = vi.fn(() => Promise.reject())
     render(<PennyAvatar mood="happy" />)
     await waitFor(() => {
       expect(screen.getByText('🐷')).toBeTruthy()
@@ -58,7 +58,7 @@ describe('PennyAvatar', () => {
   })
 
   it('renders Lottie when fetch succeeds', async () => {
-    global.fetch = vi.fn(() =>
+    globalThis.fetch = vi.fn(() =>
       Promise.resolve({ ok: true, json: () => Promise.resolve({ v: '5.0' }) } as Response)
     )
     render(<PennyAvatar mood="happy" />)

@@ -20,5 +20,7 @@ export function useCurrentAccount() {
   return useQuery({
     queryKey: ['accounts', 'current'],
     queryFn: () => apiClient.get<AccountResponse>('/accounts/current').then(r => r.data),
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   })
 }

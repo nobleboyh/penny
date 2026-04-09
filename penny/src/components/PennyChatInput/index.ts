@@ -1,0 +1,1 @@
+export { PennyChatInput } from './PennyChatInput'

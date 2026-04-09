@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-07T16:44:00+07:00
-last_updated: 2026-04-09T21:51:52+07:00
+last_updated: 2026-04-09T23:40:54+07:00
 project: piggymetrics
 project_key: NOKEY
 tracking_system: file-system
@@ -73,7 +73,7 @@ development_status:
   # Epic 4: Transaction Logging & Penny Mascot
   epic-4: in-progress
   4-1-penny-mood-engine-avatar: done
-  4-2-pennychatinput-natural-language-logging: backlog
+  4-2-pennychatinput-natural-language-logging: done
   4-3-transaction-category-correction-fallback-form: backlog
   4-4-contextual-penny-response-at-logging: backlog
   4-5-offline-transaction-logging-sync: backlog

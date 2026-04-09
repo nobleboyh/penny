@@ -8,6 +8,7 @@ interface GoalState {
   savedAmount: number
   targetDate: string | null // ISO 8601 date string
   isJustSaving: boolean
+  pendingRemoteSync: boolean
   _hasHydrated: boolean
 }
 
@@ -17,7 +18,9 @@ interface GoalActions {
   updateSavedAmount: (amount: number) => void
   resetGoal: () => void
   setHasHydrated: (v: boolean) => void
-  rehydrateFromBackend: (name: string, emoji: string, amount: number, targetDate: string) => void
+  markRemoteSyncPending: () => void
+  clearRemoteSyncPending: () => void
+  rehydrateFromBackend: (name: string | null, emoji: string | null, amount: number | null, targetDate: string | null, savedAmount: number, isJustSaving: boolean) => void
 }
 
 type GoalStore = GoalState & GoalActions
@@ -29,6 +32,7 @@ const initialState: GoalState = {
   savedAmount: 0,
   targetDate: null,
   isJustSaving: false,
+  pendingRemoteSync: false,
   _hasHydrated: false,
 }
 
@@ -44,12 +48,29 @@ export const useGoalStore = create<GoalStore>()(
         set((s) => ({ savedAmount: s.savedAmount + amount })),
       resetGoal: () => set(initialState),
       setHasHydrated: (v) => set({ _hasHydrated: v }),
-      // Restore goal from backend when localStorage was cleared (e.g. after logout on another device)
-      rehydrateFromBackend: (name, emoji, amount, targetDate) =>
-        set({ goalName: name, goalEmoji: emoji, goalAmount: amount, targetDate: targetDate || null, isJustSaving: false }),
+      markRemoteSyncPending: () => set({ pendingRemoteSync: true }),
+      clearRemoteSyncPending: () => set({ pendingRemoteSync: false }),
+      rehydrateFromBackend: (name, emoji, amount, targetDate, savedAmount, isJustSaving) =>
+        set({
+          goalName: name,
+          goalEmoji: emoji,
+          goalAmount: amount,
+          targetDate: targetDate || null,
+          savedAmount,
+          isJustSaving,
+          pendingRemoteSync: false,
+        }),
     }),
     {
       name: 'penny-goal',
+      partialize: (state) => ({
+        goalName: state.goalName,
+        goalEmoji: state.goalEmoji,
+        goalAmount: state.goalAmount,
+        savedAmount: state.savedAmount,
+        targetDate: state.targetDate,
+        isJustSaving: state.isJustSaving,
+      }),
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true)
       },
