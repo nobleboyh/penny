@@ -53,7 +53,7 @@ export function OnboardingFlow() {
         incomes: [],
         expenses: [],
         saving: { amount: goalAmount, currency: 'USD', interest: 0, deposit: false, capitalization: false },
-        note: goalName,
+        note: JSON.stringify({ goalName, goalEmoji, targetDate }),
       })
     } catch {
       // non-blocking — goal saved locally

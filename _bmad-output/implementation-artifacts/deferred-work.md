@@ -47,3 +47,8 @@
 
 - `Intl.DateTimeFormat` instantiated inline on every render in `GoalProgressCard.tsx` — minor perf, move to module-level constant
 - `weeklyTarget` fractional value (e.g. $0.003) displays as `$0` due to 0-decimal formatting — cosmetic edge case
+
+## Deferred from: code review of 3-2-create-update-saving-goal (2026-04-09)
+
+- `mutateAsync` called after `onComplete()` in `GoalSetupForm.handleDateNext` — TanStack Query may log an unmounted-component warning since the form is already closed; cosmetic, not a correctness issue [`GoalSetupForm.tsx`]
+- "Just saving" users have no upgrade path to a specific goal from the home screen — the "Edit goal" button only appears in the expanded view which requires an existing goal; dependency on Story 3.3 which explicitly covers this upgrade path

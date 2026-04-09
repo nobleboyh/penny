@@ -1,4 +1,5 @@
 export { GoalCategoryPicker } from './components/GoalCategoryPicker'
+export { GoalSetupForm } from './components/GoalSetupForm'
 export { GoalAmountInput } from './components/GoalAmountInput'
 export { GoalDatePicker } from './components/GoalDatePicker'
 export { PennyIntroScreen } from './components/PennyIntroScreen'

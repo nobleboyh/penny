@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useCurrentAccount } from '../../features/goal'
+import { useCurrentAccount, GoalSetupForm } from '../../features/goal'
 import { useGoalProgress } from '../../features/goal/hooks/useGoalProgress'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 
@@ -11,6 +11,7 @@ export function GoalProgressCard() {
   const { progressPercent, weeklyTarget, isJustSaving, goalName, goalEmoji, goalAmount, savedAmount, targetDate } = useGoalProgress()
   const reducedMotion = useReducedMotion()
   const [isExpanded, setIsExpanded] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
 
   if (isLoading) {
     return (
@@ -44,7 +45,10 @@ export function GoalProgressCard() {
     ...(reducedMotion ? {} : { transition: 'width 500ms ease, box-shadow 500ms ease' }),
   }
 
-  const toggle = () => setIsExpanded(p => !p)
+  const toggle = () => {
+    if (isEditing) return  // Patch 3: don't toggle expand while form is open
+    setIsExpanded(p => !p)
+  }
   const handleKeyDown = (e: React.KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') toggle() }
   const cardLabel = goalName ? `${goalName} goal progress` : 'Goal progress'
 
@@ -116,8 +120,21 @@ export function GoalProgressCard() {
         <p className="text-sm font-semibold" style={{ color: 'var(--color-accent)' }}>🎉 Goal reached!</p>
       )}
 
+      {/* "Set a goal" CTA for users with no goal */}
+      {!goalName && !isJustSaving && !isEditing && (
+        <div className="text-center py-2">
+          <button
+            onClick={(e) => { e.stopPropagation(); setIsEditing(true) }}
+            className="min-h-[44px] px-6 rounded-2xl bg-primary font-bold text-primary-foreground text-sm"
+            aria-label="Set a saving goal"
+          >
+            Set a goal 🎯
+          </button>
+        </div>
+      )}
+
       {/* Expanded detail */}
-      {isExpanded && (
+      {isExpanded && !isEditing && (
         <div className="mt-4 pt-4" style={{ borderTop: '1px solid var(--color-border)' }}>
           {targetDate && (
             <div className="flex justify-between text-sm">
@@ -128,6 +145,32 @@ export function GoalProgressCard() {
           {isJustSaving && (
             <p className="text-muted-foreground text-sm">Every penny counts 🐷</p>
           )}
+          <button
+            onClick={(e) => { e.stopPropagation(); setIsEditing(true) }}
+            className="mt-3 w-full min-h-[44px] rounded-xl border border-border text-sm font-semibold text-muted-foreground hover:border-primary hover:text-primary transition-colors"
+            aria-label="Edit goal"
+          >
+            Edit goal ✏️
+          </button>
+        </div>
+      )}
+
+      {/* Inline GoalSetupForm */}
+      {isEditing && (
+        <div
+          className="mt-4 pt-4"
+          style={{ borderTop: '1px solid var(--color-border)' }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Patch 2: aria-live region so screen readers announce form appearance */}
+          <p className="sr-only" aria-live="polite">
+            {goalName ? 'Update your goal form is open' : 'Set a goal form is open'}
+          </p>
+          <GoalSetupForm
+            mode={goalName ? 'update' : 'create'}  // Patch 1: dynamic mode
+            onComplete={() => { setIsEditing(false); setIsExpanded(false) }}
+            onCancel={() => setIsEditing(false)}
+          />
         </div>
       )}
     </div>

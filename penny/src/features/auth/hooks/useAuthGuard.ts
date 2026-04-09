@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { apiClient } from '../../../lib/api'
+import { useGoalStore } from '../../../store/goalStore'
 import axios from 'axios'
 
 export type AuthStatus = 'loading' | 'authenticated' | 'expired' | 'unauthenticated'
@@ -14,13 +15,36 @@ function getInitialStatus(): AuthStatus {
 
 export function useAuthGuard(): AuthStatus {
   const [status, setStatus] = useState<AuthStatus>(getInitialStatus)
+  const rehydrateFromBackend = useGoalStore(s => s.rehydrateFromBackend)
+  const hasGoal = useGoalStore(s => !!s.goalName)
 
   useEffect(() => {
     if (status !== 'loading') return
     const controller = new AbortController()
     apiClient
       .get('/accounts/current', { signal: controller.signal })
-      .then(() => setStatus('authenticated'))
+      .then((res) => {
+        // Rehydrate goalStore from backend if local store has no goal
+        // (covers: localStorage cleared after logout, new device, first login)
+        if (!hasGoal) {
+          const { note, saving } = res.data
+          if (note && saving?.amount > 0) {
+            try {
+              const parsed = JSON.parse(note)
+              rehydrateFromBackend(
+                parsed.goalName ?? note,
+                parsed.goalEmoji ?? '🎯',
+                saving.amount,
+                parsed.targetDate ?? '',
+              )
+            } catch {
+              // Legacy plain-string note — restore name only
+              rehydrateFromBackend(note, '🎯', saving.amount, '')
+            }
+          }
+        }
+        setStatus('authenticated')
+      })
       .catch((err) => {
         if (axios.isCancel(err)) return
         const isAuthError =
@@ -28,11 +52,10 @@ export function useAuthGuard(): AuthStatus {
         if (isAuthError) {
           try { localStorage.removeItem('access_token') } catch { /* ignore */ }
         }
-        // Both auth errors and network errors redirect to /login.
-        // Token is only cleared on 401/403 — network errors preserve it for retry.
         setStatus('expired')
       })
     return () => controller.abort()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status])
 
   return status

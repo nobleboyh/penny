@@ -17,6 +17,7 @@ interface GoalActions {
   updateSavedAmount: (amount: number) => void
   resetGoal: () => void
   setHasHydrated: (v: boolean) => void
+  rehydrateFromBackend: (name: string, emoji: string, amount: number, targetDate: string) => void
 }
 
 type GoalStore = GoalState & GoalActions
@@ -43,6 +44,9 @@ export const useGoalStore = create<GoalStore>()(
         set((s) => ({ savedAmount: s.savedAmount + amount })),
       resetGoal: () => set(initialState),
       setHasHydrated: (v) => set({ _hasHydrated: v }),
+      // Restore goal from backend when localStorage was cleared (e.g. after logout on another device)
+      rehydrateFromBackend: (name, emoji, amount, targetDate) =>
+        set({ goalName: name, goalEmoji: emoji, goalAmount: amount, targetDate: targetDate || null, isJustSaving: false }),
     }),
     {
       name: 'penny-goal',

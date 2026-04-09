@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-07T16:44:00+07:00
-last_updated: 2026-04-09T15:38:33+07:00
+last_updated: 2026-04-09T20:43:48+07:00
 project: piggymetrics
 project_key: NOKEY
 tracking_system: file-system
@@ -64,7 +64,7 @@ development_status:
   # Epic 3: Goal Management & Home Screen
   epic-3: in-progress
   3-1-goalprogresscard-home-screen-hero: done
-  3-2-create-update-saving-goal: backlog
+  3-2-create-update-saving-goal: done
   3-3-just-saving-goal-mode: backlog
   3-4-goal-countdown-mode: backlog
   3-5-goal-completion-celebration-re-engagement: backlog
