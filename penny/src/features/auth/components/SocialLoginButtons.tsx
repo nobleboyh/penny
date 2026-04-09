@@ -3,18 +3,17 @@ import { useSocialLogin } from '../api'
 import { apiClient } from '../../../lib/api'
 
 interface SocialLoginButtonsProps {
-  onSuccess: (token: string) => void
+  onSuccess: (token: string, isNewUser: boolean) => void
   onError: (message: string) => void
 }
 
-async function registerIfNew(email: string, token: string) {
+async function registerIfNew(email: string, token: string): Promise<boolean> {
   try {
     await apiClient.get('/accounts/current', {
       headers: { Authorization: `Bearer ${token}` },
     })
-    // account exists — skip registration
+    return false // account exists
   } catch {
-    // 401/404 means no account yet — create it
     try {
       await apiClient.post(
         '/accounts/',
@@ -22,8 +21,9 @@ async function registerIfNew(email: string, token: string) {
         { headers: { Authorization: `Bearer ${token}` } },
       )
     } catch {
-      // still swallow — e.g. race condition where another request created it
+      // swallow — race condition
     }
+    return true // new account
   }
 }
 
@@ -48,8 +48,8 @@ export function SocialLoginButtons({ onSuccess, onError }: SocialLoginButtonsPro
             }
             try {
               const result = await socialLogin.mutateAsync({ provider: 'google', idToken: response.access_token })
-              await registerIfNew(result.data.email, result.data.access_token)
-              onSuccess(result.data.access_token)
+              const isNewUser = await registerIfNew(result.data.email, result.data.access_token)
+              onSuccess(result.data.access_token, isNewUser)
               resolve()
             } catch (err) {
               reject(err)
@@ -83,8 +83,8 @@ export function SocialLoginButtons({ onSuccess, onError }: SocialLoginButtonsPro
         identityToken: response.authorization.id_token,
         authorizationCode: response.authorization.code,
       })
-      await registerIfNew(result.data.email, result.data.access_token)
-      onSuccess(result.data.access_token)
+      const isNewUser = await registerIfNew(result.data.email, result.data.access_token)
+      onSuccess(result.data.access_token, isNewUser)
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Apple login failed'
       setErrorMsg(msg)

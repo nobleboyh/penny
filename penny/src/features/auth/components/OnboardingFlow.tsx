@@ -19,6 +19,7 @@ export function OnboardingFlow() {
 
   const [step, setStep] = useState<Step>('goal-category')
   const [goalName, setGoalName] = useState('')
+  const [goalEmoji, setGoalEmoji] = useState('🎯')
   const [goalAmount, setGoalAmount] = useState<number | null>(null)
   const [introGoalName, setIntroGoalName] = useState<string | null>(null)
 
@@ -26,8 +27,9 @@ export function OnboardingFlow() {
   const showProgress = progressIndex >= 0
   const showBack = step === 'goal-amount' || step === 'goal-date'
 
-  function handleCategorySelect(_cat: GoalCategory, name: string) {
+  function handleCategorySelect(_cat: GoalCategory, name: string, emoji: string) {
     setGoalName(name)
+    setGoalEmoji(emoji)
     setStep('goal-amount')
   }
 
@@ -44,7 +46,7 @@ export function OnboardingFlow() {
 
   async function handleDateNext(targetDate: string) {
     if (goalAmount === null) return
-    setGoal(goalName, goalAmount, targetDate)
+    setGoal(goalName, goalEmoji, goalAmount, targetDate)
     setIntroGoalName(goalName)
     try {
       await updateAccount.mutateAsync({

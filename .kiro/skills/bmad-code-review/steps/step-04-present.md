@@ -83,7 +83,10 @@ If `{spec_file}` is **not** set, present only options 1 and 3 (omit option 2 —
 - Deferred: <W>
 - Dismissed: <R>
 
-### 6. `IMPORTANT CANNOT SKIP` Rebuild and test in docker compose
+### 6. `MANDATORY — DO NOT SKIP` Rebuild and test in docker compose
+
+**YOU MUST EXECUTE THIS SECTION BEFORE PROCEEDING TO STEP 7. NO EXCEPTIONS.**
+**CRITICAL: Do NOT update story status, do NOT sync sprint tracking until smoke tests pass.**
 
 **6.1 Rebuild changed services**
 Identify which services or applications were affected by the code changes. Follow the build instructions in `README.md` or `project-context.md` for those services. Do not rebuild unaffected services.
@@ -102,7 +105,9 @@ Test only the surfaces affected by the changes:
 1. Check the **browser/application console log** for client-side errors.
 2. Check the **docker container logs** (`docker logs <service>`) for server-side errors or crash output.
 3. Identify the root cause and implement a fix in the source code.
-4. **Return to step 7.1** and repeat until the smoke test passes cleanly.
+4. **Return to step 6.1** and repeat until the smoke test passes cleanly.
+
+**GATE: Smoke tests must pass before proceeding to step 7.**
 
 
 ### 7. Update story status and sync sprint tracking

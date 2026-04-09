@@ -1,7 +1,7 @@
 import type { GoalCategory } from '../types'
 
 interface Props {
-  onSelect: (category: GoalCategory, name: string) => void
+  onSelect: (category: GoalCategory, name: string, emoji: string) => void
   onJustSaving: () => void
 }
 
@@ -25,7 +25,7 @@ export function GoalCategoryPicker({ onSelect, onJustSaving }: Props) {
         {CATEGORIES.map(({ id, emoji, label }) => (
           <button
             key={id}
-            onClick={() => onSelect(id, label)}
+            onClick={() => onSelect(id, label, emoji)}
             className="flex flex-col items-center justify-center gap-2 min-h-[88px] rounded-2xl border border-border bg-surface p-4 font-semibold text-foreground transition-all hover:border-primary hover:shadow-[0_0_12px_rgba(255,107,107,0.4)] active:scale-95"
             aria-label={`Save for ${label}`}
           >

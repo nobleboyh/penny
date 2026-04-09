@@ -10,7 +10,7 @@ export function Login() {
       <h1 className="mb-2 text-2xl font-bold text-foreground">Let's get started</h1>
       <p className="mb-10 text-muted-foreground">Sign in to save with Penny</p>
       <SocialLoginButtons
-        onSuccess={() => navigate('/onboarding/goal')}
+        onSuccess={(_token, isNewUser) => navigate(isNewUser ? '/onboarding/goal' : '/home')}
         onError={() => {/* error shown inline in SocialLoginButtons */}}
       />
     </main>

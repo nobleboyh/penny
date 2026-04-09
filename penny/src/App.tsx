@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { Onboarding } from './pages/Onboarding'
 import { Login } from './pages/Login'
 import { Home } from './pages/Home'
@@ -19,7 +19,7 @@ function App() {
       <Route path="/journey" element={<AuthGuard><Journey /></AuthGuard>} />
       <Route path="/penny-says" element={<AuthGuard><PennySays /></AuthGuard>} />
       <Route path="/vibe" element={<AuthGuard><MyVibe /></AuthGuard>} />
-      <Route path="*" element={<Navigate to="/onboarding" replace />} />
+      <Route path="*" element={<AuthGuard><Home /></AuthGuard>} />
     </Routes>
   )
 }

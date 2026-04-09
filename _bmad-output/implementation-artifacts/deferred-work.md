@@ -42,3 +42,8 @@
 ## Deferred from: code review of 2-4-just-saving-onboarding-path (2026-04-09)
 
 - `PennyAvatar mood` hardcoded to `happy` in `Home.tsx` regardless of store state — deferred, mood engine is Story 4.1
+
+## Deferred from: code review of 3-1-goalprogresscard-home-screen-hero (2026-04-09)
+
+- `Intl.DateTimeFormat` instantiated inline on every render in `GoalProgressCard.tsx` — minor perf, move to module-level constant
+- `weeklyTarget` fractional value (e.g. $0.003) displays as `$0` due to 0-decimal formatting — cosmetic edge case
