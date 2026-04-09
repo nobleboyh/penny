@@ -7,12 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-/**
- * @author cdov
- */
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -20,10 +18,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private MongoUserDetailsService userDetailsService;
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        // Bypass the entire filter chain for social login — no auth check at all
+        web.ignoring().antMatchers("/social/**");
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http
-                .authorizeRequests().anyRequest().authenticated()
+                .authorizeRequests()
+                    .anyRequest().authenticated()
                 .and()
                 .csrf().disable();
         // @formatter:on

@@ -7,12 +7,14 @@ import javax.validation.constraints.NotNull;
 public class User {
 
 	@NotNull
-	@Length(min = 3, max = 20)
+	@Length(min = 3, max = 100)
 	private String username;
 
 	@NotNull
 	@Length(min = 6, max = 40)
 	private String password;
+
+	private boolean ageConfirmed;
 
 	public String getUsername() {
 		return username;
@@ -28,5 +30,13 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public boolean isAgeConfirmed() {
+		return ageConfirmed;
+	}
+
+	public void setAgeConfirmed(boolean ageConfirmed) {
+		this.ageConfirmed = ageConfirmed;
 	}
 }

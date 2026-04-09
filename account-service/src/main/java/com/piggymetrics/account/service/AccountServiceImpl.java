@@ -48,7 +48,27 @@ public class AccountServiceImpl implements AccountService {
 		Account existing = repository.findByName(user.getUsername());
 		Assert.isNull(existing, "account already exists: " + user.getUsername());
 
-		authClient.createUser(user);
+		try {
+			authClient.createUser(user);
+		} catch (Exception e) {
+			// User may already exist in auth-service (e.g. created via social login).
+			// Walk the cause chain looking for a FeignException with status 400.
+			Throwable cause = e;
+			boolean isUserAlreadyExists = false;
+			while (cause != null) {
+				if (cause instanceof feign.FeignException) {
+					feign.FeignException fe = (feign.FeignException) cause;
+					if (fe.status() == 400 && fe.getMessage() != null && fe.getMessage().contains("user already exists")) {
+						isUserAlreadyExists = true;
+					}
+					break;
+				}
+				cause = cause.getCause();
+			}
+			if (!isUserAlreadyExists) {
+				throw e;
+			}
+		}
 
 		Saving saving = new Saving();
 		saving.setAmount(new BigDecimal(0));

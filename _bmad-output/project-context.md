@@ -146,7 +146,7 @@ _Critical rules and patterns AI agents must follow. Focus on unobvious details._
 ### Environment
 - Backend secrets: `.env` file (gitignored) + Docker Compose `env_file` — NEVER hardcode
 - Frontend env vars: `VITE_` prefix, defined in `.env.local` (gitignored), documented in `.env.example`
-- Required vars: `VITE_API_BASE_URL` (Zuul gateway URL), `VITE_GOOGLE_CLIENT_ID`
+- Required vars: `VITE_API_BASE_URL` (Zuul gateway URL — **leave empty for same-origin/gateway deployments**), `VITE_GOOGLE_CLIENT_ID`
 
 ### Docker Compose Files
 - `docker-compose.yml` — production (pulls images from Docker Hub, `sqshq/piggymetrics-*`)
@@ -177,6 +177,9 @@ _Critical rules and patterns AI agents must follow. Focus on unobvious details._
 - `@GetMapping` / `@PostMapping` in Java → use `@RequestMapping(method = RequestMethod.GET)`
 - Constructor injection in Java → use `@Autowired` field injection
 - Calling statistics-service directly from frontend → always go through Zuul gateway
+- `VITE_API_BASE_URL=http://localhost:80` → use `VITE_API_BASE_URL=` (empty) for same-origin/gateway deployments
+- `PUT /accounts/current` with `saving: { amount, currency, interest }` only → always include `deposit: false, capitalization: false`
+- `POST /accounts/` on every social login → check `GET /accounts/current` first; only register if account doesn't exist
 
 ### Security gates (pre-launch blockers)
 - Auth-service token store MUST be Redis-backed before production ✅ **done — Story 1.2**
@@ -196,6 +199,39 @@ _Critical rules and patterns AI agents must follow. Focus on unobvious details._
 ---
 
 ## Previous Story Learnings
+
+### VITE_API_BASE_URL must be empty for same-origin deployments (Story 2.3)
+- Setting `VITE_API_BASE_URL=http://localhost:80` causes silent API failures in some browsers — the explicit `:80` port in an absolute URL can trigger CORS preflight or same-origin mismatches even though `http://localhost:80` and `http://localhost` are technically the same origin
+- **Fix:** Set `VITE_API_BASE_URL=` (empty string) when the PWA is served through the Zuul gateway. Axios with an empty `baseURL` uses relative paths (`/accounts/current`), which are always same-origin
+- Only set `VITE_API_BASE_URL` to a full URL for cross-origin deployments (e.g. CDN-hosted frontend calling a separate API domain)
+- **Rule:** Default `.env.example` and `.env.local` should have `VITE_API_BASE_URL=` (empty), not `http://localhost:80`
+
+### account-service Saving domain object requires deposit + capitalization (Story 2.3)
+- `PUT /accounts/current` payload's `saving` object requires `deposit: boolean` and `capitalization: boolean` — both are `@NotNull` in `Saving.java`
+- Sending only `{ amount, currency, interest }` returns HTTP 400 with validation errors for `saving.deposit` and `saving.capitalization`
+- **Fix:** Always include `deposit: false, capitalization: false` in the saving payload for initial goal setup
+- Full required payload: `{ incomes: [], expenses: [], saving: { amount, currency: 'USD', interest: 0, deposit: false, capitalization: false }, note: goalName }`
+
+### POST /accounts/ returns 400 "account already exists" on re-login (Story 2.2)
+- Social login flow calls `POST /accounts/` to create the account record after OAuth2 token issuance
+- On subsequent logins, the account already exists — `POST /accounts/` returns HTTP 400 with `IllegalArgumentException: account already exists`
+- **Fix:** Before calling `POST /accounts/`, first call `GET /accounts/current` with the new token. If it returns 200, the account exists — skip registration. Only call `POST /accounts/` if `GET /accounts/current` throws (401/404)
+- Do NOT rely on catching the 400 silently — it fires a real HTTP request and pollutes logs
+
+### React Router v7 installed with --legacy-peer-deps (Story 2.1+)
+- `react-router-dom@7.14.0` was installed with `--legacy-peer-deps` due to peer dependency conflicts
+- Any new npm packages that conflict with existing peer deps must also use `--legacy-peer-deps`
+- Check `package.json` before adding deps — do not assume clean peer dep resolution
+
+### Framer Motion Variants type must be imported explicitly (Story 2.1+)
+- `import { Variants } from 'framer-motion'` — do not inline the type or use `as const` workarounds
+- TypeScript strict mode will reject inlined variant objects without the explicit `Variants` type annotation
+
+### Docker Compose local vs dev (clarified Story 2.3)
+- `docker-compose.local.yml` is the **preferred** local development compose file — builds all images locally with `:local` tags, has proper healthchecks and `depends_on` gates
+- `docker-compose.dev.yml` is a legacy overlay — use only if `docker-compose.local.yml` is unavailable
+- To tear down and restart cleanly: `docker-compose -f docker-compose.local.yml down -v` then `up`
+- The penny nginx container has **no exposed port** in `docker-compose.local.yml` — it is only accessible through the Zuul gateway at port 80
 
 ### Redis + spring-security-oauth2 compatibility (Story 1.2)
 - `spring-security-oauth2:2.2.1` (default via `spring-cloud-starter-oauth2`) is **incompatible** with `spring-data-redis 2.0.x` — `RedisTokenStore` calls `RedisConnection.set(byte[], byte[])` which was removed in spring-data-redis 2.0
@@ -222,4 +258,4 @@ _Critical rules and patterns AI agents must follow. Focus on unobvious details._
 - Update when technology stack changes or new patterns emerge
 - Remove rules that become obvious over time
 
-_Last Updated: 2026-04-08 (Story 1.2 complete — Redis token store, spring-security-oauth2 compatibility fix)_
+_Last Updated: 2026-04-09 (Stories 2.1–2.3 complete — social login, goal onboarding, API payload fixes, VITE_API_BASE_URL lesson)_

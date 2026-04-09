@@ -6,10 +6,12 @@ interface GoalState {
   goalAmount: number | null
   savedAmount: number
   targetDate: string | null // ISO 8601 date string
+  isJustSaving: boolean
 }
 
 interface GoalActions {
   setGoal: (name: string, amount: number, targetDate: string) => void
+  setJustSaving: () => void
   updateSavedAmount: (amount: number) => void
   resetGoal: () => void
 }
@@ -21,6 +23,7 @@ const initialState: GoalState = {
   goalAmount: null,
   savedAmount: 0,
   targetDate: null,
+  isJustSaving: false,
 }
 
 export const useGoalStore = create<GoalStore>()(
@@ -28,7 +31,9 @@ export const useGoalStore = create<GoalStore>()(
     (set) => ({
       ...initialState,
       setGoal: (goalName, goalAmount, targetDate) =>
-        set({ goalName, goalAmount, targetDate }),
+        set({ goalName, goalAmount, targetDate, isJustSaving: false }),
+      setJustSaving: () =>
+        set({ goalName: 'Just saving', goalAmount: null, targetDate: null, isJustSaving: true }),
       updateSavedAmount: (amount) =>
         set((s) => ({ savedAmount: s.savedAmount + amount })),
       resetGoal: () => set(initialState),

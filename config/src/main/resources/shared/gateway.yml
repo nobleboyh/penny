@@ -4,11 +4,13 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 20000
+            timeoutInMilliseconds: 90000
 
 ribbon:
   ReadTimeout: 20000
   ConnectTimeout: 20000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
 
 zuul:
   ignoredServices: '*'

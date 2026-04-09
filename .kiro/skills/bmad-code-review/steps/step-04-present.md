@@ -117,7 +117,28 @@ If `{sprint_status}` file does not exist, note that story status was updated in 
 > **Deferred:** <W>
 > **Dismissed:** <R>
 
-### 7. Next steps
+### 7. Rebuild and test in docker compose
+
+**7.1 Rebuild changed services**
+Identify which services or applications were affected by the code changes. Follow the build instructions in `README.md` or `project-context.md` for those services. Do not rebuild unaffected services.
+
+**7.2 Rerun docker compose**
+Run `docker-compose.local.yml` for the impacted services only. Confirm all containers reach a healthy/running state before proceeding.
+
+**7.3 Smoke test**
+Test only the surfaces affected by the changes:
+
+- **UI** — Navigate to the relevant views. Confirm all elements render correctly and match the acceptance criteria in the user story (layout, visibility, interactions).
+- **API** — Call the affected endpoints. Confirm requests complete without errors and responses conform to the expected schema.
+
+**7.4 If issues are found — diagnose, fix, and retry**
+
+1. Check the **browser/application console log** for client-side errors.
+2. Check the **docker container logs** (`docker logs <service>`) for server-side errors or crash output.
+3. Identify the root cause and implement a fix in the source code.
+4. **Return to step 7.1** and repeat until the smoke test passes cleanly.
+
+### 8. Next steps
 
 Present the user with follow-up options:
 

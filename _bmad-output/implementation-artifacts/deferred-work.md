@@ -33,3 +33,8 @@
 
 - `animate="visible"` fires even when `prefersReduced=true` in `AgeGate.tsx` — harmless in production, may flash in StrictMode dev. Pre-existing Framer Motion behavior.
 - `react-router-dom@7.14.0` installed vs "React Router v6" in architecture spec — API used is compatible with both; no functional breakage.
+
+## Deferred from: code review of 2-2-social-login-google-oauth2-apple-sign-in (2026-04-09)
+
+- Age gate bypassable via direct call to `/uaa/social/*` — requires session state or COPPA enforcement layer; out of scope for story 2.2; revisit before production launch
+- `AppleID.auth.init()` called on every click in `SocialLoginButtons.tsx` — Apple SDK re-init behavior in popup mode is implementation-defined; monitor for issues in integration testing
