@@ -1,19 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { PennyAvatar } from './PennyAvatar'
-
-vi.mock('lottie-react', () => ({ default: () => <div data-testid="lottie" /> }))
-vi.mock('../../hooks/useReducedMotion', () => ({ useReducedMotion: vi.fn(() => false) }))
-
-import { useReducedMotion } from '../../hooks/useReducedMotion'
-const mockReducedMotion = vi.mocked(useReducedMotion)
 
 describe('PennyAvatar', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockReducedMotion.mockReturnValue(false)
-    // Default: fetch fails → emoji fallback
-    globalThis.fetch = vi.fn(() => Promise.reject())
   })
 
   it('renders role="img" and default aria-label', () => {
@@ -49,33 +40,19 @@ describe('PennyAvatar', () => {
     expect(el.getAttribute('style')).toContain('height: 160px')
   })
 
-  it('renders emoji fallback when Lottie fetch fails', async () => {
-    globalThis.fetch = vi.fn(() => Promise.reject())
-    render(<PennyAvatar mood="happy" />)
-    await waitFor(() => {
-      expect(screen.getByText('🐷')).toBeTruthy()
-    })
+  it('renders PNG img for each mood', () => {
+    const moods = ['happy', 'confident', 'peace', 'fierce', 'shocked', 'sad', 'crying', 'angry'] as const
+    for (const mood of moods) {
+      const { unmount } = render(<PennyAvatar mood={mood} />)
+      const img = screen.getAllByRole('img')[0].querySelector('img')
+      expect(img?.getAttribute('src')).toContain(`penny_${mood}.png`)
+      unmount()
+    }
   })
 
-  it('renders Lottie when fetch succeeds', async () => {
-    globalThis.fetch = vi.fn(() =>
-      Promise.resolve({ ok: true, json: () => Promise.resolve({ v: '5.0' }) } as Response)
-    )
-    render(<PennyAvatar mood="happy" />)
-    await waitFor(() => {
-      expect(screen.getByTestId('lottie')).toBeTruthy()
-    })
-  })
-
-  it('renders emoji fallback when reduced motion is true', () => {
-    mockReducedMotion.mockReturnValue(true)
-    render(<PennyAvatar mood="excited" />)
-    expect(screen.getByText('🐷')).toBeTruthy()
-  })
-
-  it('does not render Lottie when reduced motion is true', () => {
-    mockReducedMotion.mockReturnValue(true)
-    render(<PennyAvatar mood="excited" />)
-    expect(screen.queryByTestId('lottie')).toBeNull()
+  it('defaults to peace mood', () => {
+    render(<PennyAvatar />)
+    const img = screen.getByRole('img').querySelector('img')
+    expect(img?.getAttribute('src')).toContain('penny_peace.png')
   })
 })

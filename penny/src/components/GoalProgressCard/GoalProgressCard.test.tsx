@@ -125,13 +125,13 @@ describe('GoalProgressCard', () => {
     mockCountdown.mockReturnValue({ isCountdown: true, remainingAmount: 18 })
     render(<GoalProgressCard />)
     expect(screen.getByText(/you're \$18 away from airpods/i)).toBeInTheDocument()
-    expect(screen.getByRole('img', { name: /penny is excited/i })).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: /penny is happy/i })).toBeInTheDocument()
   })
 
   it('renders PennyAvatar but no message when isCountdown and remainingAmount is null', () => {
     mockCountdown.mockReturnValue({ isCountdown: true, remainingAmount: null })
     render(<GoalProgressCard />)
-    expect(screen.getByRole('img', { name: /penny is excited/i })).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: /penny is happy/i })).toBeInTheDocument()
     expect(screen.queryByText(/you're .* away from/i)).not.toBeInTheDocument()
   })
 

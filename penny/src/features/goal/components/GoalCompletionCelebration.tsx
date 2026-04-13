@@ -43,7 +43,7 @@ export function GoalCompletionCelebration({ onDismiss }: Props) {
       {phase === 'celebration' ? (
         <>
           {!reducedMotion && <div className="confetti-container" aria-hidden="true" />}
-          <PennyAvatar size="lg" mood="celebrating" aria-label="Penny is celebrating your achievement!" />
+          <PennyAvatar size="lg" mood="fierce" aria-label="Penny is celebrating your achievement!" />
           <h1 className="text-3xl font-bold text-center mt-4" style={{ color: 'var(--color-primary)' }}>
             YOU DID IT! 🏆
           </h1>

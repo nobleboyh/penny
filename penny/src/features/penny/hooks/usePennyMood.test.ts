@@ -4,7 +4,7 @@ import { usePennyMood } from './usePennyMood'
 
 vi.mock('../../goal', () => ({ useGoalProgress: vi.fn() }))
 vi.mock('../../../store/streakStore', () => ({ useStreakStore: vi.fn((sel: (s: object) => unknown) => sel({ streakCount: 0, lastLogDate: null })) }))
-vi.mock('../../../store/pennyStore', () => ({ usePennyStore: vi.fn((sel: (s: object) => unknown) => sel({ currentMood: 'idle', setMood: vi.fn() })) }))
+vi.mock('../../../store/pennyStore', () => ({ usePennyStore: vi.fn((sel: (s: object) => unknown) => sel({ currentMood: 'peace', setMood: vi.fn() })) }))
 vi.mock('../moodEngine', () => ({ moodEngine: vi.fn(() => 'happy') }))
 
 import { useGoalProgress } from '../../goal'
@@ -37,7 +37,7 @@ describe('usePennyMood', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockProgress.mockReturnValue(baseProgress)
-    mockPennyStore.mockImplementation(makePennyState('idle', mockSetMood))
+    mockPennyStore.mockImplementation(makePennyState('peace', mockSetMood))
     mockMoodEngine.mockReturnValue('happy')
   })
 
@@ -48,9 +48,9 @@ describe('usePennyMood', () => {
   })
 
   it('returns currentMood from pennyStore', () => {
-    mockPennyStore.mockImplementation(makePennyState('excited', mockSetMood))
+    mockPennyStore.mockImplementation(makePennyState('happy', mockSetMood))
     const { result } = renderHook(() => usePennyMood())
-    expect(result.current).toBe('excited')
+    expect(result.current).toBe('happy')
   })
 
   it('passes recentSpendingHigh: false to moodEngine', () => {

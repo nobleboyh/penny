@@ -1,17 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-export type MoodState =
-  | 'idle'
-  | 'happy'
-  | 'excited'
-  | 'sad'
-  | 'celebrating'
-  | 'worried'
-  | 'proud'
-  | 'neutral'
-  | 'thinking'
-  | 'disappointed'
+export type MoodState = 'happy' | 'confident' | 'peace' | 'fierce' | 'shocked' | 'sad' | 'crying' | 'angry'
 
 interface PennyState {
   currentMood: MoodState
@@ -28,7 +18,7 @@ type PennyStore = PennyState & PennyActions
 export const usePennyStore = create<PennyStore>()(
   persist(
     (set) => ({
-      currentMood: 'idle',
+      currentMood: 'peace',
       lastReaction: null,
       setMood: (mood) => set({ currentMood: mood }),
       setLastReaction: (reaction) => set({ lastReaction: reaction }),

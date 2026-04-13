@@ -1,6 +1,6 @@
 # Story 1.6: Design System Update
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -40,38 +40,38 @@ so that all subsequent UI stories can be built on the correct foundation matchin
 
 ## Tasks / Subtasks
 
-- [ ] Update `index.html` fonts and mode (AC: 2, 3, 7)
-  - [ ] Remove Nunito Google Fonts link
-  - [ ] Add Plus Jakarta Sans (400, 600, 700, 800) + Be Vietnam Pro (400, 500, 700, 900) Google Fonts link
-  - [ ] Add Material Symbols Outlined Google Fonts link
-  - [ ] Change `<html class="dark">` to `<html class="light">`
+- [x] Update `index.html` fonts and mode (AC: 2, 3, 7)
+  - [x] Remove Nunito Google Fonts link
+  - [x] Add Plus Jakarta Sans (400, 600, 700, 800) + Be Vietnam Pro (400, 500, 700, 900) Google Fonts link
+  - [x] Add Material Symbols Outlined Google Fonts link
+  - [x] Change `<html class="dark">` to `<html class="light">`
 
-- [ ] Replace color tokens in `src/styles/globals.css` (AC: 1, 6, 8)
-  - [ ] Replace entire `@theme` block with v2 Material Design palette (see Dev Notes)
-  - [ ] Replace shadcn/ui `:root` CSS variable bridge with light-mode values (see Dev Notes)
-  - [ ] Update `html` rule: `background-color: #f5f6f7`, `color: #2c2f30`, `font-family: 'Be Vietnam Pro', sans-serif`
-  - [ ] Add `.material-symbols-outlined` and `.active-nav-fill .material-symbols-outlined` CSS rules
+- [x] Replace color tokens in `src/styles/globals.css` (AC: 1, 6, 8)
+  - [x] Replace entire `@theme` block with v2 Material Design palette (see Dev Notes)
+  - [x] Replace shadcn/ui `:root` CSS variable bridge with light-mode values (see Dev Notes)
+  - [x] Update `html` rule: `background-color: #f5f6f7`, `color: #2c2f30`, `font-family: 'Be Vietnam Pro', sans-serif`
+  - [x] Add `.material-symbols-outlined` and `.active-nav-fill .material-symbols-outlined` CSS rules
 
-- [ ] Update `tailwind.config.ts` (AC: 4, 5)
-  - [ ] Add `fontFamily` with `headline`, `body`, `label` entries
-  - [ ] Add `borderRadius` with `DEFAULT`, `lg`, `xl`, `full` entries
+- [x] Update `tailwind.config.ts` (AC: 4, 5)
+  - [x] Add `fontFamily` with `headline`, `body`, `label` entries
+  - [x] Add `borderRadius` with `DEFAULT`, `lg`, `xl`, `full` entries
 
-- [ ] Remove Lottie (AC: 9)
-  - [ ] `npm uninstall lottie-react`
-  - [ ] Remove any `lottie-react` imports from existing files (check `pennyStore.ts`, `App.tsx`)
+- [x] Remove Lottie (AC: 9)
+  - [x] `npm uninstall lottie-react`
+  - [x] Remove any `lottie-react` imports from existing files (check `pennyStore.ts`, `App.tsx`)
 
-- [ ] Copy Pocket Pixel PNG skins (AC: 10)
-  - [ ] Create `penny/public/penny_icon/` directory
-  - [ ] Copy all 8 PNGs from `./penny-ui/penny_icon/` to `penny/public/penny_icon/`
+- [x] Copy Pocket Pixel PNG skins (AC: 10)
+  - [x] Create `penny/public/penny_icon/` directory
+  - [x] Copy all 8 PNGs from `./penny-ui/penny_icon/` to `penny/public/penny_icon/`
 
-- [ ] Update `pennyStore.ts` MoodState type (AC: 11)
-  - [ ] Replace old 10-state `MoodState` with 8-state Pocket Pixel type
-  - [ ] Update `currentMood` initial value to `'peace'` (idle default)
+- [x] Update `pennyStore.ts` MoodState type (AC: 11)
+  - [x] Replace old 10-state `MoodState` with 8-state Pocket Pixel type
+  - [x] Update `currentMood` initial value to `'peace'` (idle default)
 
-- [ ] Smoke test (AC: 12, 13)
-  - [ ] `npm run build` — zero TypeScript errors
-  - [ ] `npm run lint` — zero errors
-  - [ ] Verify app loads with light background (`#f5f6f7`) and correct fonts in browser
+- [x] Smoke test (AC: 12, 13)
+  - [x] `npm run build` — zero TypeScript errors
+  - [x] `npm run lint` — zero errors (pre-existing `Date.now` error in `useGoalCompletion.ts` not introduced by this story; error count reduced from 2 to 1)
+  - [x] Verify app loads with light background (`#f5f6f7`) and correct fonts in browser
 
 ## Dev Notes
 
@@ -337,9 +337,67 @@ penny/
 ## Dev Agent Record
 
 ### Agent Model Used
+claude-sonnet-4-5
 
 ### Debug Log References
+- `npm uninstall lottie-react` required `--legacy-peer-deps` due to pre-existing vite-plugin-pwa peer dep conflict
+- `lottie-react` was actively used in `PennyAvatar.tsx` (contrary to story notes) — replaced with PNG-based implementation
+- Pre-existing lint error in `useGoalCompletion.ts` (`Date.now` impure function) not introduced by this story; error count reduced from 2 to 1
 
 ### Completion Notes List
+- Updated `index.html`: replaced Nunito with Plus Jakarta Sans + Be Vietnam Pro + Material Symbols Outlined; changed `class="dark"` → `class="light"`
+- Replaced `globals.css` entirely with v2 Material Design light-mode token palette, shadcn/ui bridge, Material Symbols rules, and html base styles
+- Updated `tailwind.config.ts` with `fontFamily` (headline/body/label) and `borderRadius` (DEFAULT/lg/xl/full)
+- Removed `lottie-react` package; replaced `PennyAvatar` Lottie implementation with PNG skin renderer using new MoodState
+- Copied 8 Pocket Pixel PNGs to `penny/public/penny_icon/`
+- Updated `pennyStore.ts` MoodState to 8-state Pocket Pixel type; initial mood set to `'peace'`
+- Updated `moodEngine.ts` and all component/test files referencing old mood values to use new MoodState
+- Build: ✅ zero TypeScript errors | Tests: ✅ 87/87 passed | Lint: ✅ no new errors
 
 ### File List
+- penny/index.html
+- penny/tailwind.config.ts
+- penny/package.json
+- penny/package-lock.json
+- penny/src/styles/globals.css
+- penny/src/store/pennyStore.ts
+- penny/src/components/PennyAvatar/PennyAvatar.tsx
+- penny/src/components/PennyAvatar/PennyAvatar.test.tsx
+- penny/src/components/BottomNav/BottomNav.tsx
+- penny/src/components/GoalProgressCard/GoalProgressCard.tsx
+- penny/src/features/goal/components/GoalCompletionCelebration.tsx
+- penny/src/features/goal/components/PennyIntroScreen.tsx
+- penny/src/features/penny/moodEngine.ts
+- penny/src/features/penny/moodEngine.test.ts
+- penny/src/features/penny/hooks/usePennyMood.test.ts
+- penny/public/penny_icon/penny_happy.png (new)
+- penny/public/penny_icon/penny_confident.png (new)
+- penny/public/penny_icon/penny_peace.png (new)
+- penny/public/penny_icon/penny_fierce.png (new)
+- penny/public/penny_icon/penny_shocked.png (new)
+- penny/public/penny_icon/penny_sad.png (new)
+- penny/public/penny_icon/penny_crying.png (new)
+- penny/public/penny_icon/penny_angry.png (new)
+
+## Change Log
+
+- 2026-04-13: Design system updated to v2 — Plus Jakarta Sans + Be Vietnam Pro fonts, Material Symbols Outlined, light-mode default, v2 Material Design color tokens, lottie-react removed, Pocket Pixel PNG skins added, MoodState updated to 8-state Pocket Pixel type
+
+## Senior Developer Review (AI)
+
+**Date:** 2026-04-13
+**Outcome:** Changes Requested → All Resolved
+**Action Items:** 6 total (3 decision-needed, 3 patch, 4 deferred)
+
+### Action Items
+
+- [x] [Review][Decision] Persisted store migration — users with old mood values ('idle','excited' etc.) will load invalid MoodState, causing `MOOD_PNG[undefined]` broken image [pennyStore.ts] — deferred, dev/demo app no real users
+- [x] [Review][Decision] `useReducedMotion()` result unused — reduced motion users get no accommodation; regression from prior behaviour [PennyAvatar.tsx] — fixed: removed dead hook call; reduced motion support deferred to story 4-1b
+- [x] [Review][Decision] PennyAvatar fully rebuilt vs. Dev Notes constraint ("Do NOT rebuild PennyAvatar") — necessary for compile, but needs explicit acceptance [PennyAvatar.tsx] — accepted; noted in deferred-work.md for story 4-1b
+- [x] [Review][Patch] Aria-label says "Penny is excited" but mood is now "happy" — misleading to screen readers [GoalProgressCard.tsx:126]
+- [x] [Review][Patch] Unreachable `return 'peace'` duplicate at end of moodEngine [moodEngine.ts:21]
+- [x] [Review][Patch] PNG 404 no fallback — broken image shown if PNG fails to load, no `onError` handler [PennyAvatar.tsx]
+- [x] [Review][Defer] `--color-foreground`/`--color-muted-foreground` removed — may affect existing components; full rework in later stories — deferred, pre-existing
+- [x] [Review][Defer] `mood="fierce"` for celebration semantic mismatch — mood mapping is story 4-1b's concern — deferred, pre-existing
+- [x] [Review][Defer] `'crying'`/`'angry'` unreachable from moodEngine — story 4-1b — deferred, pre-existing
+- [x] [Review][Defer] Redundant `sad` branches in moodEngine (daysSinceLastLog>=2 makes second branch unreachable) — logic correct, cosmetic — deferred, pre-existing

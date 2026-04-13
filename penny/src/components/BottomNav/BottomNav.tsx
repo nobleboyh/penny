@@ -40,7 +40,7 @@ export function BottomNav() {
           aria-label="Penny — log a transaction"
           className="flex flex-col items-center justify-center -mt-4 min-w-[44px] min-h-[44px]"
         >
-          <PennyAvatar size="sm" mood="idle" />
+          <PennyAvatar size="sm" mood="peace" />
         </button>
 
         {TABS.slice(2).map((tab) => (

@@ -123,7 +123,7 @@ export function GoalProgressCard() {
       {isCountdown && (
         <>
           <div className="flex justify-center mb-2">
-            <PennyAvatar size="md" mood="excited" aria-label="Penny is excited — you're almost there!" />
+            <PennyAvatar size="md" mood="happy" aria-label="Penny is happy — you're almost there!" />
           </div>
           {remainingAmount !== null && goalName && (
             <p

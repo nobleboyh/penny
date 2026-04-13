@@ -1,66 +1,91 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Nunito', sans-serif;
+  /* Typography */
+  --font-headline: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Be Vietnam Pro', sans-serif;
+  --font-label: 'Plus Jakarta Sans', sans-serif;
+  --font-sans: 'Be Vietnam Pro', sans-serif;
 
-  /* Penny color tokens */
-  --color-background: #0F0F14;
-  --color-surface: #1A1A24;
-  --color-surface-elevated: #242433;
-  --color-border: #2E2E42;
-  --color-primary: #FF6B6B;
-  --color-primary-foreground: #FFFFFF;
-  --color-secondary: #A78BFA;
-  --color-accent: #34D399;
-  --color-success: #34D399;
-  --color-warning: #FBBF24;
-  --color-muted: #6B7280;
-  --color-foreground: #F9FAFB;
-  --color-muted-foreground: #9CA3AF;
+  /* Primary (violet) */
+  --color-primary: #6a37d4;
+  --color-primary-container: #ae8dff;
+  --color-primary-fixed: #ae8dff;
+  --color-primary-dim: #5e26c7;
+  --color-on-primary: #f8f0ff;
+  --color-on-primary-container: #2b006e;
 
-  /* Border radius */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-full: 9999px;
+  /* Secondary (teal) */
+  --color-secondary: #006859;
+  --color-secondary-container: #26fedc;
+  --color-secondary-fixed: #26fedc;
+  --color-on-secondary: #c2ffef;
+  --color-on-secondary-container: #005d4f;
+
+  /* Tertiary (yellow) */
+  --color-tertiary: #685c00;
+  --color-tertiary-container: #f4db36;
+  --color-tertiary-fixed: #f4db36;
+  --color-on-tertiary-container: #584d00;
+
+  /* Surface scale (light mode) */
+  --color-background: #f5f6f7;
+  --color-surface: #f5f6f7;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #eff1f2;
+  --color-surface-container: #e6e8ea;
+  --color-surface-container-high: #e0e3e4;
+  --color-surface-variant: #dadddf;
+  --color-on-surface: #2c2f30;
+  --color-on-surface-variant: #595c5d;
+  --color-outline: #757778;
+  --color-outline-variant: #abadae;
+
+  /* Semantic */
+  --color-error: #b41340;
+  --color-error-container: #f74b6d;
+  --color-on-error: #ffefef;
 }
 
-/* Penny spacing tokens (CSS vars only — not Tailwind utilities) */
+/* shadcn/ui CSS variable bridge — light mode values */
 :root {
-  --penny-spacing-xs: 4px;
-  --penny-spacing-sm: 8px;
-  --penny-spacing-md: 16px;
-  --penny-spacing-lg: 24px;
-  --penny-spacing-xl: 32px;
-  --penny-spacing-2xl: 48px;
-}
-
-/* shadcn/ui CSS variable bridge (shadcn uses --background, --foreground etc.) */
-:root {
-  --background: 240 10% 7%;
-  --foreground: 210 40% 98%;
-  --card: 240 10% 12%;
-  --card-foreground: 210 40% 98%;
-  --popover: 240 10% 15%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 0 100% 71%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 263 70% 76%;
-  --secondary-foreground: 0 0% 100%;
-  --muted: 240 10% 15%;
-  --muted-foreground: 220 9% 63%;
-  --accent: 160 64% 52%;
-  --accent-foreground: 0 0% 0%;
-  --destructive: 43 96% 56%;
-  --destructive-foreground: 0 0% 0%;
-  --border: 240 15% 22%;
-  --input: 240 15% 22%;
-  --ring: 0 100% 71%;
+  --background: 210 11% 96%;        /* #f5f6f7 */
+  --foreground: 195 5% 18%;         /* #2c2f30 */
+  --card: 0 0% 100%;                /* #ffffff */
+  --card-foreground: 195 5% 18%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 195 5% 18%;
+  --primary: 263 62% 52%;           /* #6a37d4 */
+  --primary-foreground: 270 100% 97%; /* #f8f0ff */
+  --secondary: 172 100% 21%;        /* #006859 */
+  --secondary-foreground: 165 100% 91%; /* #c2ffef */
+  --muted: 200 8% 93%;              /* #eff1f2 */
+  --muted-foreground: 195 3% 36%;   /* #595c5d */
+  --accent: 172 100% 58%;           /* #26fedc */
+  --accent-foreground: 172 100% 21%;
+  --destructive: 344 83% 38%;       /* #b41340 */
+  --destructive-foreground: 0 100% 97%;
+  --border: 195 5% 68%;             /* #abadae */
+  --input: 195 5% 68%;
+  --ring: 263 62% 52%;              /* #6a37d4 */
   --radius: 1rem;
 }
 
+/* Material Symbols icon font settings */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+}
+.active-nav-fill .material-symbols-outlined {
+  font-variation-settings: 'FILL' 1;
+}
+
+/* Bubble tail for Pocket Pixel speech bubble */
+.bubble-tail {
+  border-bottom-left-radius: 0.25rem !important;
+}
+
 html {
-  background-color: var(--color-background);
-  color: #F9FAFB;
-  font-family: 'Nunito', sans-serif;
+  background-color: #f5f6f7;
+  color: #2c2f30;
+  font-family: 'Be Vietnam Pro', sans-serif;
 }

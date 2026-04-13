@@ -52,3 +52,14 @@
 
 - `mutateAsync` called after `onComplete()` in `GoalSetupForm.handleDateNext` — TanStack Query may log an unmounted-component warning since the form is already closed; cosmetic, not a correctness issue [`GoalSetupForm.tsx`]
 - "Just saving" users have no upgrade path to a specific goal from the home screen — the "Edit goal" button only appears in the expanded view which requires an existing goal; dependency on Story 3.3 which explicitly covers this upgrade path
+
+## Deferred from: code review of 1-6-design-system-update (2026-04-13)
+
+- `--color-foreground`/`--color-muted-foreground` removed from @theme — existing components referencing these tokens will silently break; full rework in later stories
+- `mood="fierce"` used for goal completion celebration — semantic mismatch; correct mood mapping is story 4-1b's concern
+- `'crying'` and `'angry'` MoodState values unreachable from moodEngine — will be wired up in story 4-1b
+- Redundant `sad` branches in moodEngine (daysSinceLastLog>=2 makes the daysSinceLastLog>=1 branch unreachable) — logic is correct, cosmetic cleanup deferred
+
+## Note for story 4-1b (PennyAvatar rework) — from 1-6 code review (2026-04-13)
+
+PennyAvatar was partially reworked in story 1-6 (Lottie removed, PNG skin renderer added) as a necessary side-effect of removing lottie-react. Story 4-1b should treat the current PNG implementation as the starting point, not the original Lottie implementation. Reduced motion support was also removed and should be restored in 4-1b.
