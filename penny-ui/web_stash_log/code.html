@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#6a37d4",
+                    "background": "#f5f6f7",
+                    "primary": "#6a37d4",
+                    "on-secondary-fixed": "#00483d",
+                    "secondary": "#006859",
+                    "tertiary-fixed": "#f4db36",
+                    "surface": "#f5f6f7",
+                    "on-primary": "#f8f0ff",
+                    "surface-container-highest": "#dadddf",
+                    "inverse-primary": "#a078ff",
+                    "tertiary-fixed-dim": "#e5cd27",
+                    "tertiary-container": "#f4db36",
+                    "surface-variant": "#dadddf",
+                    "on-secondary-container": "#005d4f",
+                    "error": "#b41340",
+                    "primary-fixed-dim": "#a27cff",
+                    "on-background": "#2c2f30",
+                    "secondary-fixed-dim": "#00efce",
+                    "primary-fixed": "#ae8dff",
+                    "on-tertiary-container": "#584d00",
+                    "on-primary-fixed-variant": "#370086",
+                    "on-tertiary-fixed-variant": "#625600",
+                    "error-container": "#f74b6d",
+                    "surface-container-high": "#e0e3e4",
+                    "surface-dim": "#d1d5d7",
+                    "outline-variant": "#abadae",
+                    "primary-container": "#ae8dff",
+                    "on-error-container": "#510017",
+                    "tertiary": "#685c00",
+                    "on-error": "#ffefef",
+                    "surface-container": "#e6e8ea",
+                    "inverse-on-surface": "#9b9d9e",
+                    "surface-container-lowest": "#ffffff",
+                    "error-dim": "#a70138",
+                    "on-tertiary": "#fff3bf",
+                    "secondary-dim": "#005a4d",
+                    "surface-container-low": "#eff1f2",
+                    "on-surface-variant": "#595c5d",
+                    "on-surface": "#2c2f30",
+                    "secondary-fixed": "#26fedc",
+                    "outline": "#757778",
+                    "on-secondary": "#c2ffef",
+                    "on-tertiary-fixed": "#433a00",
+                    "surface-bright": "#f5f6f7",
+                    "primary-dim": "#5e26c7",
+                    "tertiary-dim": "#5b5000",
+                    "inverse-surface": "#0c0f10",
+                    "on-secondary-fixed-variant": "#006859",
+                    "on-primary-fixed": "#000000",
+                    "secondary-container": "#26fedc",
+                    "on-primary-container": "#2b006e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Be Vietnam Pro"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bubble-tail {
+            border-bottom-left-radius: 0.5rem !important;
+        }
+        .kinetic-shadow {
+            box-shadow: 0 20px 32px -8px rgba(106, 55, 212, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 w-full z-50 bg-white/60 backdrop-blur-xl shadow-sm flex justify-between items-center px-6 py-3 w-full">
+<div class="flex items-center gap-3">
+<span class="text-xl font-black text-violet-700 font-headline">Penny Play</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-violet-100/50 transition-colors scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-slate-600">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-violet-100/50 transition-colors scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-slate-600">account_circle</span>
+</button>
+</div>
+</header>
+<div class="flex min-h-screen pt-20">
+<!-- Side Navigation Anchor -->
+<aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-slate-50 flex-col h-full py-6 pt-20 border-r-0">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center overflow-hidden">
+<img alt="Pocket Pixel Mascot" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoy111CI2xkQ-uLWIm6NPR1RnGNu4XCOBM25-TMA7iNAQue2XslYKSSrKAKQqXsqopeTXOgyYVDgm9I1OXKIkmDkQsfn5QDhlLQ3Zu1fyOG8xC1lmLl0m684oD3MTqqew8u8pWV5rAE0tbumLI5wGP1LK3MkmgliUkuK8ZetqcKkXQcjBkSv6IGcFv2vxu9f9V74v3_QIWPUb6hdlkmaLENfs74tFPqsaZPyX8orvEt-sGemK0rF4zzb1FiJtG7UoFL6FvudSqKjI"/>
+</div>
+<div>
+<h3 class="font-headline font-bold text-on-surface">Hi, Champ!</h3>
+<p class="text-xs text-slate-500">Ready to grow?</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-2 px-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-violet-500 hover:bg-slate-200 rounded-full transition-all scale-[0.98] active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-violet-100 text-violet-700 rounded-full font-medium transition-all scale-[0.98] active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+                    Savings
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-violet-500 hover:bg-slate-200 rounded-full transition-all scale-[0.98] active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+                    Wishlist
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-violet-500 hover:bg-slate-200 rounded-full transition-all scale-[0.98] active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">school</span>
+                    Academy
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-violet-500 hover:bg-slate-200 rounded-full transition-all scale-[0.98] active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+</nav>
+<div class="mt-auto px-6">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold py-4 rounded-full shadow-lg flex items-center justify-center gap-2 scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">mic</span>
+                    Quick Record
+                </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 flex-1 px-6 md:px-12 py-8 max-w-5xl mx-auto">
+<!-- Hero Balance & Mascot Section -->
+<section class="relative mb-12">
+<div class="flex flex-col md:flex-row items-end md:items-center gap-6">
+<!-- Balance Display -->
+<div class="bg-gradient-to-br from-primary to-primary-dim p-8 rounded-xl text-white w-full md:w-auto min-w-[320px] kinetic-shadow">
+<p class="font-label text-sm font-semibold opacity-80 mb-2">Total Stash Balance</p>
+<h1 class="font-headline text-5xl font-black tracking-tight mb-4">$1,240.50</h1>
+<div class="flex gap-2">
+<span class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm">+12% this month</span>
+</div>
+</div>
+<!-- Pocket Pixel Interaction -->
+<div class="flex items-center gap-4 group">
+<div class="relative">
+<div class="absolute -top-12 left-8 bg-surface-container-lowest px-6 py-3 rounded-full bubble-tail kinetic-shadow border border-outline-variant/10 whitespace-nowrap">
+<p class="text-sm font-bold text-primary">You're doing great!</p>
+</div>
+<div class="w-24 h-24 transform group-hover:scale-105 transition-transform duration-300">
+<img alt="New Pocket Pixel Mascot" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTawkUSzdWe5_q2CQ6lU8wV4mGMzdopdgSkyLDJRTztqD1ikrWSokfpCiuPMgjzIsd6qIXKO2YGiqzl9ckSlamNzbIryPet_RDRQe6jgySBXhlKWineGUMr2_xBvnzD-sve_xjbNc_ipWS46IiRbiIGUqPuwz-ytXoEr7wCFc9x6TDXl7LZkCBASrYAaHI-QCarvoE7Qa3NpxwM1xShiBruZFnAoh1sPbzRHVWdExyuc0BPSPXwLXCWKxmY44MmeIIBGWlX0C35Dw"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Saving Log -->
+<section>
+<div class="flex justify-between items-center mb-8">
+<h2 class="font-headline text-2xl font-bold text-on-surface">Saving Log</h2>
+<button class="text-sm font-bold text-primary flex items-center gap-1 hover:underline">
+                        View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Log Entry: Weekly Allowance -->
+<div class="md:col-span-2 bg-secondary-container p-6 rounded-xl flex items-center justify-between group hover:scale-[0.98] transition-all">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-secondary shadow-sm">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<div>
+<h3 class="font-headline text-xl font-bold text-on-secondary-container">Weekly Allowance</h3>
+<p class="text-on-secondary-container/70 font-medium">From Mom &amp; Dad</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline text-2xl font-black text-on-secondary-container">+$25.00</p>
+<p class="text-xs font-bold text-on-secondary-container/50 uppercase tracking-widest">Monday</p>
+</div>
+</div>
+<!-- Log Entry: Dog Walking -->
+<div class="bg-tertiary-container p-6 rounded-xl flex flex-col justify-between group hover:scale-[0.98] transition-all">
+<div class="w-14 h-14 bg-white rounded-full flex items-center justify-center text-tertiary shadow-sm mb-6">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">pets</span>
+</div>
+<div>
+<h3 class="font-headline text-lg font-bold text-on-tertiary-container leading-tight">Dog Walking</h3>
+<p class="text-on-tertiary-container/70 text-sm font-medium mb-4">Neighbor Mr. Henderson</p>
+<p class="font-headline text-2xl font-black text-on-tertiary-container">+$15.00</p>
+</div>
+</div>
+<!-- Log Entry: Birthday Gift -->
+<div class="bg-primary-container p-6 rounded-xl flex flex-col justify-between group hover:scale-[0.98] transition-all">
+<div class="w-14 h-14 bg-white rounded-full flex items-center justify-center text-primary shadow-sm mb-6">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">featured_seasonal_and_gifts</span>
+</div>
+<div>
+<h3 class="font-headline text-lg font-bold text-on-primary-container leading-tight">Birthday Gift</h3>
+<p class="text-on-primary-container/70 text-sm font-medium mb-4">Grandma Alice</p>
+<p class="font-headline text-2xl font-black text-on-primary-container">+$50.00</p>
+</div>
+</div>
+<!-- Log Entry: Chores -->
+<div class="md:col-span-2 bg-surface-container-low p-6 rounded-xl flex items-center justify-between group hover:scale-[0.98] transition-all">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-slate-500 shadow-sm border border-outline-variant/10">
+<span class="material-symbols-outlined text-4xl">mop</span>
+</div>
+<div>
+<h3 class="font-headline text-xl font-bold text-on-surface">Car Wash</h3>
+<p class="text-on-surface-variant font-medium">Extra chores bonus</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline text-2xl font-black text-on-surface">+$10.00</p>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Yesterday</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Floating Action Button -->
+<div class="fixed bottom-8 right-8 z-50">
+<button class="bg-gradient-to-tr from-primary to-primary-container text-white px-8 py-5 rounded-full shadow-xl shadow-primary/30 flex items-center gap-3 font-headline font-bold text-lg hover:scale-105 active:scale-95 transition-all group">
+<span class="material-symbols-outlined text-2xl group-hover:rotate-90 transition-transform">add</span>
+            Add Stash
+        </button>
+</div>
+<!-- Mobile Navigation Bottom Bar -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/60 backdrop-blur-xl h-20 flex items-center justify-around px-4 z-40 border-t border-transparent shadow-[0_-4px_20px_rgba(0,0,0,0.03)]">
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined text-2xl">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-violet-700">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<span class="text-[10px] font-bold">Stash</span>
+</button>
+<div class="w-12"></div> <!-- Space for FAB center -->
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined text-2xl">school</span>
+<span class="text-[10px] font-medium">Learn</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined text-2xl">settings</span>
+<span class="text-[10px] font-medium">Menu</span>
+</button>
+</nav>
+</body></html>

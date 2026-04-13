@@ -91,3 +91,23 @@ So that the app is installable and passes the Lighthouse PWA audit.
 **And** an offline fallback page is served when the network is unavailable
 **And** the app passes Lighthouse installability audit on Chrome
 **And** `src/hooks/useOfflineSync.ts` exists with `navigator.onLine` listener as the single source of truth for online state
+
+## Story 1.6: Design System Update
+
+As a developer,
+I want the Penny design system updated to the v2 visual language (Plus Jakarta Sans, Be Vietnam Pro, Material Symbols, new Material Design color palette, light-mode default, Lottie removed),
+So that all subsequent UI stories can be built on the correct foundation matching the penny-ui designs.
+
+**Acceptance Criteria:**
+
+**Given** the existing dark-mode design system from Story 1.4
+**When** the update is complete
+**Then** `src/styles/globals.css` contains the full v2 Material Design color token palette (primary `#6a37d4`, secondary `#006859`, tertiary `#f4db36`, surface `#f5f6f7`)
+**And** `index.html` loads Plus Jakarta Sans and Be Vietnam Pro from Google Fonts (Nunito removed)
+**And** `index.html` loads Material Symbols Outlined from Google Fonts CDN
+**And** `tailwind.config.ts` defines `fontFamily` with `headline`, `body`, and `label` entries
+**And** `index.html` has `class="light"` on `<html>` (light mode is the default)
+**And** `lottie-react` is removed from `package.json`
+**And** `penny/public/penny_icon/` contains the 8 Pocket Pixel PNG skins from `./penny-ui/penny_icon/`
+**And** `src/store/pennyStore.ts` `MoodState` is updated to the 8 Pocket Pixel moods
+**And** `npm run build` succeeds with zero TypeScript errors

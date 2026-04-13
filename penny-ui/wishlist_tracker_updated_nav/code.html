@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#6a37d4",
+                    "background": "#f5f6f7",
+                    "primary": "#6a37d4",
+                    "on-secondary-fixed": "#00483d",
+                    "secondary": "#006859",
+                    "tertiary-fixed": "#f4db36",
+                    "surface": "#f5f6f7",
+                    "on-primary": "#f8f0ff",
+                    "surface-container-highest": "#dadddf",
+                    "inverse-primary": "#a078ff",
+                    "tertiary-fixed-dim": "#e5cd27",
+                    "tertiary-container": "#f4db36",
+                    "surface-variant": "#dadddf",
+                    "on-secondary-container": "#005d4f",
+                    "error": "#b41340",
+                    "primary-fixed-dim": "#a27cff",
+                    "on-background": "#2c2f30",
+                    "secondary-fixed-dim": "#00efce",
+                    "primary-fixed": "#ae8dff",
+                    "on-tertiary-container": "#584d00",
+                    "on-primary-fixed-variant": "#370086",
+                    "on-tertiary-fixed-variant": "#625600",
+                    "error-container": "#f74b6d",
+                    "surface-container-high": "#e0e3e4",
+                    "surface-dim": "#d1d5d7",
+                    "outline-variant": "#abadae",
+                    "primary-container": "#ae8dff",
+                    "on-error-container": "#510017",
+                    "tertiary": "#685c00",
+                    "on-error": "#ffefef",
+                    "surface-container": "#e6e8ea",
+                    "inverse-on-surface": "#9b9d9e",
+                    "surface-container-lowest": "#ffffff",
+                    "error-dim": "#a70138",
+                    "on-tertiary": "#fff3bf",
+                    "secondary-dim": "#005a4d",
+                    "surface-container-low": "#eff1f2",
+                    "on-surface-variant": "#595c5d",
+                    "on-surface": "#2c2f30",
+                    "secondary-fixed": "#26fedc",
+                    "outline": "#757778",
+                    "on-secondary": "#c2ffef",
+                    "on-tertiary-fixed": "#433a00",
+                    "surface-bright": "#f5f6f7",
+                    "primary-dim": "#5e26c7",
+                    "tertiary-dim": "#5b5000",
+                    "inverse-surface": "#0c0f10",
+                    "on-secondary-fixed-variant": "#006859",
+                    "on-primary-fixed": "#000000",
+                    "secondary-container": "#26fedc",
+                    "on-primary-container": "#2b006e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Be Vietnam Pro"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-morphism {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+      }
+      body {
+        font-family: 'Be Vietnam Pro', sans-serif;
+        color: #2c2f30;
+      }
+      h1, h2, h3 {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Top Navigation -->
+<header class="fixed top-0 w-full z-50 bg-white/60 backdrop-blur-xl shadow-sm flex justify-between items-center px-6 py-3">
+<div class="flex items-center gap-3">
+<span class="text-xl font-black text-violet-700 font-headline">Penny Play</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-violet-100/50 transition-colors scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-slate-600">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-violet-100/50 transition-colors scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-slate-600">account_circle</span>
+</button>
+</div>
+</header>
+<div class="flex h-screen overflow-hidden">
+<!-- Side Navigation (Web) -->
+<aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-slate-50 flex-col py-6 pt-20 border-r-0 shrink-0">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center overflow-hidden">
+<img alt="Pocket Pixel Mascot" class="w-10 h-10 object-contain" data-alt="Cute friendly pixel-art robot character with big expressive eyes and a purple metallic finish waving happily" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoy111CI2xkQ-uLWIm6NPR1RnGNu4XCOBM25-TMA7iNAQue2XslYKSSrKAKQqXsqopeTXOgyYVDgm9I1OXKIkmDkQsfn5QDhlLQ3Zu1fyOG8xC1lmLl0m684oD3MTqqew8u8pWV5rAE0tbumLI5wGP1LK3MkmgliUkuK8ZetqcKkXQcjBkSv6IGcFv2vxu9f9V74v3_QIWPUb6hdlkmaLENfs74tFPqsaZPyX8orvEt-sGemK0rF4zzb1FiJtG7UoFL6FvudSqKjI"/>
+</div>
+<div>
+<h3 class="font-headline font-bold text-on-surface">Hi, Champ!</h3>
+<p class="text-xs text-slate-500">Ready to grow?</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-2 px-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-violet-500 hover:bg-slate-200 rounded-full transition-all scale-[0.98] active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-violet-500 hover:bg-slate-200 rounded-full transition-all scale-[0.98] active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+                Savings
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-violet-100 text-violet-700 rounded-full font-medium transition-all scale-[0.98] active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                Wishlist
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-violet-500 hover:bg-slate-200 rounded-full transition-all scale-[0.98] active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">school</span>
+                Academy
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-violet-500 hover:bg-slate-200 rounded-full transition-all scale-[0.98] active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="mt-auto px-6">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold py-4 rounded-full shadow-lg flex items-center justify-center gap-2 scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">mic</span>
+                Quick Record
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 pt-20 overflow-y-auto px-6 py-8 md:px-12 bg-background">
+<header class="mb-10">
+<h1 class="text-4xl font-black text-on-surface tracking-tight mb-2">My Wishlist</h1>
+<p class="text-on-surface-variant font-medium">Turn your dreams into reality, one pixel at a time.</p>
+</header>
+<!-- Goals Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+<!-- Primary Goal Card: AirPods -->
+<div class="relative group">
+<div class="absolute -top-6 -right-4 z-20 w-28 h-28 transform group-hover:scale-110 transition-transform duration-300">
+<img alt="Pocket Pixel Mascot" class="w-full h-full object-contain" data-alt="The Pocket Pixel mascot wearing oversized professional headphones, looking cool and focused, surrounded by glowing musical notes and star particles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWzAT5wihM-O4-cIvusp_p4g05XvkFtmIvq70LQPSGZfQfQCDkmsO47GZJGjjfRYad2mwLuweHWVzXl7xVCWPGH7ATRd1jlB3mjPJYz_iMp2FVjeP1jTNgF-8fYrHIx_NQ3kkQjgNof_C35Cy-UGqDDuXeNJurzdBDN2eag-RCEaijdCbJyrtE7BqCXaru8HuEH3VInO9C2EXRJeUuqBMrKrxyPOtCc3utwrRWa4GqdcmEee7-VWZntZM5bP5xNlWvhHysKN-cnzg"/>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border-none relative overflow-hidden flex flex-col h-full">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16"></div>
+<div class="flex items-center gap-4 mb-6">
+<div class="w-14 h-14 bg-primary-container/30 rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">headphones</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold text-on-surface">AirPods Pro</h2>
+<p class="text-primary font-bold text-sm">Level 14 · Saving Streak 🔥</p>
+</div>
+</div>
+<div class="mt-auto">
+<div class="flex justify-between items-end mb-3">
+<div>
+<p class="text-slate-500 text-xs font-bold uppercase">Progress</p>
+<p class="text-3xl font-black text-on-surface tracking-tight">$180 <span class="text-lg text-slate-400">/ $249</span></p>
+</div>
+<div class="bg-secondary-container px-3 py-1 rounded-full">
+<span class="text-secondary font-black text-sm">72%</span>
+</div>
+</div>
+<!-- Leveling Progress Bar -->
+<div class="h-6 w-full bg-surface-container-high rounded-full overflow-hidden p-1">
+<div class="h-full bg-gradient-to-r from-primary to-primary-fixed rounded-full relative" style="width: 72%">
+<div class="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.2)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.2)_50%,rgba(255,255,255,0.2)_75%,transparent_75%,transparent)] bg-[length:20px_20px]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Goal Card: New Game -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border-none flex flex-col h-full relative group">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-14 h-14 bg-secondary-container/30 rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-3xl">sports_esports</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold text-on-surface">Cyber Quest DLC</h2>
+<p class="text-secondary font-bold text-sm">Almost there! 🎮</p>
+</div>
+</div>
+<div class="mt-auto">
+<div class="flex justify-between items-end mb-3">
+<div>
+<p class="text-slate-500 text-xs font-bold uppercase">Progress</p>
+<p class="text-3xl font-black text-on-surface tracking-tight">$55 <span class="text-lg text-slate-400">/ $60</span></p>
+</div>
+<div class="bg-tertiary-container px-3 py-1 rounded-full">
+<span class="text-on-tertiary-container font-black text-sm">92%</span>
+</div>
+</div>
+<div class="h-6 w-full bg-surface-container-high rounded-full overflow-hidden p-1">
+<div class="h-full bg-gradient-to-r from-secondary to-secondary-fixed rounded-full relative" style="width: 92%">
+<div class="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.2)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.2)_50%,rgba(255,255,255,0.2)_75%,transparent_75%,transparent)] bg-[length:20px_20px]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Layout for Stats & Tip -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+<!-- Mascot Tip Card -->
+<div class="md:col-span-2 bg-primary p-8 rounded-xl relative overflow-hidden flex items-center gap-8 group">
+<div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20"></div>
+<div class="hidden sm:block shrink-0 relative">
+<div class="w-32 h-32 bg-white/20 rounded-full blur-2xl absolute inset-0"></div>
+<img alt="Pocket Pixel Mascot" class="w-32 h-32 object-contain relative z-10" data-alt="A friendly purple blob mascot floating and pointing to a lightbulb, glowing with magical sparkles and high-energy vibes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClXBFzaNuKk7cf6iSKrMcwm-Cbo70gHMJKPsB9guHjCj0xuDt7ATmDrVAqSvoEBnI14SLxD7UYPWlpOiAhgct25QuqD4x0hTf7QH9rPZs0JvUz_678GPqucec1ukyDZNqu9MtmDZfvduQOfnCJIBQendFDWh5qAqSxoI5EnJWW6YEYEneZDj41bWp1m7NS07pNPhj9Fp6lCsh9kJGMQiSRh1if_N_WhLlg_Q2KghCMa-FgV4O_UWHJDGB0C1JeQYa_ARTP33qFYds"/>
+</div>
+<div class="relative z-10">
+<div class="bg-white/10 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full w-fit mb-4">Pocket Pixel Tip</div>
+<h3 class="text-2xl font-extrabold text-white mb-2 tracking-tight">Level Up Your Savings!</h3>
+<p class="text-primary-container text-lg leading-relaxed">If you round up your weekend spending to the nearest $5, you'll hit your AirPods goal <span class="font-black text-white">12 days faster!</span></p>
+<button class="mt-6 bg-white text-primary px-8 py-3 rounded-full font-bold hover:scale-95 transition-transform">Activate Round-up</button>
+</div>
+</div>
+<!-- Achievements Card -->
+<div class="bg-surface-container-low p-8 rounded-xl">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-xl font-bold text-on-surface">Achievements</h3>
+<span class="material-symbols-outlined text-primary">arrow_forward</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-secondary" style='font-variation-settings: "FILL" 1;'>workspace_premium</span>
+</div>
+<p class="text-xs font-bold text-on-surface">7 Day Streak</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<div class="w-12 h-12 bg-tertiary-container rounded-full flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-on-tertiary-container" style='font-variation-settings: "FILL" 1;'>rocket_launch</span>
+</div>
+<p class="text-xs font-bold text-on-surface">Fast Saver</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center justify-center text-center opacity-40 grayscale">
+<div class="w-12 h-12 bg-surface-container-highest rounded-full flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-slate-500">lock</span>
+</div>
+<p class="text-xs font-bold text-slate-400">Centurion</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<div class="w-12 h-12 bg-primary-container rounded-full flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-primary" style='font-variation-settings: "FILL" 1;'>celebration</span>
+</div>
+<p class="text-xs font-bold text-on-surface">Goal Crusher</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Bottom Navigation (Mobile Only) -->
+<footer class="md:hidden fixed bottom-0 left-0 w-full glass-morphism px-6 py-4 flex justify-between items-center z-50">
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold uppercase">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="text-[10px] font-bold uppercase">Wallet</span>
+</a>
+<div class="-mt-12 bg-primary w-14 h-14 rounded-full flex items-center justify-center shadow-lg shadow-primary/40 border-4 border-background">
+<span class="material-symbols-outlined text-white text-3xl">add</span>
+</div>
+<a class="flex flex-col items-center gap-1 text-violet-700" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="text-[10px] font-bold uppercase">Dreams</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="text-[10px] font-bold uppercase">Learn</span>
+</a>
+</footer>
+<!-- FAB (Contextual) -->
+<button class="hidden md:flex fixed bottom-8 right-8 bg-primary text-white p-6 rounded-full shadow-2xl hover:scale-105 transition-transform z-40 items-center gap-3">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-bold">New Goal</span>
+</button>
+</body></html>

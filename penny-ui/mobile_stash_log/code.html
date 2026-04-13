@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Penny Play - Saving Log</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;family=Be_Vietnam_Pro:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#ae8dff",
+                    "primary-fixed": "#ae8dff",
+                    "secondary-fixed": "#26fedc",
+                    "primary-fixed-dim": "#a27cff",
+                    "inverse-primary": "#a078ff",
+                    "on-tertiary": "#fff3bf",
+                    "on-tertiary-container": "#584d00",
+                    "error-container": "#f74b6d",
+                    "on-primary-fixed": "#000000",
+                    "on-secondary-fixed": "#00483d",
+                    "surface-tint": "#6a37d4",
+                    "secondary-container": "#26fedc",
+                    "on-background": "#2c2f30",
+                    "inverse-on-surface": "#9b9d9e",
+                    "on-primary": "#f8f0ff",
+                    "on-secondary": "#c2ffef",
+                    "outline": "#757778",
+                    "surface-dim": "#d1d5d7",
+                    "inverse-surface": "#0c0f10",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-low": "#eff1f2",
+                    "tertiary": "#685c00",
+                    "tertiary-dim": "#5b5000",
+                    "surface-variant": "#dadddf",
+                    "on-secondary-container": "#005d4f",
+                    "error": "#b41340",
+                    "tertiary-fixed": "#f4db36",
+                    "surface": "#f5f6f7",
+                    "on-surface-variant": "#595c5d",
+                    "surface-container-highest": "#dadddf",
+                    "error-dim": "#a70138",
+                    "on-error-container": "#510017",
+                    "on-tertiary-fixed": "#433a00",
+                    "primary-dim": "#5e26c7",
+                    "on-secondary-fixed-variant": "#006859",
+                    "tertiary-fixed-dim": "#e5cd27",
+                    "secondary-fixed-dim": "#00efce",
+                    "secondary": "#006859",
+                    "on-primary-fixed-variant": "#370086",
+                    "tertiary-container": "#f4db36",
+                    "on-surface": "#2c2f30",
+                    "primary": "#6a37d4",
+                    "surface-container": "#e6e8ea",
+                    "on-tertiary-fixed-variant": "#625600",
+                    "surface-bright": "#f5f6f7",
+                    "on-error": "#ffefef",
+                    "outline-variant": "#abadae",
+                    "on-primary-container": "#2b006e",
+                    "secondary-dim": "#005a4d",
+                    "surface-container-high": "#e0e3e4",
+                    "background": "#f5f6f7"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Be Vietnam Pro"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .squish {
+            transform: scale(0.95);
+        }
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f5f6f7;
+            color: #2c2f30;
+            overflow: hidden; /* Prevent body scrolling */
+        }
+        .kinetic-gradient {
+            background: linear-gradient(135deg, #6a37d4 0%, #ae8dff 100%);
+        }
+    </style>
+</head>
+<body class="bg-background h-screen flex flex-col">
+<!-- TopAppBar -->
+<nav class="shrink-0 bg-surface-container-low/60 backdrop-blur-xl z-50">
+<div class="flex justify-between items-center px-6 h-14 w-full max-w-md mx-auto">
+<div class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary hover:scale-95 transition-transform">
+<img alt="Profile Avatar" class="w-full h-full object-cover" data-alt="Close-up portrait of a cheerful teenager with modern haircut and stylish glasses against a vibrant purple studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGfpCW8FgVaSWqUGYBAEs1Nn8NVXRZ6jxHQ_qUecjO3sj5Z3aOOPo6KGX-rbc57yFiaJznB1vdbe91o1jDd3F0XdrvcHPM8x0liNCgZ7LPITyv5AVooCVJ6U62X2faH-Isb4f67cLthCzt_ofqwysVlTvwBF2Z6PyBdm62rAoaeIXEtqHeWHrao7tBf0ai5K01RwF3Qu6_d0nibrvrB9bllxn1ebB4MWd8EonkXPPGpFEdaUt4B-evBa1uuwfft-vvbAd7szE8CrY"/>
+</div>
+<h1 class="text-xl font-black tracking-tighter text-violet-600 dark:text-violet-400 font-['Plus_Jakarta_Sans']">Penny Play</h1>
+<button class="text-violet-600 dark:text-violet-400 hover:scale-95 transition-transform active:squish duration-200">
+<span class="material-symbols-outlined text-xl" data-icon="account_balance_wallet">account_balance_wallet</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 px-6 max-w-md mx-auto space-y-4 overflow-hidden flex flex-col pt-2">
+<!-- Header Section -->
+<header class="shrink-0">
+<h2 class="text-2xl font-extrabold font-headline tracking-tight text-on-surface">Saving Log</h2>
+<p class="text-xs text-on-surface-variant font-body">Tracking your wealth, one penny at a time!</p>
+</header>
+<!-- Total Stash Card (Hero Section) - Reduced size -->
+<section class="kinetic-gradient p-6 rounded-xl shadow-none text-on-primary flex flex-col justify-between aspect-[2/1] relative overflow-hidden shrink-0">
+<div class="relative z-10">
+<span class="font-label font-bold uppercase tracking-widest text-[9px] opacity-80">Total Stash Balance</span>
+<div class="flex items-baseline gap-1">
+<span class="text-2xl font-black font-headline tracking-tighter">$</span>
+<span class="text-4xl font-black font-headline tracking-tighter">1,284.50</span>
+</div>
+</div>
+<div class="relative z-10 flex justify-between items-center">
+<div class="flex -space-x-1.5">
+<div class="w-6 h-6 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px]" data-icon="trending_up">trending_up</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-secondary-container/40 backdrop-blur-md border border-white/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px]" data-icon="savings">savings</span>
+</div>
+</div>
+<div class="bg-white/20 backdrop-blur-md rounded-full px-3 py-0.5 border border-white/30">
+<span class="text-[10px] font-bold">+12% this month</span>
+</div>
+</div>
+<!-- Decorative Shapes -->
+<div class="absolute -right-6 -bottom-6 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+<div class="absolute -left-6 -top-6 w-24 h-24 bg-secondary-container/20 rounded-full blur-xl"></div>
+</section>
+<!-- Pocket Pixel Mascot Tip - Reduced size -->
+<section class="relative bg-tertiary-container p-3 rounded-lg rounded-bl-sm flex items-center gap-3 shrink-0">
+<div class="w-10 h-10 shrink-0">
+<img alt="Pocket Pixel Mascot" class="w-full h-full object-contain drop-shadow-md" data-alt="A cute small geometric purple character with big expressive eyes and a friendly smile, stylized 3D mascot look" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPiPNOC3ksOsiDzRGCkY2Gy9J94XlGnlpg09-UyY1C3fj-aLsfztM58RhySRZyiDlIjo7rYTZcFjqd3of5F3ZBuRcAzVmC-zOVSgqGT9_bvUQ87Za8WyDAVRl835sM2gephusqQua-xh_P0ARkiCRJmwKG7GWUj9RZA5wIgY6N8mY11yqTzy0c9Pf5b3EjPuI_qqk_LbZCO26-mZPkFXXk4JzVtkdWkBojoZZw0D1HdAu_YT6WHSJQ1-VCwm_5kMRLpXjQCZ0lfOw"/>
+</div>
+<div class="flex-1">
+<p class="text-[11px] text-on-tertiary-container leading-tight">
+<span class="font-bold font-headline block text-[12px]">Pocket Pixel:</span>
+"You're 80% to your skateboard goal! Keep it up!"
+</p>
+</div>
+</section>
+<!-- Transactions List - Limited to top 3 items to fit screen -->
+<section class="flex-1 flex flex-col min-h-0">
+<div class="flex justify-between items-center mb-2 shrink-0">
+<h3 class="text-base font-bold font-headline text-on-surface">Recent Stashings</h3>
+<button class="text-primary font-bold text-xs">See All</button>
+</div>
+<!-- Transaction Cards (Bento Style) -->
+<div class="space-y-3 overflow-hidden">
+<!-- Weekly Allowance -->
+<div class="bg-surface-container-lowest p-4 rounded-lg flex items-center justify-between shadow-sm border-l-4 border-primary-container">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl" data-icon="payments">payments</span>
+</div>
+<div>
+<p class="font-bold text-sm text-on-surface">Weekly Allowance</p>
+<p class="text-[10px] text-on-surface-variant">Today, 9:00 AM</p>
+</div>
+</div>
+<p class="text-base font-black text-secondary-dim">+$25.00</p>
+</div>
+<!-- Dog Walking -->
+<div class="bg-surface-container-lowest p-4 rounded-lg flex items-center justify-between shadow-sm border-l-4 border-secondary-container">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-xl" data-icon="pets">pets</span>
+</div>
+<div>
+<p class="font-bold text-sm text-on-surface">Dog Walking</p>
+<p class="text-[10px] text-on-surface-variant">Yesterday, 4:30 PM</p>
+</div>
+</div>
+<p class="text-base font-black text-secondary-dim">+$15.00</p>
+</div>
+<!-- Game Reward -->
+<div class="bg-surface-container-lowest p-4 rounded-lg flex items-center justify-between shadow-sm border-l-4 border-tertiary-container">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-container/20 flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined text-xl" data-icon="sports_esports">sports_esports</span>
+</div>
+<div>
+<p class="font-bold text-sm text-on-surface">Game Reward</p>
+<p class="text-[10px] text-on-surface-variant">Mar 22, 2:15 PM</p>
+</div>
+</div>
+<p class="text-base font-black text-secondary-dim">+$5.50</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="shrink-0 flex justify-around items-center px-4 pb-6 pt-2 bg-surface-container-low/60 backdrop-blur-xl rounded-t-[2.5rem] z-50 shadow-[0_-4px_20px_rgb(0,0,0,0.05)]">
+<!-- Home -->
+<button class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-1.5 hover:bg-violet-50 dark:hover:bg-slate-800 scale-95 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined text-xl" data-icon="grid_view">grid_view</span>
+<span class="font-['Be_Vietnam_Pro'] text-[9px] font-bold uppercase tracking-widest mt-0.5">Home</span>
+</button>
+<!-- Wishlist -->
+<button class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-1.5 hover:bg-violet-50 dark:hover:bg-slate-800 scale-95 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined text-xl" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-['Be_Vietnam_Pro'] text-[9px] font-bold uppercase tracking-widest mt-0.5">Wishlist</span>
+</button>
+<!-- Stash (ACTIVE) -->
+<button class="flex flex-col items-center justify-center bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-200 rounded-full px-4 py-1.5 scale-95 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined text-xl" data-icon="database">database</span>
+<span class="font-['Be_Vietnam_Pro'] text-[9px] font-bold uppercase tracking-widest mt-0.5">Stash</span>
+</button>
+<!-- Profile -->
+<button class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-1.5 hover:bg-violet-50 dark:hover:bg-slate-800 scale-95 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined text-xl" data-icon="person">person</span>
+<span class="font-['Be_Vietnam_Pro'] text-[9px] font-bold uppercase tracking-widest mt-0.5">Profile</span>
+</button>
+</nav>
+</body></html>

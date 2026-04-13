@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Penny Play - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Be_Vietnam_Pro:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#ae8dff",
+                        "primary-fixed": "#ae8dff",
+                        "secondary-fixed": "#26fedc",
+                        "primary-fixed-dim": "#a27cff",
+                        "inverse-primary": "#a078ff",
+                        "on-tertiary": "#fff3bf",
+                        "on-tertiary-container": "#584d00",
+                        "error-container": "#f74b6d",
+                        "on-primary-fixed": "#000000",
+                        "on-secondary-fixed": "#00483d",
+                        "surface-tint": "#6a37d4",
+                        "secondary-container": "#26fedc",
+                        "on-background": "#2c2f30",
+                        "inverse-on-surface": "#9b9d9e",
+                        "on-primary": "#f8f0ff",
+                        "on-secondary": "#c2ffef",
+                        "outline": "#757778",
+                        "surface-dim": "#d1d5d7",
+                        "inverse-surface": "#0c0f10",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#eff1f2",
+                        "tertiary": "#685c00",
+                        "tertiary-dim": "#5b5000",
+                        "surface-variant": "#dadddf",
+                        "on-secondary-container": "#005d4f",
+                        "error": "#b41340",
+                        "tertiary-fixed": "#f4db36",
+                        "surface": "#f5f6f7",
+                        "on-surface-variant": "#595c5d",
+                        "surface-container-highest": "#dadddf",
+                        "error-dim": "#a70138",
+                        "on-error-container": "#510017",
+                        "on-tertiary-fixed": "#433a00",
+                        "primary-dim": "#5e26c7",
+                        "on-secondary-fixed-variant": "#006859",
+                        "tertiary-fixed-dim": "#e5cd27",
+                        "secondary-fixed-dim": "#00efce",
+                        "secondary": "#006859",
+                        "on-primary-fixed-variant": "#370086",
+                        "tertiary-container": "#f4db36",
+                        "on-surface": "#2c2f30",
+                        "primary": "#6a37d4",
+                        "surface-container": "#e6e8ea",
+                        "on-tertiary-fixed-variant": "#625600",
+                        "surface-bright": "#f5f6f7",
+                        "on-error": "#ffefef",
+                        "outline-variant": "#abadae",
+                        "on-primary-container": "#2b006e",
+                        "secondary-dim": "#005a4d",
+                        "surface-container-high": "#e0e3e4",
+                        "background": "#f5f6f7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Be Vietnam Pro"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Be Vietnam Pro', sans-serif; }
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .squish:active { transform: scale(0.95); }
+    </style>
+</head>
+<body class="bg-background text-on-background h-screen flex flex-col overflow-hidden selection:bg-primary-container/30">
+<!-- Background Decoration Elements -->
+<div class="fixed inset-0 z-0 pointer-events-none">
+<div class="absolute top-[-10%] left-[-20%] w-[80%] h-[40%] bg-primary-container/15 blur-[120px] rounded-full"></div>
+<div class="absolute bottom-[-10%] right-[-20%] w-[80%] h-[40%] bg-secondary-container/15 blur-[120px] rounded-full"></div>
+<!-- Floating Elements -->
+<div class="absolute top-[10%] right-[10%] opacity-40">
+<span class="material-symbols-outlined text-tertiary-fixed text-4xl" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div class="absolute top-[20%] left-[8%] opacity-30">
+<span class="material-symbols-outlined text-primary-container text-6xl" data-icon="circle" style="font-variation-settings: 'FILL' 1;">circle</span>
+</div>
+<div class="absolute bottom-[20%] right-[12%] opacity-25">
+<span class="material-symbols-outlined text-secondary-fixed text-5xl" data-icon="token" style="font-variation-settings: 'FILL' 1;">token</span>
+</div>
+</div>
+<!-- Success Toast (Repositioned to not block content) -->
+<div class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-xs z-50">
+<div class="bg-secondary-container text-on-secondary-container px-6 py-3 rounded-[2rem] shadow-xl flex items-center gap-3 border border-white/20">
+<div class="w-8 h-8 flex-shrink-0">
+<img alt="Pixel success jump" class="w-full h-full object-contain" data-alt="Small cute digital coin mascot doing a star jump pose with happy sparkling eyes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9q1R991Z4jXSPpv762h3d85DpsMXfK0HJ79xXUvzdicE-Gi6aJgn1X0TenBusZ1e-Ok_wp3S-jRKJbeWxDelpiVU1fA-z4-tqmtYrlUC5PuXKlMt83jAW2RGGhGMirh345L8wY3phNe2zxd0dLzxLoG4H5UDCzooNbbFgrPshsC2WW1cSM1I3XpTxGB-DAdYla-H1-H87zVSsJhU79YHU1ikF9pizMHZUgonTiTtoNnyRR1sKEXw-Q5hV8AssTWuO6BK-DH2kM5o"/>
+</div>
+<p class="text-xs font-bold leading-tight">Welcome back! Ready to earn some coins?</p>
+<div class="absolute -bottom-1.5 left-8 w-3 h-3 bg-secondary-container rotate-45"></div>
+</div>
+</div>
+<!-- Main Content Canvas -->
+<main class="relative z-10 flex-1 flex flex-col items-center justify-center px-8 text-center overflow-hidden">
+<div class="flex flex-col items-center justify-center max-h-full">
+<!-- Mascot Section -->
+<div class="relative mb-8 shrink-0">
+<div class="absolute inset-0 bg-primary-container/20 blur-3xl rounded-full scale-125"></div>
+<div class="relative w-40 h-40 md:w-56 md:h-56 flex items-center justify-center">
+<img alt="Pocket Pixel mascot" class="w-full h-full object-contain" data-alt="A friendly, round golden coin mascot with a cute digital face and small expressive hands, floating in a playful, welcoming pose" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmBpte-WmXpEgfVVArTQYeA7PSG1JCHrEfCLa_XZ2jI25E377HYTWRjFWC8eL1TXVtNmSQzVYvsqowfP2vyIQjVmM937bhYw9xOHsV4Vk6FSHwZyGqMWZAmua9mw_uKeREcpOJ6udY0DuBijFVD_3wx3XWTHREbHdF75s7V-qos2HJh4uQYkx_SQYyWuo0bfFTW4CGNWIqh83AuZRTak2E7SQpOCtdTKVqESwgwWbQPqRGtxv7XLXHjGLR60-orTWh_mE7PicrSS8"/>
+</div>
+</div>
+<!-- Branding & Value Prop -->
+<div class="space-y-2 mb-10 shrink-0">
+<h1 class="text-4xl md:text-5xl font-black tracking-tighter text-primary">
+                    Penny Play
+                </h1>
+<p class="text-on-surface-variant text-base font-medium max-w-[260px] mx-auto leading-tight">
+                    Level up your money game while having a blast.
+                </p>
+</div>
+<!-- Action Section -->
+<div class="w-full max-w-sm space-y-4 shrink-0">
+<button class="group w-full py-4 px-6 rounded-full bg-surface-container-lowest shadow-lg shadow-black/5 flex items-center justify-center gap-4 transition-all duration-300 hover:shadow-xl active:scale-95 squish border border-outline/5">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+<span class="text-on-surface font-bold text-base tracking-tight">Login with Google</span>
+</button>
+<!-- Bottom Note -->
+<p class="text-on-surface-variant text-[11px] font-medium leading-relaxed max-w-[220px] mx-auto opacity-70">
+                    By signing in, you agree to our Terms and let Pixel show you the ropes!
+                </p>
+</div>
+</div>
+</main>
+<!-- Decorative Bottom Footer -->
+<footer class="relative z-10 py-6 flex flex-col items-center gap-4 shrink-0">
+<div class="flex gap-8 items-center text-on-surface-variant opacity-60">
+<span class="text-[10px] font-bold uppercase tracking-widest">Privacy</span>
+<div class="w-1 h-1 bg-outline-variant rounded-full"></div>
+<span class="text-[10px] font-bold uppercase tracking-widest">Support</span>
+</div>
+</footer>
+</body></html>

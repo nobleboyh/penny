@@ -3,800 +3,722 @@ stepsCompleted: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 inputDocuments:
   - "_bmad-output/planning-artifacts/product-brief-penny.md"
   - "_bmad-output/planning-artifacts/product-brief-penny-distillate.md"
+  - "penny-ui/mobile_dashboard/code.html"
+  - "penny-ui/mobile_wishlist/code.html"
+  - "penny-ui/mobile_stash_log/code.html"
+  - "penny-ui/wishlist_tracker_updated_nav/code.html"
+  - "penny-ui/unified_stash_dashboard/code.html"
+  - "penny-ui/web_stash_log/code.html"
+  - "penny-ui/mobile_login/code.html"
+  - "penny-ui/web_login/code.html"
+  - "_bmad-output/planning-artifacts/sprint-change-proposal-2026-04-13.md"
+lastUpdated: 2026-04-13
+changeReason: Full rewrite — new design from penny-ui Google Stitch export. Product name is Penny (not Penny Play).
 ---
 
-# UX Design Specification Penny
+# UX Design Specification — Penny
 
 **Author:** Itobeo
-**Date:** 2026-04-05
+**Date:** 2026-04-13
+**Version:** 2.0 (post sprint-change-proposal-2026-04-13)
+
+> **Source of truth:** All screen specs in this document are derived from `./penny-ui/` HTML and PNG files.
+> **Product name:** Penny (not "Penny Play" — update all design screens accordingly).
 
 ---
-
-<!-- UX design content will be appended sequentially through collaborative workflow steps -->
 
 ## Executive Summary
 
 ### Project Vision
 
-Penny is a free Progressive Web App (PWA) that reframes personal finance for teenagers as a companion experience rather than a budgeting tool. Built on the PiggyMetrics microservices foundation, Penny is a complete rebrand centered on a single animated pig mascot — also named Penny — who acts as financial advisor, emotional anchor, and habit coach. Every interaction flows through her. The core insight: teens don't need a dashboard, they need a saving buddy.
+Penny is a free Progressive Web App (PWA) that reframes personal finance for teenagers as a companion experience rather than a budgeting tool. Built on the PiggyMetrics microservices foundation, Penny is a complete rebrand centered on a customizable pixel-art character — **Pocket Pixel** — who acts as financial advisor, emotional anchor, and habit coach. Every interaction flows through them.
+
+This v2 design replaces the original dark-mode neon aesthetic with a **light-mode-first, Material Design-inspired system** using a clean purple/teal/yellow palette. The mascot changes from an animated Lottie pig to static PNG sprite skins. Transaction logging shifts from text chat to a **voice-first "Tap to Speak"** interaction with text fallback.
 
 ### Target Users
 
-**Primary:** Teens aged 13–19 with any income source (allowance, part-time job, birthday money, gig work) who want to save for a specific goal — AirPods, sneakers, a trip, a car. They are already motivated to save; they just need a system that doesn't feel like homework. No bank account required. They discover Penny via a shared link on TikTok or Instagram and must be actively using the app within 90 seconds of clicking.
+**Primary:** Teens aged 13–19 with any income source (allowance, part-time job, birthday money, gig work) saving toward a specific goal. No bank account required. Must be actively using the app within 90 seconds of tapping a shared link.
 
 **Not targeted in v1:** Under-13s, parents (no oversight features), adults.
 
-### Key Design Challenges
+### What Changed from v1 (Sprint Change Proposal 2026-04-13)
 
-1. **Cold start on PWA** — The onboarding flow is make-or-break. A teen tapping a social media link on mobile must reach their first "aha moment" (goal set + Penny introduced) in under 2 minutes or they abandon.
-2. **Manual logging fatigue** — No bank connection means every transaction is manual. The Penny chat-style quick-add must feel as effortless as sending a text message, or churn happens within days.
-3. **Mascot consistency at scale** — Penny's mood states, voice, and contextual reactions must feel alive and personal across every screen and interaction — not like a static illustration on a finance app.
+| Dimension | v1 Design | v2 Design (this spec) |
+|---|---|---|
+| Mascot | Animated pig (Lottie, 10 mood states) | Pocket Pixel — static PNG skins (8 moods) |
+| Visual style | Dark mode default, neon glow | Light mode default, clean purple/teal/yellow |
+| Design system | Tailwind + shadcn/ui + Framer Motion + Lottie | Tailwind + Material Symbols + Plus Jakarta Sans + Be Vietnam Pro |
+| Mobile nav | Home / Wishlist / Penny FAB / Stats / Profile | Home / Wishlist / Stash / Profile |
+| Web nav | Not specified | Left sidebar: Dashboard / Savings / Wishlist / Academy / Settings + Quick Record FAB |
+| Goals terminology | "Goals" / "Saving Goal" | "Dreams" / "Wishlist" |
+| Transactions | "Money In / Money Out" | "Stash" / "Stashings" / "Saving Log" |
+| Transaction logging | Text chat bottom sheet | "Tap to Speak" voice-first + text fallback |
+| Home hero | Single GoalProgressCard | Multi-goal horizontal scroll "Your Dreams" + Pocket Pixel tip banner |
+| New section | — | Academy (quizzes, pixel coins) |
+| Achievements | Saver Level (Bronze→Penny Legend) | Achievement badges (First $10, 7 Day, $100 Club, 3 Goals) + Level system |
 
-### Design Opportunities
+**Authentication (Epic 2): Excluded from change — all Epic 2 stories remain as-is.**
 
-1. **What If Simulator as the hero feature** — No competitor has this. It should be prominently discoverable, not buried. Its shareable output card (screenshot-worthy, TikTok/Instagram native) is the primary viral distribution mechanic.
-2. **Milestone moments as distribution events** — Goal countdown mode, completion celebrations, Saver Level unlocks — each is a moment teens will screenshot and share. Design these as mini-campaigns, not just UI states.
-3. **Teen-native language as UX** — "Money In / Money Out," "My Vibe," "Penny Says," "Boring Stuff ⚙️" — the copy IS the experience. Language consistency across every touchpoint signals to teens that this was genuinely made for them.
-
-## Core User Experience
-
-### Defining Experience
-
-The core loop of Penny is: **log → see progress → feel motivated → log again**. The most frequent and critical user action is transaction logging via the Penny chat-style quick-add. Every other feature (streaks, simulator, stats) is downstream of this habit. If logging feels like homework, the product fails regardless of how good everything else is.
-
-### Platform Strategy
-
-- **Primary:** PWA, mobile-first — teens discover via TikTok/Instagram links on their phone and must be in the app within 90 seconds
-- **Secondary:** Web desktop — full feature parity, responsive layout
-- **Input model:** Touch-primary on mobile, mouse/keyboard on desktop
-- **Offline:** Core logging and goal progress viewing must work offline; sync on reconnect
-- **Installable:** PWA must support home screen installation — this is the retention anchor
-
-### Effortless Interactions
-
-- **Transaction logging:** Tap Penny → type natural language ("bubble tea $6") → Penny parses and confirms → done. Target: under 5 seconds, zero form fields
-- **Goal progress check:** Visible on home screen hero card without any navigation — zero taps
-- **Milestone sharing:** One tap from any celebration screen to generate and share a card
-- **Onboarding:** Goal set + Penny introduced in under 2 minutes, no bank connection, no password form
-
-### Critical Success Moments
-
-1. **The Onboarding Aha** — Goal set, price entered, Penny calculates the weekly target, Penny introduces herself. This must happen in under 2 minutes. If it doesn't, the user is gone.
-2. **The First Streak Hook** — Day 3 of daily logging, Penny reacts with genuine excitement ("3 days! You're on a roll 🔥"). This is the moment habit formation begins.
-3. **The What If Revelation** — First time a teen uses the simulator and sees "cut bubble tea in half → AirPods 3 weeks sooner." This is the screenshot moment — the feature that gets shared.
-4. **The Goal Completion Celebration** — Full-screen confetti, Saver Level up, new Penny skin unlocked. This is the viral distribution event. Design it as a mini-campaign, not a toast notification.
-
-### Experience Principles
-
-1. **Penny first, features second** — Every screen is a conversation with Penny, not a dashboard. Features exist to give Penny something to say.
-2. **Logging must be faster than texting** — If transaction entry takes more than 5 seconds, it's too slow. No exceptions.
-3. **Progress over perfection** — Always show improvement and momentum. Never surface raw negative numbers or shame. "Glow Up" view is the default.
-4. **Every milestone is a distribution event** — Design celebrations (streaks, goal progress, level ups, completion) as shareable moments first, UI feedback second.
-5. **PWA must feel native** — No pinch-zoom, no horizontal scroll, no desktop-first layouts on mobile. If it feels like a website on a phone, it fails.
-
-## Desired Emotional Response
-
-### Primary Emotional Goals
-
-1. **Capable** — Teens feel empowered and trusted, not lectured or monitored. The emotional baseline is "I've got this." Penny is a peer, not a parent.
-2. **Seen** — "This was made for me." Every language choice, interaction, and visual signals that the teen is the primary user — not an afterthought of an adult product.
-3. **Excited about progress** — Money feels like momentum, not anxiety. Users feel hopeful and energized by their trajectory, not stressed by their balance.
-4. **Delighted by Penny** — Small, surprising moments of genuine personality from Penny create emotional attachment. These are the moments teens remember, screenshot, and share.
-
-### Emotional Journey Mapping
-
-| Stage | Target Emotion |
-|---|---|
-| Discovery (social media link) | Curiosity → "wait, this looks different" |
-| Onboarding | Excitement → "I can actually do this" |
-| Daily logging | Effortless → habit, not chore |
-| Streak milestone | Pride + delight → Penny celebrates with them |
-| What If Simulator first use | Revelation → "I never thought about it like that" |
-| Goal completion | Euphoria + identity shift → "I'm a saver now" |
-| Return visits | Belonging → Penny missed them |
-
-### Micro-Emotions
-
-- **Confidence over confusion** — every screen has one clear action; users always know what to do next
-- **Trust over skepticism** — no bank connection, no hidden permissions, no parental surveillance = trust by design
-- **Excitement over anxiety** — progress framing everywhere; deficits and shortfalls are never the default view
-- **Belonging over isolation** — Penny's reactions make users feel known and remembered, not like an anonymous account
-
-### Emotions to Avoid
-
-- **Shame** — never surface spending in a way that makes teens feel bad about themselves
-- **Anxiety** — no red numbers, no "you're behind," no deficit-first framing
-- **Surveillance** — no parental oversight, no data-sharing language, no "your guardian can see this"
-- **Condescension** — Penny never says "you should," never lectures, never uses adult finance jargon
-
-### Design Implications
-
-- **Capable** → Penny's voice is peer-to-peer ("supportive older sibling"), never authoritative. Banned words: budget, expense, income, should, must.
-- **Seen** → Teen language is non-negotiable at every touchpoint. Any adult finance term that slips through is a UX bug.
-- **Excited about progress** → "Glow Up" stats view is the default. Raw numbers are one tap away but never the first thing seen.
-- **Delighted** → Penny has ~20 distinct contextual reaction templates. Repetition kills delight — no reaction should feel automated or generic.
-- **Belonging** → Penny's return-visit greeting references the user's specific context ("You're $12 away from AirPods 🎧") — never a generic "Welcome back!"
-
-## UX Pattern Analysis & Inspiration
-
-### Inspiring Products Analysis
-
-**Duolingo**
-- Streak system with genuine emotional consequence (owl devastated on break) drives daily habit formation
-- Gamified progression (XP, levels, leagues) makes learning feel like a game
-- Lesson completion celebrations are unskippable — forces the dopamine moment
-- *Penny adaptation:* Streak system + Penny's emotional reaction on break; Saver Level progression
-
-**Instagram Stories**
-- Swipeable card format makes content consumption effortless and familiar
-- Vertical full-screen format is native to mobile thumb interaction
-- Stories disappear — creates urgency and recency without overwhelming history
-- *Penny adaptation:* Stories-style weekly spending summary; swipeable milestone cards
-
-**Spotify Wrapped**
-- Annual recap reframes data as identity ("I'm a Jazz person")
-- Shareable format designed for social media — the product markets itself
-- Positive framing: celebrates what you did, not what you didn't
-- *Penny adaptation:* Penny Wrapped (Phase 2); shareable Saver Level cards; "Spending Personality of the Week"
-
-**BeReal**
-- Random-timed prompt creates authentic, low-effort engagement habit
-- "Right now" framing reduces perfectionism — just log what happened
-- *Penny adaptation:* "Penny Check!" random daily logging prompt (Phase 2)
-
-**Duolingo + Tamagotchi (hybrid concept)**
-- Mascot with emotional states creates parasocial attachment
-- User feels responsible for the mascot's wellbeing — drives return visits
-- *Penny adaptation:* Penny's mood reflects financial health; Penny looks sad when streak breaks
-
-### Transferable UX Patterns
-
-**Navigation Patterns:**
-- **Bottom tab bar (mobile)** — 5 tabs max, Penny's face as center primary CTA (like Instagram's camera button). Familiar, thumb-reachable, zero learning curve.
-- **Stories/card swipe** — horizontal swipe for weekly summaries and milestone cards. Native to how teens already consume content.
-
-**Interaction Patterns:**
-- **Natural language input** — type "bubble tea $6" like a text message; Penny parses it. Eliminates form fields entirely for the core action.
-- **Unskippable celebration animations** — 2-second full-screen takeover for milestones. Forces the emotional moment before moving on.
-- **Streak counter always visible** — persistent in the UI, not buried in a stats screen. Visibility drives the habit.
-- **One-tap sharing** — shareable cards generated instantly from any milestone; no export flow, no editing required.
-
-**Visual Patterns:**
-- **Dark mode as default** — signals "this is for you" to teens before they read a word
-- **Chunky progress bars** — large, satisfying visual fill. Progress should feel physical.
-- **Emoji as data visualization** — 🧋🧋🧋🧋🧋 vs 🍟🍟 communicates spending patterns without numbers
-
-### Anti-Patterns to Avoid
-
-- **Dashboard-first layout** — opening to a wall of charts and numbers (Greenlight, GoHenry). Teens disengage before they understand what they're looking at.
-- **Form-based transaction entry** — dropdown category + amount field + date picker = homework. Every additional field is a churn risk.
-- **Red numbers for overspending** — creates anxiety and shame. Never use red to indicate negative financial states.
-- **Generic notifications** — "Don't forget to log today!" with no context. Penny's nudges must reference the user's specific goal and streak.
-- **Passive analytics** — showing what happened without suggesting what to do next. Penny is proactive, not a rearview mirror.
-- **Adult finance language anywhere** — "income," "expense," "budget," "net worth" — any of these appearing in the UI is a UX bug.
-
-### Design Inspiration Strategy
-
-**Adopt directly:**
-- Duolingo's streak emotional consequence system → Penny's streak + reaction mechanic
-- Instagram Stories swipe format → weekly summary cards
-- Spotify Wrapped's identity-reframing data presentation → Saver Level cards, Spending Personality
-
-**Adapt for Penny:**
-- Duolingo's gamified progression → Saver Levels (simpler, goal-completion-gated rather than XP-based)
-- BeReal's random prompt → "Penny Check!" (optional, not mandatory — teens hate feeling surveilled)
-- Tamagotchi's emotional mascot → Penny's mood states (financial health indicator, not a pet to feed)
-
-**Avoid entirely:**
-- Snapchat's social pressure mechanics → social features are Phase 2; v1 is solo experience
-- Any pattern that requires account linking, bank connection, or parental approval
+---
 
 ## Design System Foundation
 
-### Design System Choice
+### Color Tokens
 
-**Tailwind CSS + shadcn/ui** — a themeable component foundation with full ownership and customization.
+Sourced directly from the Tailwind config present in all `penny-ui` HTML files.
 
-### Rationale for Selection
-
-- **Dark mode first-class:** Both Tailwind and shadcn/ui treat dark mode as a core feature, not an afterthought — critical for Penny's default dark experience
-- **Full ownership:** shadcn/ui components are copied into the codebase, not imported from a locked library — Penny owns every component and can modify freely
-- **Speed + uniqueness balance:** Structural components (forms, modals, navigation) use the system; brand-defining components (Penny mascot, progress bars, celebration animations, shareable cards) are fully custom
-- **Mobile-first by default:** Tailwind's responsive utilities make PWA mobile layouts fast and consistent
-- **Accessibility built-in:** shadcn/ui components are built on Radix UI primitives — WCAG compliance without extra effort
-
-### Implementation Approach
-
-- **System components** (use as-is or lightly themed): navigation tabs, modals, input fields, buttons, toasts
-- **Themed components** (system base + Penny brand tokens): cards, progress bars, badges, avatars
-- **Fully custom components:** Penny mascot + mood states, What If Simulator slider, celebration animations, shareable milestone cards, stories-style weekly summary
-
-### Customization Strategy
-
-**Design tokens to define:**
-- Color palette: dark background base, vibrant accent (primary brand color TBD), semantic colors (success, warning — no red for negative states)
-- Typography: rounded, friendly typeface (e.g., Plus Jakarta Sans or Nunito) — not the sharp geometric fonts of adult finance apps
-- Spacing scale: generous padding, chunky touch targets (min 44px) for mobile
-- Border radius: rounded corners throughout — soft, approachable, not corporate
-- Animation: spring-based transitions (Framer Motion) for Penny reactions and celebrations — not linear easing
-
-## Core User Experience
-
-### Defining Experience
-
-> **"Tap Penny, tell her what you spent, watch your goal get closer."**
-
-Penny's defining experience is conversational transaction logging — the core interaction teens will describe to friends. The mental model is messaging, not accounting. Users type naturally ("bubble tea $6") the same way they'd text a friend about what they bought. Penny handles the rest.
-
-### User Mental Model
-
-Teens already narrate their spending to friends via text. Penny's quick-add hijacks this existing behavior — the input feels like sending a message, not filling out a form. This is the key insight that separates Penny from every competitor: the mental model is iMessage, not Excel.
-
-**What existing solutions get wrong:** Every competitor treats logging as form-filling — dropdown category + amount field + date picker + save button. Four interactions where there should be one. Teens abandon within days.
-
-### Success Criteria
-
-- Logging a transaction takes under 5 seconds from tap to confirmation
-- Zero required form fields — natural language input only
-- Penny's response feels contextual and personal, never generic
-- Goal progress visibly updates immediately after every log
-- Streak counter increments on first log of the day — visible feedback that the habit is alive
-
-### Novel UX Patterns
-
-**Pattern type:** Familiar patterns combined in a novel way — no user education required.
-
-- **Messaging UI** (established) — chat-style input, Penny's response bubble, conversational thread feel
-- **Financial logging** (established but hated) — amount, category, date
-- **The novel combination:** Penny parses natural language and responds with contextual financial insight at the moment of logging — not in a separate analytics screen, but right there in the conversation
-
-This is the interaction no competitor has. Greenlight shows you a chart later. Penny talks to you now.
-
-### Experience Mechanics
-
-**1. Initiation**
-- Penny's animated face is the center tab in the bottom navigation — always visible, always one tap away
-- Penny blinks when idle; bounces when there's new content or a streak milestone
-- Tapping Penny is the primary CTA — not a "+" button, not a menu item. Penny IS the action.
-
-**2. Interaction**
-- Chat-style input slides up (iMessage-style bottom sheet)
-- User types naturally: "bubble tea $6" / "$6 boba" / "spent 6 on drinks"
-- Penny parses: extracts amount, auto-suggests category with emoji (🧋 Drinks)
-- One tap to confirm; one tap to change category if wrong
-- Optional: add note or date (collapsed by default — not required)
-
-**3. Feedback**
-- Penny responds immediately with a contextual message (~20 templates, never generic):
-  - "3rd bubble tea this week 🧋 — still $12 ahead of your weekly target though!"
-  - "Nice, logged! You're now $87 into your AirPods goal 🎧"
-- Goal progress bar animates the delta
-- Streak counter increments if first log of the day (with Penny celebration if milestone)
-
-**4. Completion**
-- Input dismisses automatically after confirmation
-- User lands back on home screen with updated goal card
-- Total flow time target: under 5 seconds
-
-## Visual Design Foundation
-
-### Color System
-
-**Base palette (dark mode default):**
-- `--background`: #0F0F14 (near-black with slight purple undertone — not pure black)
-- `--surface`: #1A1A24 (card/component background)
-- `--surface-elevated`: #242433 (modals, bottom sheets)
-- `--border`: #2E2E42 (subtle dividers)
-
-**Brand colors:**
-- `--primary`: #FF6B6B (warm coral — energetic, warm, distinctly Penny)
-- `--primary-foreground`: #FFFFFF
-- `--secondary`: #A78BFA (soft purple — stats, progress, secondary actions)
-- `--accent`: #34D399 (mint green — success states, Money In, goal progress)
-
-**Semantic colors (no red for negative):**
-- `--success`: #34D399 (mint green — Money In, streaks, goals hit)
-- `--warning`: #FBBF24 (amber — spending alerts, gentle nudges)
-- `--muted`: #6B7280 (secondary text, disabled states)
-
-**Text:**
-- `--foreground`: #F9FAFB (primary text)
-- `--muted-foreground`: #9CA3AF (secondary text)
-
-**Light mode:** Available as opt-in via "My Vibe" settings — inverted palette with warm off-white base (#FAFAF8), same brand colors.
-
-**Accessibility:** All text/background combinations target WCAG AA minimum (4.5:1 contrast ratio). Primary coral on dark background: ~5.2:1 ✅
-
-### Typography System
-
-**Primary typeface:** Nunito (Google Fonts — free, no licensing cost)
-- Rounded terminals signal approachability and warmth
-- Excellent legibility at small sizes on dark backgrounds
-- Variable font — single file covers all weights
-
-**Type scale:**
-| Token | Size | Weight | Use |
-|---|---|---|---|
-| `display` | 32px / 2rem | 800 | Goal amount, celebration numbers |
-| `h1` | 24px / 1.5rem | 700 | Screen titles |
-| `h2` | 20px / 1.25rem | 700 | Card headers, section titles |
-| `h3` | 16px / 1rem | 600 | Sub-headers, labels |
-| `body` | 15px / 0.9375rem | 400 | Body text, Penny messages |
-| `small` | 13px / 0.8125rem | 400 | Captions, metadata |
-| `micro` | 11px / 0.6875rem | 500 | Badges, tags |
-
-**Line heights:** 1.5 for body, 1.2 for display/headings — tight headings, comfortable reading.
-
-### Spacing & Layout Foundation
-
-**Base unit:** 8px
-
-**Spacing scale:**
-- `xs`: 4px — icon gaps, tight inline spacing
-- `sm`: 8px — within-component spacing
-- `md`: 16px — between related elements
-- `lg`: 24px — between sections within a card
-- `xl`: 32px — between cards/major sections
-- `2xl`: 48px — screen-level padding, hero spacing
-
-**Touch targets:** Minimum 44×44px for all interactive elements (Apple HIG + WCAG 2.5.5)
-
-**Border radius:**
-- `sm`: 8px — tags, badges, small chips
-- `md`: 16px — cards, inputs, buttons
-- `lg`: 24px — bottom sheets, modals
-- `full`: 9999px — pills, avatar frames, Penny's face container
-
-**Layout grid (mobile):** 16px horizontal padding, single column, max content width 390px
-**Layout grid (desktop):** Centered single column, max-width 480px — Penny is a focused app, not a wide dashboard
-
-**Animation:**
-- Spring physics via Framer Motion for Penny reactions and celebrations
-- `duration-150` for micro-interactions (button press, toggle)
-- `duration-300` for transitions (screen change, bottom sheet)
-- `duration-500` for celebrations (progress bar fill, confetti)
-- Reduced motion: respect `prefers-reduced-motion` — replace spring animations with instant state changes
-
-### Accessibility Considerations
-
-- All color combinations meet WCAG AA (4.5:1 text, 3:1 UI components)
-- No information conveyed by color alone — emoji + text always paired with color signals
-- Touch targets minimum 44px — critical for teen mobile users
-- `prefers-reduced-motion` respected throughout
-- Focus indicators visible in keyboard navigation (desktop)
-- Penny's mascot reactions include text equivalents for screen readers
-
-## Design Direction Decision
-
-### Design Directions Explored
-
-Six directions were explored: Gradient Hero, Minimal Dark, Card Stack, Neon Accent, Playful Chunky, and Stories-First. Each applied the established visual foundation (dark base, coral/purple/mint palette, Nunito, rounded corners) with a distinct personality and layout approach.
-
-### Chosen Direction
-
-**Direction 4: Neon Accent**
-
-Near-black base (#0F0F14) with glowing neon treatments on key interactive elements. Radial light blobs create depth and atmosphere. Progress bars and streak counters glow in coral/purple. Stat cards have neon-bordered edges. The overall feel is premium dark UI with high-energy accents — the aesthetic language of gaming and high-end consumer apps, applied to personal finance.
-
-### Design Rationale
-
-- Signals "this is for you" to teens immediately — the aesthetic is familiar from games, Discord, and premium mobile apps they already use
-- Dark base reduces eye strain for evening use (when teens are most active on their phones)
-- Neon glow on progress elements makes goal advancement feel exciting and rewarding — the visual language of leveling up
-- Radial light blobs add depth and atmosphere without requiring illustration assets
-- Distinct enough from every competitor (all of whom use light, corporate, or childish aesthetics) to be immediately recognizable
-
-### Implementation Approach
-
-- CSS radial gradients for atmospheric background blobs (no image assets needed)
-- `box-shadow` with color for neon glow effects on cards and progress bars
-- Framer Motion spring animations for glow pulse on streak milestones
-- Progress bar glow intensifies as goal percentage increases — visual feedback tied to progress
-- Penny mascot rendered against a softly glowing circular backdrop (coral radial gradient)
-
-## User Journey Flows
-
-### Journey 1: Onboarding (First-Time User)
-
-**Goal:** Teen taps a shared link, sets a saving goal, meets Penny, and logs their first transaction — all in under 2 minutes.
-
-```mermaid
-flowchart TD
-    A([Tap shared link / visit penny.app]) --> B[Animated landing: Penny waves\n'Hi! I help teens save for stuff 🐷']
-    B --> C[CTA: 'Start saving' — Google/Apple login]
-    C --> D{Login success?}
-    D -->|No| C
-    D -->|Yes| E[Screen: 'What are you saving for?'\nVisual goal cards: Tech / Fashion / Travel / Food / Other]
-    E --> F[User selects or types custom goal]
-    F --> G[Screen: 'How much does it cost?'\nLarge number input, currency auto-detected]
-    G --> H[Screen: 'When do you want it by?'\nDate picker with quick options: 1 month / 3 months / 6 months / Custom]
-    H --> I[Penny calculates: 'Save $31/week → AirPods by June 15 🎧'\nAnimated Penny appears, excited]
-    I --> J[Screen: 'How do you get money?'\nAllowance / Part-time job / Both / Other]
-    J --> K[Penny introduction moment:\n'Hi! I'm Penny, your saving buddy 🐷\nI'll cheer you on, keep you on track,\nand never judge your bubble tea habit.']
-    K --> L[CTA: 'Let's go!' → Home screen]
-    L --> M[Home screen: Goal card glowing,\nstreak = 0, Penny idle-blinking]
-    M --> N{Optional: Log first transaction?}
-    N -->|Skip| O([Onboarding complete])
-    N -->|Log it| P[Penny chat input slides up]
-    P --> Q[User types e.g. 'got $20 allowance']
-    Q --> R[Penny: 'First Money In logged! 🎉\nYou're $20 closer to AirPods']
-    R --> O
-```
-
-**Key constraints:**
-- Zero passive screens — every screen requires one action
-- No bank connection prompt anywhere in this flow
-- Skip available at every step after goal entry
-- Total target: under 2 minutes to home screen
-
----
-
-### Journey 2: Transaction Logging (Daily Core Loop)
-
-**Goal:** Teen logs a transaction in under 5 seconds via Penny chat input.
-
-```mermaid
-flowchart TD
-    A([User opens app / taps Penny tab]) --> B[Penny's face bounces — chat input slides up]
-    B --> C[User types natural language:\n'bubble tea $6' / '$20 allowance' / 'spent 12 on lunch']
-    C --> D[Penny parses in real-time:\nAmount extracted, category auto-suggested with emoji]
-    D --> E{User confirms category?}
-    E -->|Tap confirm| F[Transaction logged]
-    E -->|Tap to change| G[Category picker: 5 emoji options\n🧋 Drinks / 🍟 Food / 👟 Shopping / 🎮 Fun / ➕ Other]
-    G --> F
-    F --> H{First log today?}
-    H -->|Yes| I[Streak counter increments + Penny reacts\n'Day 6! You're on fire 🔥']
-    H -->|No| J[Penny contextual response\ne.g. '3rd bubble tea this week 🧋 — still on track!']
-    I --> K[Goal progress bar animates delta]
-    J --> K
-    K --> L[Input dismisses → back to home screen\nUpdated goal card visible]
-    L --> M([Loop complete — under 5 seconds])
-
-    style M fill:#34D399,color:#000
-```
-
-**Key constraints:**
-- Zero required form fields — natural language only
-- Category confirmation is one tap, not a form
-- Penny's response is always contextual (references goal + streak), never generic
-- Full flow must complete in under 5 seconds
-
----
-
-### Journey 3: What If Simulator
-
-**Goal:** Teen discovers the simulator, adjusts a spending category, sees the impact on their goal timeline, and shares the result.
-
-```mermaid
-flowchart TD
-    A([User taps 'My Journey' tab]) --> B[Stats screen: Emoji spending breakdown\n🧋🧋🧋🧋 Drinks $24 this week]
-    B --> C[Each category has '✨ What If?' button]
-    C --> D[User taps 'What If?' on Drinks]
-    D --> E[Simulator opens:\nSlider — 'Cut Drinks spending by X%'\nDefault: 50%]
-    E --> F[Real-time calculation updates:\n'Save $12 extra/week →\nAirPods 3 weeks sooner 🎧']
-    F --> G{User adjusts slider}
-    G --> F
-    G --> H[User satisfied with result]
-    H --> I[CTA: 'Share this 📤']
-    I --> J[Shareable card generated:\nPenny graphic + result text\nPenny app watermark]
-    J --> K{Share or save?}
-    K -->|Share| L[Native share sheet: Instagram / TikTok / Copy link]
-    K -->|Save| M[Saved to camera roll]
-    L --> N([Simulator session complete])
-    M --> N
-
-    style N fill:#34D399,color:#000
-```
-
-**Key constraints:**
-- Simulator accessible from stats screen, not buried in settings
-- Calculation updates in real-time as slider moves (no submit button)
-- Shareable card is auto-generated — no editing required
-- Card includes Penny branding for organic distribution
-
----
-
-### Journey 4: Goal Completion Celebration
-
-**Goal:** Teen reaches their savings goal — the viral moment designed as a distribution event.
-
-```mermaid
-flowchart TD
-    A([User logs transaction that hits goal amount]) --> B[Progress bar fills to 100%\nGlow intensifies — neon pulse animation]
-    B --> C[Full-screen takeover: confetti explosion\nPenny jumps and spins 🎉]
-    C --> D['YOU DID IT! 🏆\nGoal ACHIEVED\nTotal saved / Days taken / Streak']
-    D --> E[Saver Level Up animation:\nBadge unlocks + new Penny skin revealed]
-    E --> F[CTA: 'Share your win 📤']
-    F --> G[Auto-generated shareable card:\nPenny + goal + days taken + Saver Level]
-    G --> H{User action}
-    H -->|Share| I[Native share sheet]
-    H -->|Skip| J
-    I --> J[Screen: 'Ready for your next goal?'\nPenny: 'What are we saving for next? 🐷'\n3 suggested goals based on spending patterns]
-    J --> K{User action}
-    K -->|Set new goal| L[Goal setup flow — pre-filled with suggestion]
-    K -->|Not yet| M([Return to home screen\nNew Saver Level badge visible])
-    L --> M
-
-    style C fill:#FF6B6B,color:#fff
-    style E fill:#A78BFA,color:#fff
-```
-
-**Key constraints:**
-- Celebration is unskippable for 2 seconds (forces the emotional moment)
-- Shareable card is auto-generated, no editing required
-- Re-engagement prompt appears immediately after celebration — no dead end
-- Saver Level up is tied to goal completion, not arbitrary XP
-
----
-
-### Journey Patterns
-
-**Entry patterns:**
-- All primary actions accessible from bottom nav in ≤1 tap
-- Penny tab (center) is always the fastest path to logging
-- Deep links from notifications land directly on the relevant screen
-
-**Feedback patterns:**
-- Every user action gets an immediate visual response (< 100ms)
-- Penny's text response appears within 300ms of transaction confirmation
-- Progress animations always show the delta, not just the new state
-
-**Error recovery patterns:**
-- Wrong category: one tap to change, no re-entry of amount
-- Accidental log: swipe-to-delete from transaction history, Penny acknowledges ("Got it, removed 🐷")
-- Offline: transactions queue locally, sync silently on reconnect — no error shown to user
-
-### Flow Optimization Principles
-
-1. **Every flow has a skip** — no user is ever trapped; skipping never loses data already entered
-2. **Progress is never lost** — partial onboarding saves state; returning user resumes where they left off
-3. **Celebrations are unskippable for 2 seconds** — the emotional moment must land before the user can move on
-4. **Share is always one tap from a milestone** — never more than one tap between "I achieved something" and "I can share this"
-5. **Dead ends don't exist** — every terminal screen has a clear next action (re-engagement prompt, return to home, or set new goal)
-
-## Component Strategy
-
-### Design System Components
-
-From **shadcn/ui** (themed with Penny design tokens, no structural changes):
-- `Button` — primary (coral), secondary (purple), ghost variants
-- `Input` — used only in onboarding number fields; chat input is custom
-- `Sheet` — bottom sheet for Penny chat input and category picker
-- `Dialog` — goal completion celebration overlay
-- `Badge` — streak counter, Saver Level badge
-- `Tabs` — bottom navigation base
-- `Slider` — What If Simulator slider
-- `Progress` — base for goal progress bar (heavily themed)
-- `Toast` — lightweight feedback for non-Penny moments
-
-### Custom Components
-
-#### 1. PennyAvatar
-**Purpose:** Penny's animated face — the emotional core of every screen.
-**States:** idle (slow blink), happy (bounce), excited (spin), sad (droop), celebrating (jump + sparkles)
-**Variants:** `sm` (nav tab, 40px), `md` (home screen, 80px), `lg` (celebration, 160px)
-**Anatomy:** Circular container with coral radial glow backdrop + Lottie animation layer
-**Accessibility:** `aria-label="Penny, your saving buddy"` + `role="img"`; animations respect `prefers-reduced-motion`
-**Implementation:** Lottie JSON animations for each state; fallback to static emoji 🐷 if Lottie fails
-
-#### 2. GoalProgressCard
-**Purpose:** Home screen hero — shows goal name, progress bar, amount saved, weekly target.
-**States:** default, near-goal (within $30 — glow intensifies, color shifts to accent), complete (triggers celebration)
-**Anatomy:** Dark surface card → goal emoji + name → chunky progress bar with neon glow → "$87 of $249" → "Save $31 this week" → streak badge
-**Interaction:** Tap card → expands to full goal detail view
-**Accessibility:** Progress bar has `role="progressbar"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`
-
-#### 3. PennyChatInput
-**Purpose:** The core logging interaction — natural language transaction entry.
-**States:** collapsed (hidden), open (slides up as bottom sheet), parsing (Penny thinking indicator), confirmed (Penny response visible)
-**Anatomy:** Bottom sheet → text input (large, auto-focus) → real-time parse preview (amount + category emoji) → confirm button → optional category picker row
-**Interaction:** Opens on Penny tab tap; dismisses on confirm or swipe down
-**Accessibility:** Auto-focus on open; `aria-label="Tell Penny what you spent"`; keyboard submit on Enter
-
-#### 4. PennyResponseBubble
-**Purpose:** Penny's contextual message after a transaction log — the emotional feedback moment.
-**States:** appearing (slide up + fade in), idle, dismissing
-**Anatomy:** Rounded speech bubble (coral border, dark fill) → Penny avatar (sm) → message text → optional CTA
-**Content:** ~20 template messages, selected contextually based on: category, frequency, streak state, goal proximity
-**Accessibility:** `role="status"` + `aria-live="polite"` so screen readers announce Penny's response
-
-#### 5. WhatIfSimulator
-**Purpose:** Slider-based spending trade-off tool with real-time goal impact calculation.
-**Anatomy:** Category label + emoji → spending amount this week → slider (0–100% reduction) → impact statement → Share CTA
-**Interaction:** Slider updates impact statement in real-time (debounced 100ms)
-**Share output:** Auto-generated canvas card via `html2canvas`
-**Accessibility:** Slider has `aria-label`, `aria-valuetext` with human-readable description of current setting
-
-#### 6. ShareableCard
-**Purpose:** Auto-generated image card for milestones, simulator results, and Saver Level ups.
-**Variants:** `milestone`, `simulator`, `level-up`, `weekly-roast`
-**Anatomy:** Fixed 1080×1920px canvas (Stories format) → Penny branding → dynamic content → app watermark
-**Implementation:** `html2canvas` renders hidden DOM element to canvas → PNG download or native share sheet
-
-#### 7. StreakBadge
-**Purpose:** Persistent streak counter — always visible, drives daily habit.
-**States:** active (🔥 + count), at-risk (Penny worried, shown if no log by 8pm), broken (Penny sad, count resets)
-**Placement:** Home screen (top right of goal card) + My Journey tab header
-**Accessibility:** `aria-label="X day streak"` on the badge element
-
-#### 8. StoriesWeeklySummary
-**Purpose:** Instagram Stories-style swipeable weekly recap.
-**Anatomy:** Full-width card stack → 4–5 cards: week overview, top category, goal delta, streak highlight, Penny's verdict
-**Interaction:** Horizontal swipe or tap right/left half to navigate
-**Accessibility:** Arrow key navigation on desktop; each card has descriptive `aria-label`
-
-### Component Implementation Strategy
-
-- All custom components built with Tailwind utility classes + CSS variables from design tokens
-- Lottie for Penny animations (lightweight, scalable, designer-editable without code changes)
-- `html2canvas` for shareable card generation (client-side, no server dependency)
-- Framer Motion for spring animations on progress bars, sheet transitions, and celebrations
-- All components export typed props (TypeScript) with JSDoc
-
-### Implementation Roadmap
-
-**Phase 1 — Core (required for MVP launch):**
-- `PennyAvatar`, `GoalProgressCard`, `PennyChatInput`, `PennyResponseBubble`, `StreakBadge`
-
-**Phase 2 — Engagement (required for v1 feature completeness):**
-- `WhatIfSimulator`, `ShareableCard`, `StoriesWeeklySummary`
-
-**Phase 3 — Polish (nice-to-have for v1):**
-- Additional Penny animation states, `ShareableCard` additional variants
-
-## UX Consistency Patterns
-
-### Button Hierarchy
-
-**Primary** (coral, filled) — one per screen maximum. The single most important action: "Let's go," "Confirm," "Share your win."
-
-**Secondary** (purple, outlined) — supporting actions: "See details," "Change category," "Set new goal."
-
-**Ghost** (text only, muted) — low-emphasis actions: "Skip," "Not yet," "Boring Stuff ⚙️."
-
-**Destructive** (amber, not red) — "Delete transaction," "Clear goal" — amber signals caution without shame/alarm.
-
-**Rules:**
-- Never two primary buttons on the same screen
-- CTAs use active verbs in Penny's voice ("Let's go" not "Submit"; "Share your win" not "Share")
-- Minimum 44px touch target on all buttons
-- Loading state: button text replaced with Penny's thinking indicator (animated dots), not a spinner
-
-### Feedback Patterns
-
-**Penny response** (primary feedback) — used after every transaction log. `PennyResponseBubble` with contextual message. Always positive or neutral framing.
-
-**Toast** (secondary feedback) — used for background actions (sync complete, settings saved). Bottom of screen, auto-dismisses in 3s. Never used for errors that need action.
-
-**Inline validation** — used in onboarding forms only. Appears on blur, not on keystroke. Green checkmark for valid, amber warning for fixable issues. Never red.
-
-**Full-screen celebration** — used for goal completion and Saver Level up only. Unskippable for 2 seconds. Confetti + Penny animation + sound (respects device silent mode).
-
-**Empty states** — always include Penny with an encouraging message and a clear CTA. Never a blank screen or generic "No data" text.
-- No transactions yet: "Everyone starts at zero. Even Bezos did. Log your first $1 🐷" + "Tell Penny" CTA
-- No goal set: "What are we saving for? 🎧" + "Set a goal" CTA
-
-### Form Patterns
-
-- **One question per screen** in onboarding — never stack multiple fields
-- **Large inputs** — font size 24px+ for number entry
-- **No required field asterisks** — if optional, say so in plain language
-- **Auto-advance** where possible — after selecting a goal card, advance automatically
-- **Keyboard type matching** — `inputmode="decimal"` for numbers; autocorrect off for text
-- **No dropdowns** — use visual card selectors or emoji pickers instead
-
-### Navigation Patterns
-
-**Bottom tab bar:**
-| Tab | Icon | Label |
+**Primary palette:**
+| Token | Hex | Use |
 |---|---|---|
-| 1 | 📊 | My Stuff |
-| 2 | 📈 | My Journey |
-| 3 | 🐷 PennyAvatar | *(no label)* |
-| 4 | 💬 | Penny Says |
-| 5 | ✨ | My Vibe |
+| `primary` | `#6a37d4` | Primary actions, active nav, brand |
+| `primary-container` | `#ae8dff` | Progress bars, tinted backgrounds |
+| `primary-fixed` | `#ae8dff` | Fixed-tint surfaces |
+| `primary-dim` | `#5e26c7` | Pressed/hover states |
+| `on-primary` | `#f8f0ff` | Text on primary |
+| `on-primary-container` | `#2b006e` | Text on primary-container |
 
-- Penny tab (center): always slightly larger, no label, bounces when new content
-- No nested navigation deeper than 2 levels from any tab
-- Back navigation: swipe right (mobile) or browser back — no back button in header
-- Modals/sheets dismiss on swipe down or tap outside
+**Secondary (teal):**
+| Token | Hex | Use |
+|---|---|---|
+| `secondary` | `#006859` | Income/positive amounts, secondary actions |
+| `secondary-container` | `#26fedc` | Teal tint backgrounds, % badges |
+| `secondary-fixed` | `#26fedc` | Fixed teal |
+| `on-secondary-container` | `#005d4f` | Text on teal backgrounds |
 
-### Modal & Overlay Patterns
+**Tertiary (yellow):**
+| Token | Hex | Use |
+|---|---|---|
+| `tertiary-fixed` | `#f4db36` | Pocket Pixel tip card background, goal bars |
+| `tertiary-container` | `#f4db36` | Yellow tint surfaces |
+| `on-tertiary-container` | `#584d00` | Text on yellow |
 
-- **Bottom sheet** — Penny chat input, category picker, goal detail. Dismiss: swipe down or tap backdrop.
-- **Full-screen overlay** — goal completion, Saver Level up only. Unskippable for 2 seconds.
-- **Inline expansion** — transaction detail, What If Simulator. No navigation change.
-- **Rule:** Never stack modals — use inline expansion within a sheet instead.
+**Surface scale (light mode):**
+| Token | Hex | Use |
+|---|---|---|
+| `background` | `#f5f6f7` | App background |
+| `surface` | `#f5f6f7` | Default surface |
+| `surface-container-lowest` | `#ffffff` | Cards, elevated surfaces |
+| `surface-container-low` | `#eff1f2` | Nav bars, subtle containers |
+| `surface-container` | `#e6e8ea` | Mid-level containers |
+| `surface-container-high` | `#e0e3e4` | Progress bar tracks |
+| `on-surface` | `#2c2f30` | Primary text |
+| `on-surface-variant` | `#595c5d` | Secondary text, captions |
+| `outline-variant` | `#abadae` | Dividers, subtle borders |
 
-### Loading & Skeleton States
+**Semantic:**
+| Token | Hex | Use |
+|---|---|---|
+| `error` | `#b41340` | Expense amounts (Stash Out) |
+| `error-container` | `#f74b6d` | Error backgrounds |
 
-- **Skeleton screens** (not spinners) for initial data load — match content shape
-- **Optimistic updates** — transactions appear immediately; sync in background
-- **Penny thinking indicator** — animated dots while parsing NL input (< 300ms target)
-- **Offline mode** — amber dot on streak badge for pending sync; no error state shown; full core functionality available offline
+**Dark mode:** Opt-in via Settings. Not the default.
 
-## Responsive Design & Accessibility
+### Typography
 
-### Responsive Strategy
+| Role | Family | Weight | Use |
+|---|---|---|---|
+| `font-headline` | Plus Jakarta Sans | 700–900 | Screen titles, card headers, amounts, nav labels |
+| `font-body` | Be Vietnam Pro | 400–700 | Body text, Pocket Pixel messages, captions |
+| `font-label` | Plus Jakarta Sans | 600–700 | Badges, tags, button labels |
 
-Penny is **mobile-first by design** — the primary use case is a teen tapping a TikTok link on their phone. Desktop is a supported secondary surface, not an afterthought.
+Both fonts loaded from Google Fonts CDN.
 
-**Mobile (320px–767px) — primary:**
-- Single column, full-width cards
-- Bottom tab navigation, fixed to viewport bottom
-- Touch targets minimum 44px
-- Bottom sheet for all overlays (never centered modals on mobile)
-- Thumb-zone optimized: primary actions in bottom 60% of screen
+### Border Radius
 
-**Tablet (768px–1023px):**
-- Same layout as mobile — Penny is a focused single-column app
-- Slightly increased padding and font sizes
-- Bottom nav remains (no sidebar)
+| Token | Value | Use |
+|---|---|---|
+| `DEFAULT` | `1rem` (16px) | Cards, inputs, containers |
+| `lg` | `2rem` (32px) | Bottom sheets, large cards |
+| `xl` | `3rem` (48px) | Hero sections |
+| `full` | `9999px` | Pills, nav active states, avatars, buttons |
 
-**Desktop (1024px+):**
-- Centered single column, max-width 480px
-- Remaining space: subtle dark background with faint Penny brand pattern
-- Bottom nav fixed to bottom of the 480px column
-- Keyboard shortcuts: Enter to submit chat input, Escape to dismiss sheets
-- Hover states on all interactive elements
+### Icons
 
-**PWA installation:**
-- `manifest.json` configured for home screen installation on iOS and Android
-- Standalone display mode (no browser chrome when installed)
-- Splash screen: Penny on dark background with coral glow
-- Theme color: #0F0F14
+**Material Symbols Outlined** — Google icon font, loaded via CDN.
+```
+font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+```
+Filled variant (`'FILL' 1`) used for active nav states and emphasis icons.
 
-### Breakpoint Strategy
+Key icons used across screens:
+- `grid_view` — Home tab
+- `auto_awesome` — Wishlist tab
+- `database` — Stash tab
+- `person` — Profile tab
+- `mic` — Tap to Speak / Quick Record
+- `account_balance_wallet` — Wallet/balance
+- `dashboard` — Web sidebar Dashboard
+- `school` — Academy
+- `settings` — Settings
 
-Standard Tailwind breakpoints — no custom breakpoints needed:
-- Base styles: mobile (no breakpoint)
-- `md` (768px): slight spacing/font size increase
-- `lg` (1024px): centered column, hover states, keyboard shortcuts
+### Mascot: Pocket Pixel
 
-### Accessibility Strategy
+**Source:** `./penny-ui/penny_icon/` — 8 static PNG skins.
 
-**Target: WCAG 2.1 Level AA**
+| File | Mood | Trigger |
+|---|---|---|
+| `penny_happy.png` | Happy | Default, after logging, streak active |
+| `penny_confident.png` | Confident | Goal near completion (>75%) |
+| `penny_peace.png` | Peace | Idle, no recent activity |
+| `penny_fierce.png` | Fierce | Streak milestone (7-day, 30-day) |
+| `penny_shocked.png` | Shocked | Large unexpected expense logged |
+| `penny_sad.png` | Sad | Streak broken |
+| `penny_crying.png` | Crying | Goal deadline missed |
+| `penny_angry.png` | Angry | Repeated overspending in same category |
 
-**Color & contrast:**
-- All text/background combinations ≥ 4.5:1 (AA)
-- UI components ≥ 3:1
-- No information conveyed by color alone — emoji + text always paired with color signals
-- Amber (not red) for warnings — accessible to red-green colorblind users
+Pocket Pixel appears in two contexts:
+1. **Tip banner** — small (40–64px), inline with speech bubble text, on home and stash screens
+2. **Hero** — large (128–192px), on web dashboard hero section and celebration screens
 
-**Keyboard navigation (desktop):**
-- All interactive elements reachable via Tab
-- Focus ring: 2px coral outline, visible on all backgrounds
-- Skip link: "Skip to main content" as first focusable element
-- Bottom sheet: focus trapped inside when open; returns to trigger on close
-- Celebration overlay: focus trapped; Escape or Enter to dismiss after 2s
+No Lottie. No animation. PNG only. Mood switching is an instant `src` swap.
 
-**Screen reader support:**
-- Semantic HTML throughout (`<nav>`, `<main>`, `<button>`, `<progress>`)
-- `aria-live="polite"` on `PennyResponseBubble`
-- `role="progressbar"` with `aria-valuenow/min/max` on goal progress bar
-- `aria-label` on all icon-only buttons
-- Penny animation states described via `aria-label` updates
+---
 
-**Motion & animation:**
-- All animations respect `prefers-reduced-motion: reduce`
-- Reduced motion: spring animations → instant state changes; confetti → static celebration screen
+## Navigation Structure
 
-**Touch & motor:**
-- Minimum 44×44px touch targets
-- Swipe gestures have tap alternatives
-- No time-limited interactions except the 2-second celebration (auto-advances)
+### Mobile Bottom Tab Bar
 
-### Testing Strategy
+**Source:** `penny-ui/mobile_dashboard/code.html`, `penny-ui/mobile_stash_log/code.html`
 
-**Responsive:** Chrome DevTools + real devices (iPhone SE, iPhone 15, Android mid-range). Browser matrix: Chrome, Safari iOS, Firefox, Edge.
+4 tabs, no FAB. Active tab highlighted with `bg-violet-100 text-violet-700 rounded-full` pill.
 
-**Accessibility:** `axe-core` in CI (zero violations policy), VoiceOver manual testing on key flows, keyboard-only navigation of all 4 critical journeys, color blindness simulation.
+| Tab | Icon | Label | Route |
+|---|---|---|---|
+| 1 | `grid_view` | Home | `/` |
+| 2 | `auto_awesome` | Wishlist | `/wishlist` |
+| 3 | `database` | Stash | `/stash` |
+| 4 | `person` | Profile | `/profile` |
 
-### Implementation Guidelines
+Tab labels: `text-[9px] font-bold uppercase tracking-wider` (Be Vietnam Pro).
+Nav bar background: `bg-surface-container-low` with `backdrop-blur-md`, `border-t border-outline-variant/10`.
 
-- Semantic HTML — `<button>` not `<div onClick>`, `<nav>` not `<div className="nav">`
-- All images/icons have `alt` text or `aria-hidden="true"` if decorative
-- Form inputs always have associated `<label>` (visible or `sr-only`)
-- Use `rem` units for font sizes
-- Test at 200% browser zoom — layout must not break
-- `lang="en"` on `<html>` element
+### Web Left Sidebar
+
+**Source:** `penny-ui/wishlist_tracker_updated_nav/code.html`, `penny-ui/unified_stash_dashboard/code.html`
+
+Fixed left sidebar, `w-64`, visible at `md` breakpoint and above. Hidden on mobile.
+
+**Sidebar anatomy:**
+- Top: Pocket Pixel avatar (40px) + greeting ("Hi, Champ!" / "Ready to grow?")
+- Nav items (rounded-full pills, active = `bg-violet-100 text-violet-700`):
+  - `dashboard` Dashboard
+  - `account_balance_wallet` Savings
+  - `auto_awesome` Wishlist
+  - `school` Academy
+  - `settings` Settings
+- Bottom: **Quick Record** button — full-width, `bg-gradient-to-br from-primary to-primary-container`, `rounded-full`, mic icon + "Quick Record" label
+
+### Web Top App Bar
+
+Fixed, `bg-white/60 backdrop-blur-xl`, `z-50`.
+- Left: App name "Penny" (`text-xl font-black text-violet-700 font-headline`)
+- Right: `notifications` icon + `account_circle` icon
+
+> **Note:** All HTML files show "Penny Play" in the top bar. Per sprint change proposal and user instruction, the product name is **Penny**. Replace all instances of "Penny Play" with "Penny" in implementation.
+
+### Mobile Top App Bar
+
+Compact (`h-12`), `bg-surface-container-low/80 backdrop-blur-md`.
+- Left: Profile avatar (32px circle, `border-2 border-primary`)
+- Center: "Penny" (`text-xl font-black text-violet-600 font-headline`)
+- Right: `account_balance_wallet` icon
+
+---
+
+## Screen Specifications
+
+### Screen 1: Mobile Home (Dashboard)
+
+**Source:** `penny-ui/mobile_dashboard/code.html` + `screen.png`
+
+**Layout:** Single column, `max-w-md mx-auto`, `px-4`, `space-y-3 py-2`. Overflow hidden (no body scroll — all content fits viewport).
+
+#### Section 1: Pocket Pixel Tip Banner
+
+```
+bg-white/40 p-2 rounded-2xl
+├── Pocket Pixel PNG (64×64px, object-contain)
+└── Speech bubble (bg-primary-container, rounded-full, bubble-tail class)
+    ├── Headline: "You're on it!" (font-headline font-bold text-xs)
+    └── Body: contextual tip text (text-[10px] text-on-surface-variant)
+```
+
+`bubble-tail` removes bottom-left border radius to create speech bubble tail effect.
+
+#### Section 2: Your Dreams (Horizontal Scroll)
+
+```
+space-y-2
+├── Header row: "Your Dreams" (font-headline font-extrabold text-lg) + "View All" (text-primary text-xs)
+└── Horizontal scroll row (flex gap-3 overflow-x-auto no-scrollbar)
+    ├── Featured Dream card (w-44, bg-surface-container-lowest, rounded-xl, border)
+    │   ├── Goal name (font-headline font-bold text-xs, truncate)
+    │   ├── % badge (bg-secondary-container text-on-secondary-container, rounded-full, text-[9px] font-black)
+    │   └── Progress bar (h-2, bg-gradient-to-r from-primary to-primary-container)
+    ├── Secondary Dream card (w-32, bg-white, rounded-xl)
+    │   ├── Goal name (font-headline font-bold text-[10px])
+    │   ├── Progress bar (h-1.5, bg-tertiary-fixed or bg-secondary-fixed)
+    │   └── "XX% Saved" label (text-[8px] font-bold uppercase)
+    └── (additional secondary cards...)
+```
+
+"View All" navigates to `/wishlist`.
+
+#### Section 3: Tap to Speak (Quick Record)
+
+```
+bg-gradient-to-br from-violet-600 to-violet-800 p-4 rounded-xl
+├── Prompt text: "Spent something? Tap and say it to log!" (text-violet-100/90 text-[11px])
+└── TAP TO SPEAK button
+    bg-white text-violet-700 w-full py-2.5 rounded-full
+    font-headline font-black text-sm
+    mic icon (FILL 1) + "TAP TO SPEAK" label
+```
+
+Tapping triggers Web Speech API `SpeechRecognition`. Unsupported browsers show text input fallback.
+
+#### Section 4: Recent Log
+
+```
+flex-1 overflow-hidden flex flex-col space-y-2
+├── Header: "Recent Log" + "View All" → /stash
+└── Scrollable list (overflow-y-auto no-scrollbar)
+    └── Transaction row (bg-surface-container-low px-3 py-2 rounded-lg)
+        ├── Icon circle (w-8 h-8 bg-white rounded-full, Material Symbol)
+        ├── Name + date
+        └── Amount (font-headline font-extrabold, text-error for out, text-secondary for in)
+```
+
+---
+
+### Screen 2: Mobile Wishlist
+
+**Source:** `penny-ui/mobile_wishlist/code.html` + `screen.png`
+
+**Layout:** `max-w-md mx-auto px-6`, flex column, overflow hidden.
+
+#### Section 1: Saving For... (Active Dreams)
+
+```
+space-y-2 mb-4
+├── Header: "Saving For..." (font-headline font-extrabold text-xl) + "X Active" badge
+└── Grid of Dream cards (grid gap-2)
+    └── Dream card (bg-surface-container-lowest rounded-xl p-3 shadow-sm border border-black/5)
+        ├── Icon (Material Symbol, FILL 1) + Dream name (font-headline font-bold text-sm)
+        ├── % badge (bg-secondary-container or bg-tertiary-container, rounded-full)
+        ├── Progress bar (h-2, gradient from-primary to-primary-container or from-tertiary to-tertiary-container)
+        └── "$X / $Y" + motivational label (text-[10px] text-on-surface-variant)
+```
+
+#### Section 2: Pocket Pixel Tip Card
+
+```
+flex items-center gap-3 bg-primary-container/10 p-3 rounded-xl border border-primary-container/20
+├── Pocket Pixel PNG (40×40px)
+└── Tip text
+    ├── "Penny Pixel Tip" label (font-bold text-primary text-[10px] uppercase)
+    └── Tip body (text-[11px] font-medium)
+```
+
+> Note: Label reads "Penny Pixel Tip" in the design file. This refers to Pocket Pixel. Use "Pocket Pixel Tip" in implementation per sprint change proposal.
+
+#### Section 3: Achievements Grid
+
+```
+space-y-2 mb-6
+├── "Achievements" header (font-headline font-extrabold text-xl)
+└── 4-column grid
+    ├── Unlocked badge: bg-secondary-container/20, icon in bg-secondary-container circle, label
+    └── Locked badge: bg-surface-container-high, opacity-50 grayscale, lock icon
+```
+
+**Achievement badges (v1):**
+- First $10 — `star` icon
+- 7 Day — `local_fire_department` icon
+- $100 Club — locked
+- 3 Goals — locked
+
+#### Section 4: New Goal CTA
+
+```
+w-full bg-gradient-to-r from-primary to-primary-container
+text-white rounded-full py-3 px-6
+font-headline font-extrabold text-base
+add_circle icon + "New Goal" label
+```
+
+---
+
+### Screen 3: Mobile Stash Log (Saving Log)
+
+**Source:** `penny-ui/mobile_stash_log/code.html` + `screen.png`
+
+**Layout:** `max-w-md mx-auto`, flex column, overflow hidden.
+
+#### Section 1: Total Stash Balance Card (Hero)
+
+```
+kinetic-gradient (linear-gradient 135deg, #6a37d4 → #ae8dff) p-6 rounded-xl aspect-[2/1]
+├── "Total Stash Balance" label (font-label font-bold uppercase tracking-widest text-[9px] opacity-80)
+├── "$X,XXX.XX" (text-4xl font-black font-headline text-on-primary)
+├── Icon cluster (trending_up + savings, small circles)
+└── "+X% this month" pill (bg-white/20 backdrop-blur-md rounded-full)
+```
+
+Decorative blurred circles for depth (no image assets).
+
+#### Section 2: Pocket Pixel Tip
+
+```
+bg-tertiary-container p-3 rounded-lg rounded-bl-sm
+├── Pocket Pixel PNG (40×40px, drop-shadow-md)
+└── Tip text
+    ├── "Pocket Pixel:" label (font-bold font-headline text-[12px])
+    └── Contextual tip referencing active goal
+```
+
+#### Section 3: Recent Stashings
+
+```
+flex-1 flex flex-col min-h-0
+├── "Recent Stashings" header + "See All" → /stash/all
+└── Transaction cards (space-y-3)
+    └── Card (bg-surface-container-lowest p-4 rounded-lg border-l-4)
+        ├── Border color: primary-container (income), secondary-container (gig), tertiary-container (gift)
+        ├── Icon circle (bg-[color]/20)
+        ├── Name + timestamp
+        └── Amount (font-black text-secondary-dim for income)
+```
+
+---
+
+### Screen 4: Web Wishlist (Wishlist Tracker)
+
+**Source:** `penny-ui/wishlist_tracker_updated_nav/code.html` + `screen.png`
+
+**Layout:** Left sidebar (w-64, fixed) + main content (`md:ml-64`, scrollable).
+
+#### Main Content
+
+**Header:**
+```
+"My Wishlist" (text-4xl font-black tracking-tight)
+"Turn your dreams into reality, one pixel at a time."
+```
+
+**Dreams Grid** (`grid grid-cols-1 lg:grid-cols-2 gap-8`):
+
+Primary Dream card:
+```
+bg-surface-container-lowest p-8 rounded-xl
+├── Pocket Pixel PNG (w-28 h-28, absolute -top-6 -right-4, hover scale)
+├── Icon + Dream name + subtitle ("Level 14 · Saving Streak 🔥")
+├── "$X / $Y" progress display
+├── % badge (bg-secondary-container)
+└── Striped progress bar (h-6, gradient + diagonal stripe overlay)
+```
+
+Secondary Dream card: same structure, no mascot overlay, teal/yellow gradient.
+
+**Bento row** (`grid grid-cols-1 md:grid-cols-3`):
+
+Pocket Pixel Tip card (`md:col-span-2`, `bg-primary`):
+```
+├── Pocket Pixel PNG (w-32 h-32)
+├── "Pocket Pixel Tip" badge (bg-white/10)
+├── Headline + tip body
+└── "Activate Round-up" button (bg-white text-primary rounded-full)
+    [Scoping deferred — render as visible but non-functional in v1]
+```
+
+Achievements card:
+```
+bg-surface-container-low p-8 rounded-xl
+└── 2×2 grid of achievement badges
+    ├── 7 Day Streak (workspace_premium, bg-secondary-container)
+    ├── Fast Saver (rocket_launch, bg-tertiary-container)
+    ├── Centurion (locked, grayscale)
+    └── Goal Crusher (celebration, bg-primary-container)
+```
+
+---
+
+### Screen 5: Web Unified Stash Dashboard
+
+**Source:** `penny-ui/unified_stash_dashboard/code.html` + `screen.png`
+
+**Layout:** Left sidebar + main content (`md:ml-64 pt-20 pb-24 px-4 md:px-8`).
+
+#### Hero Section
+
+```
+bg-gradient-to-br from-primary to-primary-container p-8 rounded-xl
+├── Left: "You're on it!" (text-4xl–5xl font-black text-on-primary) + subtitle
+└── Right: Pocket Pixel PNG (w-48 h-48, scale-110 md:scale-125)
+```
+
+#### Bento Grid (`grid grid-cols-1 lg:grid-cols-12 gap-8`)
+
+Left column (`lg:col-span-7`):
+- "Your Dreams" header + "View All"
+- 2-column dream cards (same structure as web wishlist)
+- Academy promo card (`sm:col-span-2`, dark bg, "Start Learning" CTA)
+
+Right column (`lg:col-span-5`):
+- Recent Log card (`bg-surface-container-lowest p-8 rounded-xl`)
+- Transaction rows with icon circles, name, date, amount
+- "Show More Transactions" dashed border button
+
+#### Mobile FAB (hidden on md+)
+
+```
+fixed bottom-24 right-6 w-16 h-16
+bg-gradient-to-br from-primary to-primary-container
+rounded-full shadow-2xl
+mic icon (FILL 1, text-3xl)
+```
+
+---
+
+### Screen 6: Web Stash Log (Saving Log)
+
+**Source:** `penny-ui/web_stash_log/code.html` + `screen.png`
+
+**Layout:** Left sidebar + main content (`md:ml-64 flex-1 px-6 md:px-12 py-8`).
+
+#### Hero: Balance + Pocket Pixel
+
+```
+flex flex-col md:flex-row items-end gap-6
+├── Balance card (bg-gradient-to-br from-primary to-primary-dim p-8 rounded-xl min-w-[320px])
+│   ├── "Total Stash Balance" label
+│   ├── "$X,XXX.XX" (text-5xl font-black font-headline)
+│   └── "+X% this month" pill
+└── Pocket Pixel interaction
+    ├── Speech bubble (bg-surface-container-lowest, rounded-full, bubble-tail)
+    │   └── "You're doing great!" (text-sm font-bold text-primary)
+    └── Pocket Pixel PNG (w-24 h-24, hover scale-105)
+```
+
+#### Bento Saving Log Grid (`grid grid-cols-1 md:grid-cols-3 gap-6`)
+
+Colored bento cards — each transaction is a full card, not a list row:
+- `md:col-span-2` wide card: `bg-secondary-container` (income)
+- Single card: `bg-tertiary-container` (gig work)
+- Single card: `bg-primary-container` (gift)
+- `md:col-span-2` wide card: `bg-surface-container-low` (chores)
+
+Each card: icon circle (white, rounded-full) + name + source + amount (font-headline font-black).
+
+#### Web FAB
+
+```
+fixed bottom-8 right-8
+bg-gradient-to-tr from-primary to-primary-container
+px-8 py-5 rounded-full shadow-xl
+add icon + "Add Stash" label (font-headline font-bold text-lg)
+```
+
+---
+
+### Screen 7: Mobile Login
+
+**Source:** `penny-ui/mobile_login/code.html` + `screen.png`
+
+**Layout:** Full-screen, flex column, centered content. Decorative blurred blobs in background (CSS radial gradients, no images).
+
+```
+├── Background decorations (fixed, pointer-events-none)
+│   ├── Top-left blob: bg-primary-container/15 blur-[120px]
+│   ├── Bottom-right blob: bg-secondary-container/15 blur-[120px]
+│   └── Floating icons: star (tertiary-fixed), circle (primary-container), token (secondary-fixed)
+├── Success toast (fixed top-6, bg-secondary-container, rounded-[2rem])
+│   └── Pocket Pixel PNG (32px) + "Welcome back! Ready to earn some coins?"
+├── Main content (centered)
+│   ├── Pocket Pixel PNG (w-40 h-40 md:w-56 md:h-56, glow backdrop)
+│   ├── "Penny" (text-4xl font-black text-primary) [NOT "Penny Play"]
+│   ├── Tagline: "Level up your money game while having a blast."
+│   └── "Login with Google" button
+│       bg-surface-container-lowest shadow-lg rounded-full
+│       Google SVG icon + "Login with Google" (font-bold text-base)
+└── Footer: Privacy · Support links (text-[10px] uppercase)
+```
+
+---
+
+### Screen 8: Web Login
+
+**Source:** `penny-ui/web_login/code.html`
+
+**Layout:** Full-screen centered, `kinetic-bg` radial gradient background.
+
+```
+├── Mascot section
+│   ├── Decorative blurred circle backdrop
+│   ├── Floating coin element (bg-tertiary-container, currency_exchange icon)
+│   ├── Floating sparkle element (bg-secondary-container, auto_awesome icon)
+│   └── Pocket Pixel PNG (w-72 h-72)
+├── "Welcome back!" (font-headline font-black text-4xl–5xl)
+├── "Your money, your rules." (font-body text-lg text-on-surface-variant)
+├── "Login with Google" button (same style as mobile)
+└── Pocket Pixel chat bubble (fixed top-right, desktop only lg:flex)
+    └── "Psst! All your progress is saved safely here."
+```
+
+---
+
+## Component Inventory
+
+### New / Replaced Components
+
+| Component | Status | Notes |
+|---|---|---|
+| `PocketPixelAvatar` | **New** (replaces `PennyAvatar`) | PNG `<img>` tag, `src` swapped by mood. No Lottie. |
+| `TapToSpeakButton` | **New** (replaces `PennyChatInput`) | Web Speech API primary, text input fallback |
+| `YourDreamsScroll` | **New** (replaces `GoalProgressCard`) | Horizontal scroll, featured + secondary cards |
+| `DreamCard` | **New** | Individual goal card, used in scroll and wishlist grid |
+| `StashBalanceHero` | **New** | Gradient card with total balance + growth pill |
+| `StashingRow` | **New** | Transaction list row with left-color-border variant |
+| `StashingBentoCard` | **New** | Full bento-style transaction card (web stash log) |
+| `AchievementBadge` | **New** | Locked/unlocked badge with icon + label |
+| `PocketPixelTipBanner` | **New** | Inline tip banner with mascot + speech bubble |
+| `WebSidebar` | **New** | Left nav for web layout |
+| `MobileBottomNav` | **Updated** | 4 tabs (was 5), new tab set |
+| `GoalProgressCard` | **Deprecated** | Replaced by `YourDreamsScroll` + `DreamCard` |
+| `PennyChatInput` | **Deprecated** | Replaced by `TapToSpeakButton` |
+| `PennyAvatar` | **Deprecated** | Replaced by `PocketPixelAvatar` |
+
+### TapToSpeakButton Spec
+
+**Primary behavior (Web Speech API supported):**
+1. User taps button
+2. `SpeechRecognition.start()` — mic activates
+3. Visual feedback: button pulses, mic icon animates
+4. On `result` event: transcript displayed as preview text
+5. On `end` event: transcript passed to NLP parser (existing `nlp.ts`)
+6. Confirmation UI: parsed amount + category shown, one-tap confirm
+
+**Fallback behavior (unsupported browser):**
+- Button tap opens text input field (same NLP flow as before)
+- No error shown — seamless degradation
+
+**Browser support:**
+- Chrome/Android: ✅ full support
+- Safari iOS: ⚠️ limited — fallback to text
+- Firefox: ❌ — fallback to text
+
+### PocketPixelAvatar Spec
+
+```tsx
+interface PocketPixelAvatarProps {
+  mood: 'happy' | 'confident' | 'peace' | 'fierce' | 'shocked' | 'sad' | 'crying' | 'angry';
+  size: 'sm' | 'md' | 'lg'; // 40px | 64px | 128–192px
+  className?: string;
+}
+```
+
+Image source: `./penny-ui/penny_icon/penny_{mood}.png`
+No animation. Mood prop change = instant `src` swap.
+
+### Mood Engine
+
+```ts
+function getPocketPixelMood(context: MoodContext): PocketPixelMood {
+  if (context.streakBroken) return 'sad';
+  if (context.goalMissedDeadline) return 'crying';
+  if (context.repeatedOverspend) return 'angry';
+  if (context.largeUnexpectedExpense) return 'shocked';
+  if (context.streakMilestone) return 'fierce';       // 7-day, 30-day
+  if (context.goalNearComplete) return 'confident';   // >75%
+  if (context.idle) return 'peace';
+  return 'happy';                                      // default
+}
+```
+
+---
+
+## Terminology Glossary
+
+| Old Term | New Term | Notes |
+|---|---|---|
+| Goals / Saving Goal | Dreams / Wishlist | Used throughout UI copy |
+| Money In / Money Out | Stash In / Stash Out | Transaction direction labels |
+| Transactions | Stashings / Saving Log | Screen and section titles |
+| Penny (mascot) | Pocket Pixel | Mascot name |
+| Saver Level | Achievement Level | Level system name |
+| My Vibe | Settings | Settings screen label |
+| Dark mode default | Light mode default | Dark mode is opt-in |
+
+> **Copy rule:** Any instance of "Penny Play" in UI copy → replace with "Penny". Any instance of "Penny" referring to the mascot → replace with "Pocket Pixel".
+
+---
+
+## Responsive Behavior
+
+### Mobile (< 768px)
+- Bottom tab bar (4 tabs)
+- Single column, `max-w-md mx-auto`
+- Compact top app bar (h-12)
+- Horizontal scroll for Your Dreams section
+- Tap to Speak FAB visible on home screen
+- No sidebar
+
+### Web (≥ 768px)
+- Left sidebar (w-64, fixed)
+- Top app bar (fixed, full-width)
+- Main content: `md:ml-64`
+- Bento grid layouts (12-column)
+- Quick Record FAB in sidebar bottom
+- Mobile bottom nav hidden (`md:hidden`)
+
+---
+
+## Accessibility
+
+All v1 accessibility requirements carry forward. Additions for v2:
+
+- `TapToSpeakButton`: `aria-label="Tap to speak and log a transaction"`, `aria-pressed` state during recording
+- `PocketPixelAvatar`: `aria-label="Pocket Pixel, {mood}"`, `role="img"`
+- `YourDreamsScroll`: `role="list"`, each `DreamCard` is `role="listitem"` with `aria-label="{name}, {percent}% saved"`
+- `AchievementBadge`: locked badges have `aria-disabled="true"` and `aria-label="{name} — locked"`
+- Web Speech API: always provide visible text fallback; never rely on voice as the only input method
+
+---
+
+## Implementation Notes
+
+### Dependencies to Add
+```json
+{
+  "Web Speech API": "native browser API — no package",
+  "@fontsource/plus-jakarta-sans": "or Google Fonts CDN",
+  "@fontsource/be-vietnam-pro": "or Google Fonts CDN"
+}
+```
+
+### Dependencies to Remove
+```json
+{
+  "lottie-react": "replaced by PNG sprites",
+  "shadcn/ui": "replaced by custom components with Material Symbols"
+}
+```
+
+### Dependencies to Retain
+```json
+{
+  "framer-motion": "page transitions only (not mascot animations)",
+  "tailwindcss": "core styling",
+  "nlp.ts": "existing NLP parser — voice transcript fed in as string"
+}
+```
+
+### Tailwind Config
+
+The full color token set and font family config is defined in every `penny-ui` HTML file under `<script id="tailwind-config">`. Copy this config verbatim into `tailwind.config.ts`. The border radius and font family sections are also defined there.
+
+### Story 1-6 Must Precede All UI Work
+
+Per sprint change proposal: **Story 1-6 (Design System Update)** must be implemented before any rework or new UI stories. It establishes the Tailwind tokens, fonts, Material Symbols, and light-mode default that all subsequent components depend on.
+
+---

@@ -1,5 +1,5 @@
 ---
-stepsCompleted: [step-01-init, step-02-discovery, step-02b-vision, step-02c-executive-summary, step-03-success, step-04-journeys, step-05-domain, step-06-innovation, step-07-project-type, step-08-scoping, step-09-functional, step-10-nonfunctional, step-11-polish, step-12-complete]
+stepsCompleted: [step-01-init, step-02-discovery, step-02b-vision, step-02c-executive-summary, step-03-success, step-04-journeys, step-05-domain, step-06-innovation, step-07-project-type, step-08-scoping, step-09-functional, step-10-nonfunctional, step-11-polish, step-12-complete, step-e-01-discovery, step-e-02-review, step-e-03-edit]
 classification:
   projectType: web_app
   domain: fintech
@@ -10,6 +10,7 @@ inputDocuments:
   - "_bmad-output/planning-artifacts/product-brief-penny-distillate.md"
   - "_bmad-output/planning-artifacts/ux-design-specification.md"
   - "_bmad-output/brainstorming/brainstorming-session-2026-04-05-1337.md"
+  - "_bmad-output/planning-artifacts/sprint-change-proposal-2026-04-13.md"
   - "wiki/00-reverse-engineering-summary.md"
   - "wiki/01-system-overview.md"
   - "wiki/02-account-service.md"
@@ -23,6 +24,10 @@ inputDocuments:
   - "wiki/10-technology-stack.md"
 workflowType: prd
 workflowStatus: complete
+lastEdited: "2026-04-13"
+editHistory:
+  - date: "2026-04-13"
+    changes: "Mascot rename (Penny → Pocket Pixel), terminology updates (Money In/Out → Stash In/Out, Goals/Saving Goal → Dreams/Wishlist), visual default flip (dark → light mode), FR/NFR updates for voice-first logging and PNG mascot, design system section updated (Lottie removed, Web Speech API added), Academy and Round-up added as Post-MVP scope rows."
 ---
 
 # Product Requirements Document — Penny
@@ -34,13 +39,13 @@ workflowStatus: complete
 
 ## Executive Summary
 
-Penny is a free Progressive Web App (PWA) that rebrands PiggyMetrics as a teen-first financial companion. The core insight: 64% of teens are motivated to save, but every existing tool either excludes them (requires a bank account) or alienates them (parental surveillance, adult jargon, homework-like UX). Penny removes both barriers — no bank required, no parental oversight, no subscription — and replaces them with a saving buddy named Penny who acts as financial advisor, emotional anchor, and habit coach. Every interaction flows through her.
+Penny is a free Progressive Web App (PWA) that rebrands PiggyMetrics as a teen-first financial companion. The core insight: 64% of teens are motivated to save, but every existing tool either excludes them (requires a bank account) or alienates them (parental surveillance, adult jargon, homework-like UX). Penny removes both barriers — no bank required, no parental oversight, no subscription — and replaces them with a saving buddy named **Pocket Pixel** — a customizable pixel-art character — who acts as financial advisor, emotional anchor, and habit coach. Every interaction flows through them.
 
 The product targets teens aged 13–19 with any income source (allowance, part-time job, birthday money) who want to save for a specific goal. They discover Penny via a shared TikTok or Instagram link and must be actively using the app within 90 seconds of clicking. The existing PiggyMetrics microservices backend (account-service, statistics-service, notification-service, auth-service, Zuul gateway, Eureka, Spring Cloud Config) is retained as-is; Penny is a complete UI/UX rebrand and PWA frontend rebuild on top of it.
 
 ### What Makes This Special
 
-The mascot is the product. Penny is not decoration — she is the interface, the advisor, the emotional anchor, and the retention mechanic. No competitor combines: no-bank-required + goal-first + PWA-first + free + proactive mascot advisor. Copper (1M+ users) shut down May 2024 due to BaaS dependency — validating the no-bank model. Greenlight and GoHenry are parental surveillance tools. Step requires a bank card. Zogo is education-only.
+The mascot is the product. Pocket Pixel is not decoration — they are the interface, the advisor, the emotional anchor, and the retention mechanic. No competitor combines: no-bank-required + goal-first + PWA-first + free + proactive mascot advisor. Copper (1M+ users) shut down May 2024 due to BaaS dependency — validating the no-bank model. Greenlight and GoHenry are parental surveillance tools. Step requires a bank card. Zogo is education-only.
 
 The structural differentiator is the **What If Simulator**: a slider-based trade-off tool ("cut bubble tea in half → AirPods 3 weeks sooner") with a shareable, screenshot-worthy output card. No competitor has this. It is the primary viral distribution mechanic and the moment teens realize Penny was made for them.
 
@@ -58,7 +63,7 @@ The structural differentiator is the **What If Simulator**: a slider-based trade
 ### User Success
 
 - **Onboarding activation:** 40%+ of registered users complete goal setup (goal name + price + target date) during onboarding
-- **First value moment:** 25%+ of users who set a goal log at least one "Money In" entry within 7 days
+- **First value moment:** 25%+ of users who set a dream log at least one "Stash In" entry within 7 days
 - **Habit formation:** 30%+ of active users maintain a 7-day daily logging streak
 - **Feature discovery:** What If Simulator used by 50%+ of active users within their first week
 - **Qualitative signal:** Teens describe Penny as "actually made for me" in user feedback (NPS / open-ended survey)
@@ -86,7 +91,7 @@ The structural differentiator is the **What If Simulator**: a slider-based trade
 | Onboarding completion rate | ≥ 40% | At launch |
 | 7-day logging streak rate | ≥ 30% of active users | 3 months post-launch |
 | What If Simulator adoption | ≥ 50% of active users | Within first week of use |
-| First "Money In" entry | ≥ 25% of goal-setters | Within 7 days |
+| First "Stash In" entry | ≥ 25% of dream-setters | Within 7 days |
 | 30-day retention | ≥ 20% | 3 months post-launch |
 | Time-to-interactive (PWA) | ≤ 3 seconds | At launch |
 | COPPA compliance decision | Resolved | Pre-launch gate |
@@ -106,16 +111,16 @@ The structural differentiator is the **What If Simulator**: a slider-based trade
 | PWA foundation (installable, offline core flows) | Without this, it's a website — not the "90 seconds from TikTok link" experience |
 | Social login (Google + Apple) | Zero-friction onboarding; password forms kill teen adoption |
 | Goal-first onboarding (including "Just saving" option) | First screen defines the product |
-| Penny mascot system (mood states, voice, onboarding intro) | The mascot IS the product — without her, there's nothing to validate |
-| Penny chat-style quick-add (natural language logging) | Manual logging must be ≤5 seconds or churn happens within days |
-| Contextual Penny reaction at moment of logging | "3rd bubble tea this week 🧋" — insight at the moment of action, not just weekly |
-| Teen language overhaul ("Money In / Money Out," Penny-voiced nav) | Language signals "made for you" |
-| Dark mode default | Table stakes for teen-native feel |
-| Daily logging streak + Penny emotional reactions | Core habit formation mechanic |
+| Pocket Pixel mascot system (mood states via PNG skins, voice, onboarding intro) | The mascot IS the product — without them, there's nothing to validate |
+| Tap to Speak voice-first logging (natural language, text fallback) | Logging must be ≤5 seconds or churn happens within days |
+| Contextual Pocket Pixel reaction at moment of logging | "3rd bubble tea this week 🧋" — insight at the moment of action, not just weekly |
+| Teen language overhaul ("Stash In / Stash Out," Pocket Pixel-voiced nav) | Language signals "made for you" |
+| Light mode default, dark mode opt-in | Clean, accessible default; dark mode available in settings |
+| Daily logging streak + Pocket Pixel emotional reactions | Core habit formation mechanic |
 | What If Simulator + shareable output card | Primary viral mechanic and key innovation validator |
 | Stories-style weekly summary | Retention and engagement |
 | Shareable milestone cards (50% + 100%) | Secondary viral mechanic |
-| Saver Level system (Bronze → Penny Legend) | Progression and completion reward |
+| Achievement badge system (First $10, 7 Day, $100 Club, 3 Goals) + Level system | Progression and completion reward |
 | Goal countdown mode + completion celebration | Emotional payoff that drives re-engagement |
 | Emoji spending breakdown | Teen-native data visualization |
 | "Glow Up" stats view (improvement-first) | Progress-first framing — never shame |
@@ -124,16 +129,24 @@ The structural differentiator is the **What If Simulator**: a slider-based trade
 | Auth-service hardening (persistent token store) | Pre-launch security gate |
 | Secrets management migration | Pre-launch security gate |
 
-**Deliberately excluded from MVP:** Weekly Roast, "Rewind" progress card, Penny Morning Nudge push notifications, friend challenges, Penny Wrapped.
+**Deliberately excluded from MVP:** Weekly Roast, "Rewind" progress card, Pocket Pixel Morning Nudge push notifications, friend challenges, Penny Wrapped.
+
+**Post-MVP (Phase 2+):**
+
+| Capability | Status |
+|---|---|
+| Academy (quizzes, pixel coins) | Post-MVP — scoping deferred to Phase 2 |
+| Round-up feature (recurring spend redirect to goal fund) | Post-MVP — scoping deferred to Phase 2 |
 
 ### Growth Features (Phase 2 — 3–6 months post-launch)
 
 - Penny's Weekly Roast (opt-in, shareable brutally honest Sunday recap)
-- "Skip It" button (recurring spend redirect to goal fund)
+- Academy (quizzes, pixel coins — financial literacy gamification)
+- Round-up feature ("Skip It" button — recurring spend redirect to goal fund)
 - "Rewind" progress card ("30 days ago: $12. Today: $89. 2.6x more 🚀")
 - Spending Personality of the Week (shareable sticker card)
-- Penny Morning Nudge (context-aware push notifications)
-- Deferred goal-setting Penny proactive nudge (after N days without a goal)
+- Pocket Pixel Morning Nudge (context-aware push notifications)
+- Deferred goal-setting Pocket Pixel proactive nudge (after N days without a goal)
 
 ### Vision (Phase 3 — 6–12 months+)
 
@@ -141,8 +154,8 @@ The structural differentiator is the **What If Simulator**: a slider-based trade
 - Friend saving challenges / social features
 - School / classroom partnership mode (26 US states require personal finance education)
 - Native mobile app (iOS/Android)
-- Monetization layer (premium Penny skins, school licensing, brand affiliates)
-- "Share My Goal" public link (family/friends contribute to teen's goal)
+- Monetization layer (premium Pocket Pixel skins, school licensing, brand affiliates)
+- "Share My Dream" public link (family/friends contribute to teen's goal)
 - Bank/card integration — deferred; no-bank-required is the v1 structural moat
 - Parental dashboard — deliberately excluded; Penny's positioning is teen autonomy
 
@@ -150,12 +163,12 @@ The structural differentiator is the **What If Simulator**: a slider-based trade
 
 | Risk | Mitigation |
 |---|---|
-| Natural language parsing edge cases | Fallback to structured form; "Did you mean X?" for ambiguous input |
-| Mascot feels gimmicky | Every Penny interaction must deliver functional value; validate in user testing |
-| What If Simulator not discovered | Prominent home screen placement + Penny proactive suggestion after first week |
-| PWA install rates low on iOS Safari | Penny-voiced "Add to Home Screen" prompt post-onboarding; test on iPhone SE |
-| Scope creep on Penny personality | Define finite mood state library (≤10 states) + message templates (≤30) before build |
-| Smaller team than planned | Cut order: Saver Level → emoji breakdown → Glow Up stats; core loop is irreducible minimum |
+| Voice input parsing edge cases | Fallback to structured text form; "Did you mean X?" for ambiguous input |
+| Mascot feels gimmicky | Every Pocket Pixel interaction must deliver functional value; validate in user testing |
+| What If Simulator not discovered | Prominent home screen placement + Pocket Pixel proactive suggestion after first week |
+| PWA install rates low on iOS Safari | Pocket Pixel-voiced "Add to Home Screen" prompt post-onboarding; test on iPhone SE |
+| Scope creep on Pocket Pixel personality | Define finite mood state library (8 PNG skins) + message templates (≤30) before build |
+| Smaller team than planned | Cut order: Achievement badges → emoji breakdown → Glow Up stats; core loop is irreducible minimum |
 
 ---
 
@@ -165,15 +178,15 @@ The structural differentiator is the **What If Simulator**: a slider-based trade
 
 Jordan, 16, wants AirPods ($249). She taps a TikTok link on her phone.
 
-**Opening Scene:** Penny PWA loads — no App Store, no wait. Dark mode, animated pig, "What are you saving for?"
+**Opening Scene:** Penny PWA loads — no App Store, no wait. Light mode, animated pixel art, "What are you saving for?"
 
-**Rising Action:** She taps the AirPods card, types "$249," picks a date 6 weeks out. Penny calculates: "Save $42/week → AirPods by May 19 🎧." Penny introduces herself. Jordan logs "allowance $20" by tapping Penny and typing it — done in 4 seconds. Penny reacts: "First one! You're already ahead of yesterday-you 🐷"
+**Rising Action:** She taps the AirPods card, types "$249," picks a date 6 weeks out. Pocket Pixel calculates: "Save $42/week → AirPods by May 19 🎧." Pocket Pixel introduces themselves. Jordan logs "allowance $20" by tapping the Tap to Speak button and saying it — done in 4 seconds. Pocket Pixel reacts: "First one! You're already ahead of yesterday-you 🐷"
 
 **Climax:** Day 8. Jordan opens the What If Simulator, drags the bubble tea slider. "Cut bubble tea in half → save $36 extra → AirPods 2 weeks sooner." She screenshots it and posts on Instagram.
 
-**Resolution:** Week 5, $220 saved — within $30 of goal. UI shifts color, Penny bounces. Week 6: full-screen confetti, Saver Level up to Silver, milestone card shared. Penny: "Ready for your next goal?" Jordan types "sneakers."
+**Resolution:** Week 5, $220 saved — within $30 of dream. UI shifts color, Pocket Pixel bounces. Week 6: full-screen confetti, Achievement Level up, milestone card shared. Pocket Pixel: "Ready for your next dream?" Jordan types "sneakers."
 
-*Reveals:* goal-first onboarding, Penny chat quick-add, contextual logging reaction, What If Simulator + shareable card, goal countdown, completion celebration, Saver Level, milestone sharing.
+*Reveals:* goal-first onboarding, Tap to Speak voice logging, contextual logging reaction, What If Simulator + shareable card, goal countdown, completion celebration, Achievement Level, milestone sharing.
 
 ---
 
@@ -181,11 +194,11 @@ Jordan, 16, wants AirPods ($249). She taps a TikTok link on her phone.
 
 Marcus, 17, had a 12-day streak. Missed 3 days during exams.
 
-**Opening Scene:** Penny's mood is sad. "I missed you 🐷💔 — your streak reset, but your savings didn't." Guilt without shame.
+**Opening Scene:** Pocket Pixel's mood is sad. "I missed you 🐷💔 — your streak reset, but your savings didn't." Guilt without shame.
 
-**Rising Action:** Marcus logs retroactively — Penny accepts without judgment. Streak resets to Day 1; goal progress unchanged. Penny shows: "12 days ago: $34. Today: $89. Still 2.6x more 🚀"
+**Rising Action:** Marcus logs retroactively — Pocket Pixel accepts without judgment. Streak resets to Day 1; goal progress unchanged. Pocket Pixel shows: "12 days ago: $34. Today: $89. Still 2.6x more 🚀"
 
-**Climax:** Marcus opts into Weekly Roast. Sunday: "You spent $47 on food this week. That's 3 Chipotle bowls, 2 bubble teas, and one decision you probably regret. Still saved $18 though. Penny approves... barely. 🐷"
+**Climax:** Marcus opts into Weekly Roast. Sunday: "You spent $47 on food this week. That's 3 Chipotle bowls, 2 bubble teas, and one decision you probably regret. Still saved $18 though. Pocket Pixel approves... barely. 🐷"
 
 **Resolution:** Marcus shares the Roast card. Three friends ask what app it is. He sends the PWA link.
 
@@ -207,9 +220,9 @@ Developer verifies statistics-service processing and notification scheduler afte
 
 Sam, 14, wants to "start saving" but has no goal in mind.
 
-**Flow:** Onboarding → picks "Just saving 💰" → skips price/date → home screen. Penny: "No goal yet? That's fine — everyone starts somewhere 🐷." Logs $10 allowance. After 2 weeks, Penny: "You've saved $47. What are you working toward? 👀" Sam sets a gaming controller goal ($65). Penny: "Now we're talking 🎮"
+**Flow:** Onboarding → picks "Just saving 💰" → skips price/date → home screen. Pocket Pixel: "No dream yet? That's fine — everyone starts somewhere 🐷." Logs $10 allowance. After 2 weeks, Pocket Pixel: "You've saved $47. What are you working toward? 👀" Sam sets a gaming controller dream ($65). Pocket Pixel: "Now we're talking 🎮"
 
-*Reveals:* flexible goal types, optional price/date fields, deferred goal-setting, Penny proactive nudge after N days without a goal.
+*Reveals:* flexible goal types, optional price/date fields, deferred goal-setting, Pocket Pixel proactive nudge after N days without a goal.
 
 ---
 
@@ -218,11 +231,11 @@ Sam, 14, wants to "start saving" but has no goal in mind.
 | Capability | Journey |
 |---|---|
 | Goal-first onboarding (with "Just saving" option) | 1, 4 |
-| Penny chat quick-add (natural language, ≤5 seconds) | 1, 2 |
-| Contextual Penny reaction at moment of logging | 1 |
+| Tap to Speak voice logging (natural language, ≤5 seconds) | 1, 2 |
+| Contextual Pocket Pixel reaction at moment of logging | 1 |
 | What If Simulator + shareable card | 1 |
 | Goal countdown + completion celebration | 1 |
-| Saver Level + milestone sharing | 1 |
+| Achievement badges + milestone sharing | 1 |
 | Streak break handling (no shame) | 2 |
 | "Rewind" progress card | 2 |
 | Weekly Roast (opt-in, shareable) | 2 |
@@ -269,7 +282,7 @@ Sam, 14, wants to "start saving" but has no goal in mind.
 ### Detected Innovation Areas
 
 **1. Mascot-as-Interface**
-No consumer fintech app has made the mascot the primary interaction layer. Penny is simultaneously the chat interface, advisor, mood indicator, notification system, and retention mechanic. This is "companion-first UX" vs. "dashboard-first UX" — a new interaction paradigm for personal finance. Closest analogs: Duolingo's Duo (retention only) + Tamagotchi (emotional engagement only). Penny combines both with functional utility.
+No consumer fintech app has made the mascot the primary interaction layer. Pocket Pixel is simultaneously the visual advisor, mood indicator, notification system, and retention mechanic — delivered via 8 static PNG skins with instant mood switching. This is "companion-first UX" vs. "dashboard-first UX" — a new interaction paradigm for personal finance. Closest analogs: Duolingo's Duo (retention only) + Tamagotchi (emotional engagement only). Pocket Pixel combines both with functional utility.
 
 **2. What If Simulator as Viral Distribution Mechanic**
 No competitor has a shareable, screenshot-worthy financial trade-off tool designed for social media. The simulator output card is engineered as a distribution event. Novel combination: financial modeling + social sharing + teen-native design.
@@ -277,8 +290,8 @@ No competitor has a shareable, screenshot-worthy financial trade-off tool design
 **3. No-Bank-Required PWA as Structural Moat**
 PWA-first (no App Store friction) + no bank connection (no BaaS dependency) is structurally novel in teen fintech. Copper's collapse validated BaaS risk. Penny's moat is what it doesn't require.
 
-**4. Natural Language Transaction Logging**
-Conversational transaction entry ("bubble tea $6" → parsed + logged) as the primary input model, not a form. New interaction pattern for manual expense tracking.
+**4. Voice-First Transaction Logging**
+"Tap to Speak" voice entry ("bubble tea $6" → parsed + logged via Web Speech API) as the primary input model, with text fallback. New interaction pattern for manual expense tracking — faster than any form-based competitor.
 
 ### Competitive Gap
 
@@ -297,7 +310,7 @@ No competitor offers: no-bank-required + goal-first + PWA-first + free + proacti
 |---|---|---|
 | Mascot-as-interface | "Actually made for me" qualitative feedback | 3 months post-launch |
 | What If Simulator virality | Measurable referral traffic from shareable cards | 3 months post-launch |
-| Natural language logging | 50%+ of transactions via Penny chat | 1 month post-launch |
+| Voice-first logging | 50%+ of transactions via Tap to Speak | 1 month post-launch |
 | PWA link acquisition | % of registrations from shared links | Ongoing |
 
 ---
@@ -310,8 +323,9 @@ No competitor offers: no-bank-required + goal-first + PWA-first + free + proacti
 - **Framework:** React recommended (component-based mascot state management, PWA ecosystem)
 - **Service Worker:** Cache-first for core assets; network-first for API calls; offline fallback for goal view + transaction logging
 - **Backend:** Existing PiggyMetrics microservices via Zuul API gateway — no new backend services for v1
-- **State persistence:** Client-side goal state, transaction log, Penny mood state via localStorage / IndexedDB for offline support
-- **NLP:** Client-side regex + keyword matching for Penny chat quick-add — no external NLP service required for v1
+- **State persistence:** Client-side goal state, transaction log, Pocket Pixel mood state via localStorage / IndexedDB for offline support
+- **Voice input:** Web Speech API (SpeechRecognition) for Tap to Speak — client-side, no external service; text input fallback for unsupported browsers
+- **Mascot rendering:** Static PNG sprite sheets from `./penny-ui/penny_icon/` — 8 mood skins, instant `src` swap; no Lottie
 
 ### Browser Support
 
@@ -329,7 +343,7 @@ No competitor offers: no-bank-required + goal-first + PWA-first + free + proacti
 - Mobile-first: 375px viewport baseline, scaled up
 - Breakpoints: sm (375px), md (768px), lg (1024px+)
 - No pinch-zoom, no horizontal scroll, no desktop-first layouts on mobile
-- Dark mode default; light mode opt-in in settings
+- Light mode default; dark mode opt-in in settings
 
 ### Performance Targets
 
@@ -344,7 +358,7 @@ No competitor offers: no-bank-required + goal-first + PWA-first + free + proacti
 
 ### SEO & Discoverability
 
-- Open Graph meta tags on landing URL (title, description, Penny mascot image) for rich social link previews
+- Open Graph meta tags on landing URL (title, description, Pocket Pixel mascot image) for rich social link previews
 - PWA manifest for Android "Add to Home Screen" discoverability
 - No blog, sitemap, or structured data required for v1
 
@@ -352,8 +366,10 @@ No competitor offers: no-bank-required + goal-first + PWA-first + free + proacti
 
 - Shareable cards (What If Simulator, milestone, Weekly Roast): client-side canvas/SVG — no server-side image generation for v1
 - Social login: Google OAuth2 via updated auth-service; Apple Sign In via Apple JS SDK — both required simultaneously
-- Push notifications: Web Push API — Penny-voiced opt-in prompt only; no browser default dialogs
+- Push notifications: Web Push API — Pocket Pixel-voiced opt-in prompt only; no browser default dialogs
 - "Add to Home Screen" prompt: triggered post-onboarding, not on first visit
+- Mascot: PNG sprite sheets only — no Lottie dependency
+- Voice logging: Web Speech API primary; text input fallback for Safari iOS and Firefox
 
 ---
 
@@ -362,42 +378,42 @@ No competitor offers: no-bank-required + goal-first + PWA-first + free + proacti
 ### Authentication & Onboarding
 
 - FR1: A new user can register using Google OAuth2 or Apple Sign In without creating a password
-- FR2: A new user can complete goal setup (goal name, price, target date) during onboarding before accessing the main app
-- FR3: A new user can skip goal setup and access the main app immediately with a "Just saving" default state
-- FR4: The system calculates and displays a weekly saving target instantly when goal name, price, and target date are provided
-- FR5: A new user is introduced to the Penny mascot with a named greeting after completing goal setup
+- FR2: A new user can complete dream setup (dream name, price, target date) during onboarding before accessing the main app
+- FR3: A new user can skip dream setup and access the main app immediately with a "Just saving" default state
+- FR4: The system calculates and displays a weekly saving target instantly when dream name, price, and target date are provided
+- FR5: A new user is introduced to Pocket Pixel with a named greeting after completing dream setup
 - FR6: A returning user is authenticated and returned to their existing session state
 
 ### Goal Management
 
-- FR7: A user can create a saving goal with a name, target amount, and optional target date
-- FR8: A user can create a goal without a specific target amount or date ("Just saving" mode)
-- FR9: A user can view their active goal's progress as a visual progress bar on the home screen without navigation
-- FR10: A user can update or replace their active saving goal at any time
-- FR11: A user can set a new goal immediately after completing a previous goal
-- FR12: The system displays a goal countdown experience (distinct visual state + Penny excitement) when a user is within a configurable threshold of their goal target
-- FR13: The system triggers a goal completion celebration (full-screen animation) when a user reaches their saving target
+- FR7: A user can create a saving dream with a name, target amount, and optional target date
+- FR8: A user can create a dream without a specific target amount or date ("Just saving" mode)
+- FR9: A user can view their active dream's progress as a visual progress bar on the home screen without navigation
+- FR10: A user can update or replace their active saving dream at any time
+- FR11: A user can set a new dream immediately after completing a previous dream
+- FR12: The system displays a dream countdown experience (distinct visual state + Pocket Pixel excitement) when a user is within a configurable threshold of their dream target
+- FR13: The system triggers a dream completion celebration (full-screen animation) when a user reaches their saving target
 
 ### Transaction Logging
 
-- FR14: A user can log a transaction using natural language input (e.g., "bubble tea $6") parsed into category and amount
-- FR15: A user can log a transaction using a structured form as a fallback when natural language parsing is ambiguous
+- FR14: A user can log a transaction using voice input via "Tap to Speak" (Web Speech API), with the spoken transcript parsed into category and amount
+- FR15: A user can log a transaction using a structured text form as a fallback when voice input is unavailable or parsing is ambiguous
 - FR16: The system auto-categorizes a transaction from keywords; user can correct the category with a single tap
 - FR17: A user can log transactions while offline; the system syncs on reconnect
-- FR18: A user can view their full transaction history
-- FR19: The system displays a contextual Penny insight at the moment of logging (e.g., "3rd bubble tea this week 🧋")
+- FR18: A user can view their full transaction history (Stash Log / Stashings)
+- FR19: The system displays a contextual Pocket Pixel insight at the moment of logging (e.g., "3rd bubble tea this week 🧋")
 
-### Penny Mascot System
+### Pocket Pixel Mascot System
 
-- FR20: The system displays Penny in distinct mood states reflecting the user's current financial health and activity
-- FR21: The system displays contextual Penny messages in response to user actions (logging, streaks, milestones, inactivity)
-- FR22: The system displays a Penny sad/disappointed state with a non-shaming message when a user's logging streak is broken
-- FR23: A user can interact with Penny as the primary entry point for transaction logging
+- FR20: The system displays Pocket Pixel in distinct mood states (via PNG sprite skin swap) reflecting the user's current financial health and activity
+- FR21: The system displays contextual Pocket Pixel messages in response to user actions (logging, streaks, milestones, inactivity)
+- FR22: The system displays a Pocket Pixel sad/disappointed state with a non-shaming message when a user's logging streak is broken
+- FR23: A user can interact with Pocket Pixel as the primary entry point for transaction logging via Tap to Speak
 
 ### Habit & Engagement Mechanics
 
 - FR24: The system tracks a user's daily transaction logging streak and displays the current streak count
-- FR25: The system resets a user's streak and displays Penny's streak-break reaction when a day is missed
+- FR25: The system resets a user's streak and displays Pocket Pixel's streak-break reaction when a day is missed
 - FR26: A user can view a stories-style weekly spending summary as swipeable cards
 - FR27: A user can view their spending broken down by emoji category visualization
 - FR28: A user can view a "Glow Up" progress view showing improvement over time as the default statistics presentation
@@ -413,21 +429,21 @@ No competitor offers: no-bank-required + goal-first + PWA-first + free + proacti
 
 ### Progression & Sharing
 
-- FR35: The system awards Saver Level progression (Bronze → Silver → Gold → Penny Legend) based on goal completion milestones
-- FR36: The system unlocks a new Penny visual skin when a user reaches Penny Legend level
-- FR37: A user can generate a shareable milestone card at 50% and 100% goal completion
+- FR35: The system awards Achievement Level progression based on goal completion milestones (First $10, 7 Day streak, $100 Club, 3 Goals completed)
+- FR36: The system unlocks new Pocket Pixel visual skins when a user reaches top Achievement Level
+- FR37: A user can generate a shareable milestone card at 50% and 100% dream completion
 - FR38: A user can share milestone cards to external apps via native share sheet
 
 ### PWA & Platform
 
-- FR39: A user can install Penny to their device home screen via a Penny-voiced "Add to Home Screen" prompt after onboarding
-- FR40: A user can access core features (goal progress view, transaction logging) without a network connection
-- FR41: The system displays a rich link preview (title, description, Penny mascot image) when the PWA URL is shared on social media
-- FR42: A user can receive web push notifications for streak reminders and Penny nudges after granting permission via a Penny-voiced opt-in prompt
+- FR39: A user can install Penny to their device home screen via a Pocket Pixel-voiced "Add to Home Screen" prompt after onboarding
+- FR40: A user can access core features (dream progress view, transaction logging) without a network connection
+- FR41: The system displays a rich link preview (title, description, Pocket Pixel mascot image) when the PWA URL is shared on social media
+- FR42: A user can receive web push notifications for streak reminders and Pocket Pixel nudges after granting permission via a Pocket Pixel-voiced opt-in prompt
 
 ### Personalization & Settings
 
-- FR43: A user can access personalization settings ("My Vibe") including notification preferences and tone settings
+- FR43: A user can access personalization settings including notification preferences, tone settings, and dark mode toggle
 - FR44: A user can opt into the Weekly Roast notification (post-MVP)
 - FR45: A user can view and update their account notification settings
 
@@ -444,7 +460,7 @@ No competitor offers: no-bank-required + goal-first + PWA-first + free + proacti
 ### Performance
 
 - NFR1: PWA time-to-interactive ≤ 3 seconds on mid-range Android on 4G (cold start from shared link)
-- NFR2: Transaction logging via Penny chat completes (parse + confirm) in ≤ 5 seconds end-to-end
+- NFR2: Transaction logging via Tap to Speak completes (voice capture + parse + confirm) in ≤ 5 seconds end-to-end
 - NFR3: What If Simulator slider updates goal completion date with ≤ 100ms visual latency
 - NFR4: Core Web Vitals LCP ≤ 2.5 seconds; CLS < 0.1
 - NFR5: Lighthouse PWA score ≥ 90; Lighthouse Performance score ≥ 80
@@ -478,5 +494,5 @@ No competitor offers: no-bank-required + goal-first + PWA-first + free + proacti
 
 - NFR22: All existing PiggyMetrics API contracts preserved — no breaking changes to account-service, statistics-service, notification-service, or auth-service endpoints
 - NFR23: Google OAuth2 and Apple Sign In supported simultaneously — neither offered without the other on iOS
-- NFR24: Web Push API permission requested only after explicit user opt-in via Penny-voiced prompt — browser default dialogs not shown without prior user intent
+- NFR24: Web Push API permission requested only after explicit user opt-in via Pocket Pixel-voiced prompt — browser default dialogs not shown without prior user intent
 - NFR25: Shareable card generation (What If Simulator, milestone cards) works entirely client-side — no server-side image rendering dependency for v1
