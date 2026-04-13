@@ -1,8 +1,10 @@
 # Epic 4: Transaction Logging & Penny Mascot
 
-Users can log transactions via Penny chat (natural language), see Penny's contextual reactions, and have offline logging with sync on reconnect. After this epic, the core daily habit loop is complete.
+Users can log transactions via voice ("Tap to Speak") or text, see Pocket Pixel's contextual reactions, and have offline logging with sync on reconnect. After this epic, the core daily habit loop is complete.
 
-## Story 4.1: Penny Mood Engine & Avatar
+> **Sprint Change 2026-04-13:** Rework addendum stories (4-1b, 4-2b) replace the Lottie pig mascot with Pocket Pixel PNG skins and upgrade transaction logging to voice-first input.
+
+## Story 4.1: Penny Mood Engine & Avatar *(done)*
 
 As a user,
 I want Penny to display different mood states reflecting my financial activity,
@@ -22,7 +24,15 @@ So that the app feels alive and emotionally responsive.
 **And** all animations respect `prefers-reduced-motion` (NFR18)
 **And** mood state is stored in `pennyStore.currentMood` — components never call `moodEngine` directly
 
-## Story 4.2: PennyChatInput — Natural Language Logging
+## Story 4.1b: Pocket Pixel Mood Engine — PNG Avatar Replacement *(rework addendum — ready-for-dev)*
+
+As a user,
+I want Pocket Pixel to display different PNG skins reflecting my financial activity,
+So that the mascot feels alive and emotionally responsive with the new pixel-art style.
+
+**File:** `_bmad-output/implementation-artifacts/4-1b-pocket-pixel-mood-engine-png-avatar.md`
+
+## Story 4.2: PennyChatInput — Natural Language Logging *(done)*
 
 As a user,
 I want to log a transaction by typing naturally to Penny,
@@ -42,7 +52,15 @@ So that logging feels like sending a text, not filling out a form.
 **And** the full flow from tap to confirmation completes in ≤5 seconds (NFR2)
 **And** keyboard submit (Enter) triggers confirmation
 
-## Story 4.3: Transaction Category Correction & Fallback Form
+## Story 4.2b: Tap to Speak — Voice-First Transaction Input *(rework addendum — ready-for-dev)*
+
+As a user,
+I want to log a transaction by tapping and speaking,
+So that logging feels instant and natural without typing.
+
+**File:** `_bmad-output/implementation-artifacts/4-2b-tap-to-speak-voice-first-input.md`
+
+## Story 4.3: Transaction Category Correction & Fallback Form *(backlog)*
 
 As a user,
 I want to correct a wrong category with one tap and have a form fallback when Penny can't parse my input,
@@ -59,7 +77,7 @@ So that I'm never stuck with a wrong category or a failed log.
 **Then** a structured fallback form is shown with amount pre-filled and category picker visible
 **And** the fallback form requires no more than 2 taps to complete
 
-## Story 4.4: Contextual Penny Response at Logging
+## Story 4.4: Contextual Penny Response at Logging *(backlog)*
 
 As a user,
 I want Penny to respond with a contextual message every time I log a transaction,
@@ -77,7 +95,7 @@ So that logging feels personal and motivating rather than mechanical.
 **And** `GoalProgressCard` progress bar animates the delta after each log
 **And** Penny's mood is recalculated via `moodEngine()` after every log
 
-## Story 4.5: Offline Transaction Logging & Sync
+## Story 4.5: Offline Transaction Logging & Sync *(backlog)*
 
 As a user,
 I want to log transactions without a network connection and have them sync automatically when I'm back online,
@@ -97,7 +115,7 @@ So that I never lose a transaction due to poor connectivity.
 **And** successfully synced entries are removed from `pendingSync`
 **And** entries that fail after 3 retries are moved to `failedSync` table
 
-## Story 4.6: Transaction History View
+## Story 4.6: Transaction History View *(backlog)*
 
 As a user,
 I want to view all my logged transactions,
@@ -115,7 +133,7 @@ So that I can review what I've spent and earned.
 **And** the empty state shows Penny with "Everyone starts at zero. Log your first $1 🐷" + "Tell Penny" CTA (UX-DR16)
 **And** swipe-to-delete removes a transaction with Penny acknowledging: "Got it, removed 🐷"
 
-## Story 4.7: Penny Streak-Break Reaction
+## Story 4.7: Penny Streak-Break Reaction *(backlog)*
 
 As a user,
 I want Penny to react with empathy (not shame) when I miss a day,

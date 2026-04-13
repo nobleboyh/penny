@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-07T16:44:00+07:00
-last_updated: 2026-04-13T16:39:00+07:00
+last_updated: 2026-04-13T17:41:00+07:00
 project: piggymetrics
 project_key: NOKEY
 tracking_system: file-system
@@ -71,10 +71,19 @@ development_status:
   3-5-goal-completion-celebration-re-engagement: done
   epic-3-retrospective: optional
 
+  # Rework Addenda (Sprint Change 2026-04-13)
+  3-1b-your-dreams-home-screen-redesign: ready-for-dev
+  3-2b-create-update-dream-form-redesign: ready-for-dev
+  3-3b-just-saving-mode-v2-card-update: ready-for-dev
+  3-4b-dream-countdown-mode-v2-visual-update: ready-for-dev
+  3-5b-dream-completion-celebration-v2-style: ready-for-dev
+
   # Epic 4: Transaction Logging & Penny Mascot
   epic-4: in-progress
   4-1-penny-mood-engine-avatar: done
   4-2-pennychatinput-natural-language-logging: done
+  4-1b-pocket-pixel-mood-engine-png-avatar: ready-for-dev
+  4-2b-tap-to-speak-voice-first-input: ready-for-dev
   4-3-transaction-category-correction-fallback-form: backlog
   4-4-contextual-penny-response-at-logging: backlog
   4-5-offline-transaction-logging-sync: backlog
