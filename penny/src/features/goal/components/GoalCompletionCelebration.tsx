@@ -78,7 +78,7 @@ export function GoalCompletionCelebration({ onDismiss }: Props) {
             className="mt-6 w-full max-w-xs min-h-[44px] rounded-2xl font-bold"
             style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-primary-foreground)' }}
           >
-            Set new goal
+            New Dream
           </button>
           <button
             onClick={onDismiss}

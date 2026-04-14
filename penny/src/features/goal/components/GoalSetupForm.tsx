@@ -60,8 +60,9 @@ export function GoalSetupForm({ mode = 'create', onComplete, onCancel }: GoalSet
 
   function handleDateNext(targetDate: string) {
     if (goalAmount === null) return
+    const resolvedDate = targetDate || ''
     // Optimistic update — store updated immediately (AC: 5)
-    setGoal(goalName, goalEmoji, goalAmount, targetDate)
+    setGoal(goalName, goalEmoji, goalAmount, resolvedDate)
     markRemoteSyncPending()
     // Close form immediately — don't wait for API (AC: 6)
     onComplete()
@@ -74,7 +75,7 @@ export function GoalSetupForm({ mode = 'create', onComplete, onCancel }: GoalSet
         goalName,
         goalEmoji,
         goalAmount,
-        targetDate,
+        targetDate: resolvedDate,
         savedAmount,
         isJustSaving: false,
       }),
@@ -92,7 +93,12 @@ export function GoalSetupForm({ mode = 'create', onComplete, onCancel }: GoalSet
   }
 
   const showBack = step !== 'goal-category'
-  const title = mode === 'update' ? 'Update your goal' : undefined
+  const title = mode === 'update' ? 'Edit Dream' : "What's your dream?"
+
+  const stepLabel: Record<Exclude<Step, 'goal-category'>, string> = {
+    'goal-amount': 'How much do you need?',
+    'goal-date': 'When do you want it?',
+  }
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -109,7 +115,9 @@ export function GoalSetupForm({ mode = 'create', onComplete, onCancel }: GoalSet
         ) : (
           <div />
         )}
-        {title && <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wide">{title}</p>}
+        <p className="text-xs text-muted-foreground font-headline font-semibold uppercase tracking-wide">
+          {step === 'goal-category' ? title : stepLabel[step as Exclude<Step, 'goal-category'>]}
+        </p>
         <button
           onClick={onCancel}
           className="text-muted-foreground hover:text-foreground transition-colors p-1 text-sm"
@@ -119,15 +127,17 @@ export function GoalSetupForm({ mode = 'create', onComplete, onCancel }: GoalSet
         </button>
       </div>
 
-      {step === 'goal-category' && (
-        <GoalCategoryPicker onSelect={handleCategorySelect} onJustSaving={handleJustSaving} />
-      )}
-      {step === 'goal-amount' && (
-        <GoalAmountInput goalName={goalName} onNext={handleAmountNext} />
-      )}
-      {step === 'goal-date' && goalAmount !== null && (
-        <GoalDatePicker goalName={goalName} goalAmount={goalAmount} onNext={handleDateNext} />
-      )}
+      <div className="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-black/5">
+        {step === 'goal-category' && (
+          <GoalCategoryPicker onSelect={handleCategorySelect} onJustSaving={handleJustSaving} />
+        )}
+        {step === 'goal-amount' && (
+          <GoalAmountInput goalName={goalName} onNext={handleAmountNext} />
+        )}
+        {step === 'goal-date' && goalAmount !== null && (
+          <GoalDatePicker goalName={goalName} goalAmount={goalAmount} onNext={handleDateNext} mode={mode} />
+        )}
+      </div>
     </div>
   )
 }

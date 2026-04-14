@@ -72,7 +72,7 @@ describe('GoalCompletionCelebration', () => {
     vi.useRealTimers()
   })
 
-  it('"Set new goal" calls resetGoal and navigates to /onboarding/goal', () => {
+  it('"New Dream" calls resetGoal and navigates to /onboarding/goal', () => {
     const mockReset = vi.fn()
     mockGoalStore.mockImplementation((selector: unknown) =>
       (selector as (s: object) => unknown)({ resetGoal: mockReset })
@@ -81,7 +81,7 @@ describe('GoalCompletionCelebration', () => {
     render(<GoalCompletionCelebration onDismiss={vi.fn()} />)
     act(() => { vi.advanceTimersByTime(2000) })
     fireEvent.click(screen.getByRole('button', { name: /woohoo/i }))
-    fireEvent.click(screen.getByRole('button', { name: /set new goal/i }))
+    fireEvent.click(screen.getByRole('button', { name: /new dream/i }))
     expect(mockReset).toHaveBeenCalled()
     expect(mockNavigate).toHaveBeenCalledWith('/onboarding/goal')
     vi.useRealTimers()

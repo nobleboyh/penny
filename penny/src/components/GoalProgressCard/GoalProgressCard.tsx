@@ -167,9 +167,9 @@ export function GoalProgressCard() {
           <button
             onClick={(e) => { e.stopPropagation(); setIsEditing(true) }}
             className="w-full min-h-[44px] rounded-xl border border-border text-sm font-semibold text-muted-foreground hover:border-primary hover:text-primary transition-colors"
-            aria-label="Set a specific saving goal"
+            aria-label="Add a dream"
           >
-            Set a goal 🎯
+            Add Dream ✨
           </button>
         </div>
       )}
@@ -180,9 +180,9 @@ export function GoalProgressCard() {
           <button
             onClick={(e) => { e.stopPropagation(); setIsEditing(true) }}
             className="min-h-[44px] px-6 rounded-2xl bg-primary font-bold text-primary-foreground text-sm"
-            aria-label="Set a saving goal"
+            aria-label="Add a dream"
           >
-            Set a goal 🎯
+            Add Dream ✨
           </button>
         </div>
       )}
@@ -203,9 +203,9 @@ export function GoalProgressCard() {
           <button
             onClick={(e) => { e.stopPropagation(); setIsEditing(true) }}
             className="mt-3 w-full min-h-[44px] rounded-xl border border-border text-sm font-semibold text-muted-foreground hover:border-primary hover:text-primary transition-colors"
-            aria-label="Edit goal"
+            aria-label="Edit dream"
           >
-            Edit goal ✏️
+            Edit Dream ✏️
           </button>
           )}
         </div>

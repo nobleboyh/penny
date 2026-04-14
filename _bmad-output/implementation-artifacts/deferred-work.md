@@ -68,3 +68,7 @@ PennyAvatar was partially reworked in story 1-6 (Lottie removed, PNG skin render
 
 - No loading/skeleton state for `useGoalStore` data in `YourDreamsSection` — renders stale/empty without feedback
 - `PennyChatInput` always mounted in `Home.tsx` regardless of `open` state — potential unnecessary resource allocation
+
+## Deferred from: code review of 3-2b-create-update-dream-form-redesign (2026-04-14)
+
+- `calcWeeklyTarget` rounds near-zero goal amounts to $1/week — `Math.ceil(tiny / weeks)` always returns 1 for very small positive amounts. Pre-existing logic, not introduced by story 3-2b.

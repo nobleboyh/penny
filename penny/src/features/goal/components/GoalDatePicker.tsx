@@ -4,6 +4,7 @@ interface Props {
   goalName: string
   goalAmount: number
   onNext: (targetDate: string, weeklyTarget: number) => void
+  mode?: 'create' | 'update'
 }
 
 function addMonths(months: number): string {
@@ -29,14 +30,14 @@ const QUICK_OPTIONS = [
   { label: '6 months', months: 6 },
 ]
 
-export function GoalDatePicker({ goalName, goalAmount, onNext }: Props) {
+export function GoalDatePicker({ goalName, goalAmount, onNext, mode = 'create' }: Props) {
   const [selected, setSelected] = useState<string | null>(null)
   const [showCustom, setShowCustom] = useState(false)
+  const [customValue, setCustomValue] = useState('')
 
   // Memoized so dates don't shift on re-render (prevents active-state loss near month boundary)
   const quickDates = useMemo(
     () => QUICK_OPTIONS.map((o) => ({ ...o, date: addMonths(o.months) })),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 
@@ -45,7 +46,7 @@ export function GoalDatePicker({ goalName, goalAmount, onNext }: Props) {
   return (
     <div className="flex flex-col gap-6 w-full">
       <div>
-        <h1 className="text-2xl font-bold text-foreground text-center mb-2">When do you want it by?</h1>
+        <h1 className="text-2xl font-headline font-bold text-foreground text-center mb-2">When do you want it?</h1>
         <p className="text-muted-foreground text-center text-sm">{goalName}</p>
       </div>
 
@@ -55,11 +56,11 @@ export function GoalDatePicker({ goalName, goalAmount, onNext }: Props) {
           return (
             <button
               key={label}
-              onClick={() => { setSelected(date); setShowCustom(false) }}
-              className={`w-full min-h-[56px] rounded-2xl border px-6 py-4 font-semibold text-base transition-all ${
+              onClick={() => { setSelected(date); setShowCustom(false); setCustomValue('') }}
+              className={`w-full min-h-[56px] rounded-xl border px-6 py-4 font-headline font-semibold text-base transition-all ${
                 isActive
-                  ? 'border-primary bg-primary/10 text-primary shadow-[0_0_12px_rgba(255,107,107,0.3)]'
-                  : 'border-border bg-surface text-foreground hover:border-primary/50'
+                  ? 'border-primary bg-primary/10 text-primary shadow-[0_0_12px_rgba(106,55,212,0.3)]'
+                  : 'border-outline-variant bg-surface-container-lowest text-foreground hover:border-primary/50'
               }`}
             >
               {label}
@@ -69,10 +70,10 @@ export function GoalDatePicker({ goalName, goalAmount, onNext }: Props) {
 
         <button
           onClick={() => { setShowCustom(true); setSelected(null) }}
-          className={`w-full min-h-[56px] rounded-2xl border px-6 py-4 font-semibold text-base transition-all ${
+          className={`w-full min-h-[56px] rounded-xl border px-6 py-4 font-headline font-semibold text-base transition-all ${
             showCustom
               ? 'border-primary bg-primary/10 text-primary'
-              : 'border-border bg-surface text-foreground hover:border-primary/50'
+              : 'border-outline-variant bg-surface-container-lowest text-foreground hover:border-primary/50'
           }`}
         >
           Custom 📅
@@ -82,8 +83,9 @@ export function GoalDatePicker({ goalName, goalAmount, onNext }: Props) {
           <input
             type="date"
             min={new Date().toISOString().split('T')[0]}
-            onChange={(e) => setSelected(e.target.value || null)}
-            className="w-full min-h-[56px] rounded-2xl border border-border bg-surface px-6 py-4 text-foreground text-base outline-none focus:border-primary"
+            value={customValue}
+            onChange={(e) => { setCustomValue(e.target.value); setSelected(e.target.value || null) }}
+            className="w-full min-h-[56px] rounded-xl border border-outline-variant bg-surface-container-lowest px-4 py-3 text-foreground text-base outline-none focus:border-primary"
             aria-label="Custom target date"
             autoFocus
           />
@@ -91,10 +93,10 @@ export function GoalDatePicker({ goalName, goalAmount, onNext }: Props) {
       </div>
 
       {selected && weeklyTarget !== null && (
-        <div className="rounded-2xl bg-surface border border-accent/30 px-6 py-4 text-center">
-          <p className="text-accent font-bold text-lg">Save ${weeklyTarget}/week</p>
+        <div className="rounded-xl bg-surface-container-lowest border border-primary/20 px-6 py-4 text-center">
+          <p className="font-headline font-extrabold text-primary text-lg">Save ${weeklyTarget}/week</p>
           <p className="text-muted-foreground text-sm mt-1">
-            → {goalName} by {formatDate(selected)} 🎯
+            → {goalName} by {formatDate(selected)} ✨
           </p>
         </div>
       )}
@@ -102,9 +104,17 @@ export function GoalDatePicker({ goalName, goalAmount, onNext }: Props) {
       <button
         onClick={() => selected && weeklyTarget !== null && onNext(selected, weeklyTarget)}
         disabled={!selected}
-        className="w-full min-h-[56px] rounded-2xl bg-primary px-6 py-4 font-bold text-primary-foreground text-lg transition-opacity hover:opacity-90 active:opacity-80 disabled:opacity-40 disabled:cursor-not-allowed"
+        className="w-full min-h-[56px] bg-gradient-to-r from-primary to-primary-container text-white rounded-full py-3 px-6 font-headline font-extrabold text-lg transition-opacity hover:opacity-90 active:opacity-80 disabled:opacity-40 disabled:cursor-not-allowed"
       >
-        Next →
+        {mode === 'update' ? 'Update Dream' : 'Save Dream'}
+      </button>
+
+      <button
+        onClick={() => onNext('', 0)}
+        className="w-full text-center text-primary font-bold text-sm underline"
+        aria-label="Skip date selection"
+      >
+        Skip
       </button>
     </div>
   )

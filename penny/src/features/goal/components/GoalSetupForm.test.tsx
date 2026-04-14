@@ -32,13 +32,13 @@ describe('GoalSetupForm', () => {
 
   it('renders category picker as first step', () => {
     render(<GoalSetupForm onComplete={onComplete} onCancel={onCancel} />)
-    expect(screen.getByText(/what are you saving for/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /what's your dream/i })).toBeInTheDocument()
   })
 
   it('advances to amount input after category selection', () => {
     render(<GoalSetupForm onComplete={onComplete} onCancel={onCancel} />)
     fireEvent.click(screen.getByRole('button', { name: /save for tech/i }))
-    expect(screen.getByText(/how much does it cost/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /how much do you need/i })).toBeInTheDocument()
   })
 
   it('advances to date picker after amount entry', () => {
@@ -49,7 +49,7 @@ describe('GoalSetupForm', () => {
     const input = screen.getByRole('textbox', { name: /goal amount/i })
     fireEvent.change(input, { target: { value: '249' } })
     fireEvent.click(screen.getByRole('button', { name: /next/i }))
-    expect(screen.getByText(/when do you want it by/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /when do you want it/i })).toBeInTheDocument()
   })
 
   it('calls setGoal and onComplete after date selection', () => {
@@ -62,7 +62,7 @@ describe('GoalSetupForm', () => {
     fireEvent.click(screen.getByRole('button', { name: /next/i }))
     // Step 3: pick a quick date option
     fireEvent.click(screen.getByRole('button', { name: /1 month/i }))
-    fireEvent.click(screen.getByRole('button', { name: /next/i }))
+    fireEvent.click(screen.getByRole('button', { name: /save dream/i }))
 
     expect(mockSetGoal).toHaveBeenCalledWith('Tech', '💻', 249, expect.any(String))
     expect(mockMarkRemoteSyncPending).toHaveBeenCalled()

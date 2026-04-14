@@ -107,7 +107,7 @@ describe('GoalProgressCard', () => {
       isJustSaving: true, targetDate: null,
     })
     render(<GoalProgressCard />)
-    expect(screen.getByRole('button', { name: /set a specific saving goal/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /add a dream/i })).toBeInTheDocument()
   })
 
   it('tapping "Set a goal" CTA in just-saving mode opens GoalSetupForm', () => {
@@ -117,7 +117,7 @@ describe('GoalProgressCard', () => {
       isJustSaving: true, targetDate: null,
     })
     render(<GoalProgressCard />)
-    fireEvent.click(screen.getByRole('button', { name: /set a specific saving goal/i }))
+    fireEvent.click(screen.getByRole('button', { name: /add a dream/i }))
     expect(screen.getByTestId('goal-setup-form')).toBeInTheDocument()
   })
 
