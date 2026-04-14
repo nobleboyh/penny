@@ -1,0 +1,1 @@
+export { PocketPixelAvatar } from './PocketPixelAvatar'

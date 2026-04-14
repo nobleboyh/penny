@@ -1,0 +1,1 @@
+export { TapToSpeakCard } from './TapToSpeakCard'

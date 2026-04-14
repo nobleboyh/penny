@@ -1,64 +1,38 @@
-import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { PennyAvatar } from '../PennyAvatar'
-import { PennyChatInput } from '../PennyChatInput'
 
 const TABS = [
-  { path: '/stuff', icon: '📊', label: 'My Stuff' },
-  { path: '/journey', icon: '📈', label: 'My Journey' },
-  { path: '/penny-says', icon: '💬', label: 'Penny Says' },
-  { path: '/vibe', icon: '✨', label: 'My Vibe' },
+  { path: '/', icon: 'grid_view', label: 'Home', exact: true },
+  { path: '/wishlist', icon: 'auto_awesome', label: 'Wishlist', exact: false },
+  { path: '/stash', icon: 'database', label: 'Stash', exact: false },
+  { path: '/profile', icon: 'person', label: 'Profile', exact: false },
 ] as const
 
 export function BottomNav() {
-  const [chatOpen, setChatOpen] = useState(false)
-
   return (
-    <>
-      <nav
-        aria-label="Main navigation"
-        className="fixed bottom-0 left-0 right-0 flex items-end justify-around bg-surface border-t border-border px-2 pb-safe"
-        style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 8px)' }}
-      >
-        {TABS.slice(0, 2).map((tab) => (
+    <nav
+      aria-label="Main navigation"
+      className="shrink-0 bg-surface-container-low border-t border-outline-variant/10"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+    >
+      <div className="flex justify-around items-center px-2 py-2 max-w-md mx-auto">
+        {TABS.map((tab) => (
           <NavLink
             key={tab.path}
             to={tab.path}
+            end={tab.exact}
             className={({ isActive }) =>
-              `flex flex-col items-center justify-center gap-1 min-w-[44px] min-h-[56px] py-2 text-xs font-medium transition-colors ${
-                isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+              `flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-3 py-1 text-[9px] font-bold uppercase tracking-wider transition-colors ${
+                isActive
+                  ? 'bg-violet-100 text-violet-700 rounded-2xl active-nav-fill'
+                  : 'text-slate-400'
               }`
             }
           >
-            <span className="text-xl" aria-hidden="true">{tab.icon}</span>
-            <span>{tab.label}</span>
+            <span className="material-symbols-outlined text-xl">{tab.icon}</span>
+            <span className="mt-0.5">{tab.label}</span>
           </NavLink>
         ))}
-
-        <button
-          onClick={() => setChatOpen(true)}
-          aria-label="Penny — log a transaction"
-          className="flex flex-col items-center justify-center -mt-4 min-w-[44px] min-h-[44px]"
-        >
-          <PennyAvatar size="sm" mood="peace" />
-        </button>
-
-        {TABS.slice(2).map((tab) => (
-          <NavLink
-            key={tab.path}
-            to={tab.path}
-            className={({ isActive }) =>
-              `flex flex-col items-center justify-center gap-1 min-w-[44px] min-h-[56px] py-2 text-xs font-medium transition-colors ${
-                isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-              }`
-            }
-          >
-            <span className="text-xl" aria-hidden="true">{tab.icon}</span>
-            <span>{tab.label}</span>
-          </NavLink>
-        ))}
-      </nav>
-      <PennyChatInput open={chatOpen} onOpenChange={setChatOpen} />
-    </>
+      </div>
+    </nav>
   )
 }

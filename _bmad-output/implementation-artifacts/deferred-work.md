@@ -63,3 +63,8 @@
 ## Note for story 4-1b (PennyAvatar rework) — from 1-6 code review (2026-04-13)
 
 PennyAvatar was partially reworked in story 1-6 (Lottie removed, PNG skin renderer added) as a necessary side-effect of removing lottie-react. Story 4-1b should treat the current PNG implementation as the starting point, not the original Lottie implementation. Reduced motion support was also removed and should be restored in 4-1b.
+
+## Deferred from: code review of 3-1b-your-dreams-home-screen-redesign (2026-04-14)
+
+- No loading/skeleton state for `useGoalStore` data in `YourDreamsSection` — renders stale/empty without feedback
+- `PennyChatInput` always mounted in `Home.tsx` regardless of `open` state — potential unnecessary resource allocation
